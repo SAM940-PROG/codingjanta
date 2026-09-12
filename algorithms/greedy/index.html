@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 22 · Greedy Algorithms | Ultimate DSA Guide</title>
+<meta name="description" content="Locally optimal ⇒ globally optimal, with proof (exchange argument). Sorting by end-time/priority usually sets it up; when unsure, suspect DP.">
+<link rel="canonical" href="/algorithms/greedy/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 22 · Greedy Algorithms">
+<meta property="og:description" content="Locally optimal ⇒ globally optimal, with proof (exchange argument). Sorting by end-time/priority usually sets it up; when unsure, suspect DP.">
+<meta property="og:url" content="/algorithms/greedy/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html" aria-current="page">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 22 · Greedy Algorithms</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 22 · Greedy Algorithms</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Sorting, basic data structures, arrays</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-greedy"><h2 id="i-greedy">Intuition</h2><p>Locally optimal ⇒ globally optimal, with proof (exchange argument). Sorting by end-time/priority usually sets it up; when unsure, suspect DP.</p><p><strong>Learn:</strong> Activity selection, interval scheduling, jump game, Huffman coding, greedy vs DP &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-greedy"><h2 id="sg-greedy">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Activity/interval scheduling, minimum refuels, classic covering.</li><li>A natural 'best first' order (earliest end, largest, cheapest).</li><li>Exchange argument looks provable.</li><li>Local choice never harms the future.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Choice now can trap you later (knapsack 0/1!) — suspect DP.</li><li>Need proof and can't sketch one — test vs brute on small cases first.</li></ul></div></section>
+<section aria-labelledby="m-greedy'><h2 id='m-greedy'>Common mistakes</h2><ul><li>No exchange argument — test against DP/brute on small random cases.</li><li>Sorting by the wrong key (start vs end in interval scheduling).</li></ul></section>
+<section aria-labelledby="w-greedy"><h2 id="w-greedy">Worked example — Activity Selection</h2><p><strong>Problem.</strong> Intervals <code>[(1,3),(2,4),(3,5),(0,6),(5,7)]</code>. Max non-overlapping set?</p><ol class="steps"><li><strong>What should we notice?</strong> Earliest-finishing leaves maximum room: sort by end, take if compatible.</li><li><strong>Naive thought.</strong> All subsets: O(2ⁿ).</li><li><strong>Key observation.</strong> Exchange argument: some optimum contains the earliest-finishing activity, so taking it is always safe; repeat.</li><li><strong>Optimized strategy.</strong> Sorted by end: (1,3) take; (2,4) clash; (3,5) take; (0,6) clash; (5,7) take → 3.</li><li><strong>Step-by-step.</strong> Jump Game twin: track farthest reachable; greedily extend.</li><li><strong>Final answer.</strong> 3 activities.</li><li><strong>Complexity.</strong> O(n log n) sort + O(n) scan.</li><li><strong>What to remember.</strong> Sort by end, take compatible. No proof sketch → don't trust it.</li></ol></section>
+<section aria-labelledby="dr-greedy"><h2 id="dr-greedy">Interactive dry run — Activity selection</h2><p>Sort by end time, then take every activity that starts after the last chosen end.</p><div class="dryrun" id="viz-greedy" data-dryrun><script type="application/json">{"type": "greedy", "items": [[1, 3], [2, 5], [4, 7], [6, 8], [5, 9]], "fallback": "Sorted by end: [1,3],[2,5],[4,7],[6,8],[5,9]; pick [1,3],[4,7]."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-greedy"><h2 id="r-greedy">Quick reference</h2><div class="card" id="greedy">
+      <h3>Topic 22 · Greedy Algorithms</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use greedy when locally optimal choices lead to a globally optimal solution. Activity selection, interval scheduling, and Huffman coding are classic examples.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Sorting, basic data structures, arrays</p>
+<p class="prereq"><strong>Learn this:</strong> Activity selection, interval scheduling, jump game, Huffman coding, greedy vs DP</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can distinguish when greedy works vs when DP is needed</p>
+      </div>
+
+
+      <h4>Why?</h4>
+      <p>Greedy algorithms make the locally optimal choice at each step, hoping it leads to a globally optimal solution. They work when the problem has "greedy choice property" and "optimal substructure". They're typically simpler and faster than DP when applicable.</p>
+
+      <h4>Classic Algorithms</h4>
+<pre><code>// ── Activity Selection / Interval Scheduling ──
+// Maximize number of non-overlapping intervals
+int maxActivities(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -> a[1] - b[1]);  // Sort by end time!
+    int count = 1, lastEnd = intervals[0][1];
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] >= lastEnd) {
+            count++;
+            lastEnd = intervals[i][1];
+        }
+    }
+    return count;
+}
+
+// ── Jump Game ──
+boolean canJump(int[] nums) {
+    int maxReach = 0;
+    for (int i = 0; i &lt; nums.length; i++) {
+        if (i > maxReach) return false;
+        maxReach = Math.max(maxReach, i + nums[i]);
+    }
+    return true;
+}
+
+// ── Huffman Coding (using PriorityQueue) ──
+int huffman(int[] freq) {
+    PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();
+    for (int f : freq) pq.offer(f);
+    int cost = 0;
+    while (pq.size() > 1) {
+        int a = pq.poll(), b = pq.poll();
+        cost += a + b;
+        pq.offer(a + b);
+    }
+    return cost;
+}
+
+// ── Fractional Knapsack ──
+// Sort by value/weight ratio descending, take greedily
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Activity Selection.</strong> Given activities with start and end times, select the maximum number of non-overlapping activities.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Jump Game.</strong> Given an array of jump lengths, determine if you can reach the last index.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Gas Station.</strong> Given gas stations in a circle, determine if you can complete the circuit.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy">LC #455 — Assign Cookies</li>
+        <li class="easy">LC #860 — Lemonade Change</li>
+        <li class="easy">LC #605 — Can Place Flowers</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/jump-game/" target="_blank" rel="noopener">Jump Game — LC #55</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/jump-game-ii/" target="_blank" rel="noopener">Jump Game II — LC #45</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/gas-station/" target="_blank" rel="noopener">Gas Station — LC #134</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #56 — Merge Intervals</li>
+        <li class="medium"><a href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" rel="noopener">Non-overlapping Intervals — LC #435</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #452 — Minimum Number of Arrows</li>
+        <li class="medium">LC #763 — Partition Labels</li>
+        <li class="medium">LC #678 — Valid Parenthesis String</li>
+        <li class="medium">LC #1353 — Maximum Number of Events</li>
+        <li class="medium">LC #846 — Hand of Straights</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #135 — Candy</li>
+        <li class="hard">LC #316 — Remove Duplicate Letters</li>
+        <li class="hard">LC #1383 — Maximum Performance of a Team</li>
+        <li class="hard">LC #630 — Course Schedule III</li>
+        <li class="hard">CF #1326D2 — Prefix-Suffix Palindrome (Hard)</li>
+        <li class="hard">CF #1660F2 — Fence Painting (Hard)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 23: BIT MANIPULATION                -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-greedy"><h2 id="qz-greedy">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="greedy" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Interval scheduling sorts by?</legend><label><input type="radio" name="greedy-q1" value="a"> Start time</label><label><input type="radio" name="greedy-q1" value="b"> End time</label><label><input type="radio" name="greedy-q1" value="c"> Length</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Earliest end leaves maximal room — the exchange argument needs this order.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. 0/1 knapsack greedy-by-ratio fails because?</legend><label><input type="radio" name="greedy-q2" value="a"> Ratios are slow</label><label><input type="radio" name="greedy-q2" value="b"> Indivisible items break the exchange argument — DP needed</label><label><input type="radio" name="greedy-q2" value="c"> Weights are big</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Fractional allows greedy; 0/1 needs DP. The classic trap.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Before trusting greedy, you should?</legend><label><input type="radio" name="greedy-q3" value="a"> Code it fast</label><label><input type="radio" name="greedy-q3" value="b"> Sketch the exchange argument / test vs brute on small random cases</label><label><input type="radio" name="greedy-q3" value="c"> Add memoization</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Greedy is a proof obligation with code attached.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="qz-greedy"><h2 id="qz-greedy">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="greedy" aria-label="Greedy quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Interval scheduling sorts activities by...</legend><label><input type="radio" name="greedy-q1" value="a"> Start time</label><label><input type="radio" name="greedy-q1" value="b"> End time</label><label><input type="radio" name="greedy-q1" value="c"> Duration</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Earliest finish leaves the most room; the exchange argument proves it.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Greedy is safe only when you can give...</legend><label><input type="radio" name="greedy-q2" value="a"> A base case</label><label><input type="radio" name="greedy-q2" value="b"> An exchange or cut argument</label><label><input type="radio" name="greedy-q2" value="c"> A recursion</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Without a proof, greedy is a guess — test it against brute force on small inputs.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. When greedy feels right but the proof fails, reach for...</legend><label><input type="radio" name="greedy-q3" value="a"> Binary search</label><label><input type="radio" name="greedy-q3" value="b"> Dynamic programming</label><label><input type="radio" name="greedy-q3" value="c"> A bigger array</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Greedy failing a counterexample usually signals overlapping subproblems.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-greedy"><h2 id="v-greedy">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-greedy"><h2 id="c-greedy">✅ Move on when you can…</h2><ul class='checklist' data-checklist='greedy'><li><input type='checkbox' id='greedy-0'><label for='greedy-0'>You can distinguish when greedy works vs when DP is needed</label></li><li><input type='checkbox' id='greedy-1'><label for='greedy-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='greedy-2'><label for='greedy-2'>You can state when this applies</label></li><li><input type='checkbox' id='greedy-3'><label for='greedy-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

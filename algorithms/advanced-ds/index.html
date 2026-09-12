@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 27 · Advanced — Sparse Table, LCA & HLD | Ultimate DSA Guide</title>
+<meta name="description" content="Static RMQ (sparse table), LCA by binary lifting, HLD for tree paths. Specialized but decisive in their niche.">
+<link rel="canonical" href="/algorithms/advanced-ds/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 27 · Advanced — Sparse Table, LCA, Heavy-Light Decomposition">
+<meta property="og:description" content="Static RMQ (sparse table), LCA by binary lifting, HLD for tree paths. Specialized but decisive in their niche.">
+<meta property="og:url" content="/algorithms/advanced-ds/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html" aria-current="page">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 27 · Advanced — Sparse Table, LCA, Heavy-Light Decomposition</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">A</span></p><h1>Topic 27 · Advanced — Sparse Table, LCA, Heavy-Light Decomposition</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>A</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Segment trees, trees, LCA basics</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>2–4 h</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-advanced-ds"><h2 id="i-advanced-ds">Intuition</h2><p>Static RMQ (sparse table), LCA by binary lifting, HLD for tree paths. Specialized but decisive in their niche.</p><p><strong>Learn:</strong> Sparse table, LCA (binary lifting), HLD, RMQ &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Hard</p></section>
+<section aria-labelledby="sg-advanced-ds"><h2 id="sg-advanced-ds">How to recognize this</h2><p><strong>Reach for it when:</strong> Static RMQ flood (sparse table); Tree path queries (LCA/HLD); K-th ancestor / binary lifting shapes.</p><p><strong>Red flags:</strong> Dynamic updates — segment tree instead; Small n — naive O(n) per query is fine.</p></section>
+<section aria-labelledby="m-advanced-ds'><h2 id='m-advanced-ds'>Common mistakes</h2><ul><li>LOG too small for binary lifting (need ⌈log₂n⌉+1).</li><li> Euler-tour + RMQ vs binary lifting mixups — pick one.</li></ul></section>
+<section aria-labelledby="w-advanced-ds"><h2 id="w-advanced-ds">Worked example — Range minimum with a sparse table</h2><p><strong>Problem.</strong> Array <code>[7, 2, 3, 0, 5, 10, 3, 12]</code>. Answer many <em>static</em> min queries, e.g. min on [1, 6].</p><ol class="steps">
+<li><strong>What should we notice?</strong> No updates are requested, and there are many queries. That is the sparse-table signal.</li>
+<li><strong>Naive thought.</strong> Scan each range: O(n) per query, O(n·q) total — too slow when q is large.</li>
+<li><strong>Key observation.</strong> min is <em>idempotent</em>: min(x, x) = x. So a query can be covered by two overlapping power-of-two blocks and combined in O(1).</li>
+<li><strong>Precompute.</strong> table[k][i] = min over a block of length 2^k starting at i. Built in O(n log n) by combining two 2^(k-1) blocks.</li>
+<li><strong>Query [1, 6].</strong> Length 6, k = 2 (block 4): min(table[2][1], table[2][3]) = min(min(2,3,0,5), min(0,5,10,3)) = min(0, 0) = 0.</li>
+<li><strong>Final answer.</strong> 0.</li>
+<li><strong>Complexity.</strong> O(n log n) build, O(1) per query, O(n log n) memory.</li>
+<li><strong>What to remember.</strong> Overlap is fine only for idempotent operations. Sums need disjoint blocks (prefix sums or segment tree).</li>
+</ol></section>
+<section aria-labelledby="dr-advanced-ds"><h2 id="dr-advanced-ds">Interactive dry run — Lowest common ancestor</h2><p>Two nodes walk their ancestor paths upward; the deepest shared node is the LCA.</p><div class="dryrun" id="viz-lca" data-dryrun><script type="application/json">{"type": "lca", "parent": [-1, 0, 0, 1, 1, 2], "u": 3, "v": 4, "fallback": "path(3)=0,1,3; path(4)=0,1,4; first common node is 1."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-advanced-ds"><h2 id="r-advanced-ds">Quick reference</h2><div class="card" id="advanced-ds">
+      <h3>Topic 27 · Advanced — Sparse Table, LCA, Heavy-Light Decomposition</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use sparse tables for static range queries, LCA for tree paths, or HLD for tree path queries. These are advanced but essential for specific problem types.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Segment trees, trees, LCA basics</p>
+<p class="prereq"><strong>Learn this:</strong> Sparse table, LCA (binary lifting), HLD, RMQ</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify when advanced tree/range queries need specialized structures</p>
+      </div>
+
+
+      <h4>Algorithm — Sparse Table (Static RMQ)</h4>
+<pre><code>// O(n log n) build, O(1) query for min/max (idempotent operations)
+// NO updates supported!
+class SparseTable {
+    int[][] table;
+    int[] log;
+    int n;
+    
+    SparseTable(int[] arr) {
+        n = arr.length;
+        int K = (int)(Math.log(n) / Math.log(2)) + 1;
+        table = new int[K][n];
+        log = new int[n + 1];
+        
+        for (int i = 2; i &lt;= n; i++) log[i] = log[i / 2] + 1;
+        
+        // Base case
+        for (int i = 0; i &lt; n; i++) table[0][i] = arr[i];
+        
+        // Build
+        for (int k = 1; k &lt; K; k++)
+            for (int i = 0; i + (1 &lt;&lt; k) &lt;= n; i++)
+                table[k][i] = Math.min(table[k-1][i], table[k-1][i + (1 &lt;&lt; (k-1))]);
+    }
+    
+    // Query min in [l, r]
+    int query(int l, int r) {
+        int k = log[r - l + 1];
+        return Math.min(table[k][l], table[k][r - (1 &lt;&lt; k) + 1]);
+    }
+}
+</code></pre>
+
+      <h4>Algorithm — LCA (Binary Lifting)</h4>
+<pre><code>// O(n log n) preprocessing, O(log n) per query
+int LOG = 20;
+int[][] up = new int[LOG][n];  // up[k][v] = 2^k-th ancestor of v
+int[] depth = new int[n];
+
+void dfs(int v, int parent, int d) {
+    up[0][v] = parent;
+    depth[v] = d;
+    for (int k = 1; k &lt; LOG; k++)
+        up[k][v] = up[k-1][up[k-1][v]];
+    for (int u : adj.get(v))
+        if (u != parent) dfs(u, v, d + 1);
+}
+
+int lca(int u, int v) {
+    if (depth[u] &lt; depth[v]) { int t = u; u = v; v = t; }
+    int diff = depth[u] - depth[v];
+    for (int k = 0; k &lt; LOG; k++)
+        if (((diff >> k) & 1) == 1) u = up[k][u];
+    if (u == v) return u;
+    for (int k = LOG - 1; k >= 0; k--)
+        if (up[k][u] != up[k][v]) { u = up[k][u]; v = up[k][v]; }
+    return up[0][u];
+}
+</code></pre>
+
+      <h4>Heavy-Light Decomposition (HLD)</h4>
+<pre><code>// Decomposes a tree into chains for path queries using Segment Tree
+// O(n) preprocessing, O(log²n) per query/update
+// Key idea: any path from root to leaf crosses at most O(log n) chains
+
+// Steps:
+// 1. DFS to compute subtree sizes, parents, depths
+// 2. Identify heavy child (largest subtree) for each node
+// 3. Chain heavy edges together, assign position numbers
+// 4. Use Segment Tree on the position array
+
+// For path query u->v:
+// While u and v are on different chains:
+//   Query chain with deeper head, move to parent of chain head
+// Query remaining range on the same chain
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sparse Table.</strong> Given an array, build a sparse table for O(1) range minimum queries.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Binary Lifting.</strong> Given a tree, preprocess for LCA queries using binary lifting.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Ancestor Query.</strong> Given a rooted tree, find the k-th ancestor of a node.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #1483 — Kth Ancestor of a Tree Node (Binary Lifting)</li>
+        <li class="hard">LC #2846 — Minimum Edge Weight Equilibrium Queries (LCA)</li>
+        <li class="hard">CF #191C — Fools and Roads (LCA + Euler Tour)</li>
+        <li class="hard">CF #609E — Minimum Spanning Tree For Each Edge (LCA)</li>
+        <li class="hard">CF #343D — Water Tree (HLD + Segment Tree)</li>
+        <li class="hard">CF #375D — Tree of Life (HLD)</li>
+        <li>SPOJ QTREE — Query on a Tree (HLD)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  TOPIC 28: NETWORK FLOW, GEOMETRY, GAME THEORY         -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-advanced-ds"><h2 id="qz-advanced-ds">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="advanced-ds" aria-label="Advanced data structures quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. A sparse table is the right tool when...</legend><label><input type="radio" name="advanced-ds-q1" value="a"> The array is updated between queries</label><label><input type="radio" name="advanced-ds-q1" value="b"> Queries are static and the operation is idempotent (e.g. min/max)</label><label><input type="radio" name="advanced-ds-q1" value="c"> You need to count distinct values</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Sparse tables trade O(n log n) memory for O(1) static queries; updates force a segment tree.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Binary lifting answers an LCA query in...</legend><label><input type="radio" name="advanced-ds-q2" value="a"> O(1)</label><label><input type="radio" name="advanced-ds-q2" value="b"> O(log n)</label><label><input type="radio" name="advanced-ds-q2" value="c"> O(n)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Preprocess up[k][v] once, then align depths and jump in powers of two.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Heavy-Light Decomposition turns a tree path query into...</legend><label><input type="radio" name="advanced-ds-q3" value="a"> One segment-tree range query</label><label><input type="radio" name="advanced-ds-q3" value="b"> O(log n) chain queries</label><label><input type="radio" name="advanced-ds-q3" value="c"> A single DFS</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Any root-to-leaf path crosses O(log n) heavy chains, so a path is a few segment-tree ranges.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-advanced-ds"><h2 id="v-advanced-ds">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-advanced-ds"><h2 id="c-advanced-ds">✅ Move on when you can…</h2><ul class='checklist' data-checklist='advanced-ds'><li><input type='checkbox' id='advanced-ds-0'><label for='advanced-ds-0'>You can identify when advanced tree/range queries need specialized structures</label></li><li><input type='checkbox' id='advanced-ds-1'><label for='advanced-ds-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='advanced-ds-2'><label for='advanced-ds-2'>You can state when this applies</label></li><li><input type='checkbox' id='advanced-ds-3'><label for='advanced-ds-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

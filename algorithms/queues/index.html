@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 9 · Queues &amp; Monotonic Queues | Ultimate DSA Guide</title>
+<meta name="description" content="Queues process in arrival order (BFS); deques with monotonicity track window max/min in O(n).">
+<link rel="canonical" href="/algorithms/queues/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 9 · Queues &amp; Monotonic Queues">
+<meta property="og:description" content="Queues process in arrival order (BFS); deques with monotonicity track window max/min in O(n).">
+<meta property="og:url" content="/algorithms/queues/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html" aria-current="page">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 9 · Queues &amp; Monotonic Queues</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 9 · Queues & Monotonic Queues</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, stacks, BFS basics</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-queues"><h2 id="i-queues">Intuition</h2><p>Queues process in arrival order (BFS); deques with monotonicity track window max/min in O(n).</p><p><strong>Learn:</strong> Queue basics, deque operations, monotonic deque, sliding window max/min &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-queues"><h2 id="sg-queues">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Level-by-level processing (BFS, level order).</li><li>Sliding-window maximum/minimum (monotonic deque).</li><li>Task scheduling / FIFO simulation.</li><li>Buffering a stream in arrival order.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>LIFO needed — that's a stack.</li><li>Need max of ALL elements repeatedly — that's a heap.</li></ul></div></section>
+<section aria-labelledby="m-queues'><h2 id='m-queues'>Common mistakes</h2><ul><li>BFS without visited-mark-on-enqueue (exponential re-visits).</li><li>Sliding-window deque: forgetting to evict indices outside the window.</li></ul></section>
+<section aria-labelledby="w-queues"><h2 id="w-queues">Worked example — Level-order traversal</h2><p><strong>Problem.</strong> Tree <code>[3,9,20,null,null,15,7]</code> → levels.</p><ol class="steps"><li><strong>What should we notice?</strong> FIFO processes nodes in arrival order = level order.</li><li><strong>Naive thought.</strong> DFS + depth bookkeeping: works but fights the natural order.</li><li><strong>Key observation.</strong> Enqueue root; repeatedly dequeue, record, enqueue children. Queue length at each drain = one level.</li><li><strong>Optimized strategy.</strong> [3] → dequeue 3, enqueue 9,20 → dequeue 9,20, enqueue 15,7 → drain 15,7.</li><li><strong>Step-by-step.</strong> Graph twin: same loop with a visited set marked on enqueue.</li><li><strong>Final answer.</strong> [[3],[9,20],[15,7]].</li><li><strong>Complexity.</strong> O(n) time, O(width) space.</li><li><strong>What to remember.</strong> Queue = arrival order. For graphs, mark visited when enqueuing, not when dequeuing.</li></ol></section><section aria-labelledby="dr-queues"><h2 id="dr-queues">Interactive dry run — FIFO in action</h2><p>Front leaves first, back joins last — levels emerge for free.</p><div class="dryrun" id="viz-queue" data-dryrun><script type="application/json">{"type": "queue", "ops": [["enq", 3], ["enq", 9], ["enq", 20], ["deq"], ["enq", 15], ["enq", 7], ["deq"], ["deq"]], "fallback": "Enqueue 3,9,20; dequeue 3; enqueue 15,7; drain in order."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-queues"><h2 id="r-queues">Quick reference</h2><div class="card" id="queues">
+      <h3>Topic 9 · Queues & Monotonic Queues</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use queues for FIFO processing (BFS) and monotonic deques for sliding window max/min problems. They maintain order while efficiently removing outdated elements.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, stacks, BFS basics</p>
+<p class="prereq"><strong>Learn this:</strong> Queue basics, deque operations, monotonic deque, sliding window max/min</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify when a monotonic deque optimizes a sliding window problem</p>
+      </div>
+
+
+      <h4>Algorithm — Monotonic Deque (Sliding Window Max/Min)</h4>
+<pre><code>// Sliding Window Maximum — O(n)
+public int[] maxSlidingWindow(int[] nums, int k) {
+    int n = nums.length;
+    int[] result = new int[n - k + 1];
+    Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();  // Stores indices, decreasing values
+    
+    for (int i = 0; i &lt; n; i++) {
+        // Remove indices outside window
+        while (!deque.isEmpty() && deque.peekFirst() &lt; i - k + 1) {
+            deque.pollFirst();
+        }
+        // Remove smaller elements (they'll never be the max)
+        while (!deque.isEmpty() && nums[deque.peekLast()] &lt; nums[i]) {
+            deque.pollLast();
+        }
+        deque.offerLast(i);
+        
+        if (i >= k - 1) {
+            result[i - k + 1] = nums[deque.peekFirst()];
+        }
+    }
+    return result;
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Simple Queue.</strong> Implement a queue using an array. Support enqueue, dequeue, and isEmpty.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>BFS Traversal.</strong> Given a graph, perform BFS from a starting node and return the visit order.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sliding Max.</strong> Given an array and window size k, find the maximum in each sliding window.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/implement-stack-using-queues/" target="_blank" rel="noopener">Implement Stack using Queues — LC #225</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank" rel="noopener">Implement Queue using Stacks — LC #232</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #933 — Number of Recent Calls</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #622 — Design Circular Queue</li>
+        <li class="medium">LC #641 — Design Circular Deque</li>
+        <li class="medium">LC #1670 — Design Front Middle Back Queue</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" rel="noopener">Sliding Window Maximum — LC #239</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #862 — Shortest Subarray with Sum at Least K</li>
+        <li class="hard">CF #1195E — OpenStreetMap (2D sliding window)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 10: HASHING PATTERNS                -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-queues"><h2 id="qz-queues">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="queues" aria-label="Queues quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. BFS marks a node visited when it is...</legend><label><input type="radio" name="queues-q1" value="a"> Dequeued</label><label><input type="radio" name="queues-q1" value="b"> Enqueued</label><label><input type="radio" name="queues-q1" value="c"> Fully explored</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Marking on enqueue prevents the same node being queued many times (exponential re-visits otherwise).</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. A monotonic deque for sliding-window maximum keeps indices in...</legend><label><input type="radio" name="queues-q2" value="a"> Increasing order of value</label><label><input type="radio" name="queues-q2" value="b"> Decreasing order of value</label><label><input type="radio" name="queues-q2" value="c"> Random order</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>The front is always the current maximum; smaller values are discarded as dominated.</p></details></div><div class="quiz-q"><fieldset data-answer="c"><legend>3. Java's PriorityQueue iteration order is...</legend><label><input type="radio" name="queues-q3" value="a"> Sorted ascending</label><label><input type="radio" name="queues-q3" value="b"> Sorted descending</label><label><input type="radio" name="queues-q3" value="c"> Unspecified</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Only poll() follows heap order; iterating does not.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-queues"><h2 id="v-queues">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-queues"><h2 id="c-queues">✅ Move on when you can…</h2><ul class='checklist' data-checklist='queues'><li><input type='checkbox' id='queues-0'><label for='queues-0'>You can identify when a monotonic deque optimizes a sliding window problem</label></li><li><input type='checkbox' id='queues-1'><label for='queues-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='queues-2'><label for='queues-2'>You can state when this applies</label></li><li><input type='checkbox' id='queues-3'><label for='queues-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

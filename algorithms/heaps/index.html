@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 12 · Heaps / Priority Queues | Ultimate DSA Guide</title>
+<meta name="description" content="Repeated min/max access in O(log n): top-k, scheduling, Dijkstra. Two heaps give running medians.">
+<link rel="canonical" href="/algorithms/heaps/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 12 · Heaps / Priority Queues">
+<meta property="og:description" content="Repeated min/max access in O(log n): top-k, scheduling, Dijkstra. Two heaps give running medians.">
+<meta property="og:url" content="/algorithms/heaps/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html" aria-current="page">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 12 · Heaps / Priority Queues</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 12 · Heaps / Priority Queues</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, basic data structures, sorting</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-heaps"><h2 id="i-heaps">Intuition</h2><p>Repeated min/max access in O(log n): top-k, scheduling, Dijkstra. Two heaps give running medians.</p><p><strong>Learn:</strong> Min-heap, max-heap, heapify, top-k pattern, two-heaps median, merge k sorted &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-heaps"><h2 id="sg-heaps">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Repeated min/max extraction (top-k, merge k lists).</li><li>Scheduling by priority or deadline.</li><li>Running median / streaming order statistics.</li><li>Graph algorithms needing frontier minima (Dijkstra, Prim).</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Need arbitrary key lookup/deletion — use a map/tree.</li><li>All data known upfront and sorted once — just sort.</li></ul></div></section>
+<section aria-labelledby="m-heaps'><h2 id='m-heaps'>Common mistakes</h2><ul><li>Java PQ is min-heap by default; max-heap needs reverseOrder.</li><li>Stale entries after decrease-key — push new entry and skip stale on poll.</li></ul></section>
+<section aria-labelledby="w-heaps"><h2 id="w-heaps">Worked example — Kth largest in a stream of values</h2><p><strong>Problem.</strong> Array <code>[3,2,1,5,6,4]</code>, k=2.</p><ol class="steps"><li><strong>What should we notice?</strong> Only k champions matter: keep a min-heap of size k; its top is the kth largest.</li><li><strong>Naive thought.</strong> Sort fully: O(n log n) — wasteful when k is small.</li><li><strong>Key observation.</strong> Push x; if heap exceeds k, evict the smallest. Survivors are exactly the k largest.</li><li><strong>Optimized strategy.</strong> push 3→[3]; 2→[2,3]; 1→ skip (1&lt;2); 5→ evict→[3,5]; 6→ evict→[5,6]; 4→ skip. Top=5.</li><li><strong>Step-by-step.</strong> Median twin: two heaps (max-low, min-high) balanced within one.</li><li><strong>Final answer.</strong> 5.</li><li><strong>Complexity.</strong> O(n log k) time, O(k) space.</li><li><strong>What to remember.</strong> Min-heap of size k = kth-largest machine. Java PQ is min-first by default.</li></ol></section><section aria-labelledby="dr-heaps"><h2 id="dr-heaps">Interactive dry run — Insert + bubble up</h2><p>New value enters at the end, then climbs while it beats its parent.</p><div class="dryrun" id="viz-heap" data-dryrun><script type="application/json">{"type": "heap", "vals": [3, 2, 5, 6], "min": true, "fallback": "Inserts bubble upward; the minimum always sits at index 0."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-heaps"><h2 id="r-heaps">Quick reference</h2><div class="card" id="heaps">
+      <h3>Topic 12 · Heaps / Priority Queues</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use heaps when you need to repeatedly access the minimum or maximum element. They are essential for greedy algorithms, scheduling, and graph algorithms like Dijkstra.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, basic data structures, sorting</p>
+<p class="prereq"><strong>Learn this:</strong> Min-heap, max-heap, heapify, top-k pattern, two-heaps median, merge k sorted</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize when a heap provides efficient min/max access</p>
+      </div>
+
+
+      <h4>Algorithm — Heap Operations (Manual Implementation)</h4>
+<pre><code>// Min-Heap using array (0-indexed)
+// Parent: (i - 1) / 2
+// Left child: 2 * i + 1
+// Right child: 2 * i + 2
+
+class MinHeap {
+    int[] heap;
+    int size;
+    
+    void siftUp(int i) {
+        while (i > 0 && heap[(i - 1) / 2] > heap[i]) {
+            swap(i, (i - 1) / 2);
+            i = (i - 1) / 2;
+        }
+    }
+    
+    void siftDown(int i) {
+        while (2 * i + 1 &lt; size) {
+            int smallest = 2 * i + 1;
+            if (smallest + 1 &lt; size && heap[smallest + 1] &lt; heap[smallest])
+                smallest++;
+            if (heap[i] &lt;= heap[smallest]) break;
+            swap(i, smallest);
+            i = smallest;
+        }
+    }
+    
+    void insert(int val) { heap[size++] = val; siftUp(size - 1); }
+    int extractMin() { int min = heap[0]; heap[0] = heap[--size]; siftDown(0); return min; }
+}
+
+// Heapify entire array — O(n)
+for (int i = n / 2 - 1; i >= 0; i--) siftDown(i);
+</code></pre>
+
+      <h4>Common Heap Patterns</h4>
+<pre><code>// Pattern: Top K Elements
+PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
+for (int num : nums) {
+    minHeap.offer(num);
+    if (minHeap.size() > k) minHeap.poll();
+}
+// minHeap now contains top k largest elements
+
+// Pattern: Two Heaps (Median Finder)
+PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;(Collections.reverseOrder()); // left half
+PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();                          // right half
+
+void addNum(int num) {
+    maxHeap.offer(num);
+    minHeap.offer(maxHeap.poll());
+    if (minHeap.size() > maxHeap.size()) maxHeap.offer(minHeap.poll());
+}
+
+double findMedian() {
+    return maxHeap.size() > minHeap.size() ? maxHeap.peek()
+        : (maxHeap.peek() + minHeap.peek()) / 2.0;
+}
+
+// Pattern: Merge K Sorted Lists
+PriorityQueue&lt;ListNode&gt; pq = new PriorityQueue&lt;&gt;((a, b) -> a.val - b.val);
+for (ListNode head : lists) if (head != null) pq.offer(head);
+ListNode dummy = new ListNode(0), tail = dummy;
+while (!pq.isEmpty()) {
+    ListNode node = pq.poll();
+    tail.next = node;
+    tail = tail.next;
+    if (node.next != null) pq.offer(node.next);
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Kth Largest.</strong> Given an array and k, find the kth largest element using a min-heap of size k.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Merge K Lists.</strong> Given k sorted linked lists, merge them into one sorted list using a heap.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Top K.</strong> Given an array, return the k most frequent elements using a heap.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy">LC #703 — Kth Largest Element in a Stream</li>
+        <li class="easy">LC #1046 — Last Stone Weight</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" rel="noopener">Kth Largest Element in an Array — LC #215</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">Top K Frequent Elements — LC #347</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #373 — Find K Pairs with Smallest Sums</li>
+        <li class="medium">LC #973 — K Closest Points to Origin</li>
+        <li class="medium">LC #621 — Task Scheduler</li>
+        <li class="medium">LC #767 — Reorganize String</li>
+        <li class="medium">LC #378 — Kth Smallest Element in a Sorted Matrix</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener">Find Median from Data Stream — LC #295</a> <span class="plat">LeetCode</span></li>
+        <li class="hard"><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener">Merge k Sorted Lists — LC #23</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #480 — Sliding Window Median</li>
+        <li class="hard">LC #502 — IPO</li>
+        <li class="hard">CF #1353D — Constructing the Array</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 13: TRIES                           -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-heaps"><h2 id="qz-heaps">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="heaps" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Min-heap of size k for kth largest: after processing, the top is?</legend><label><input type="radio" name="heaps-q1" value="a"> The global max</label><label><input type="radio" name="heaps-q1" value="b"> The kth largest</label><label><input type="radio" name="heaps-q1" value="c"> The kth smallest</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>The heap holds the k largest; its minimum is the kth.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Decrease-key in Java's PQ is handled by?</legend><label><input type="radio" name="heaps-q2" value="a"> Mutating in place</label><label><input type="radio" name="heaps-q2" value="b"> Pushing the new entry and skipping stale ones on poll</label><label><input type="radio" name="heaps-q2" value="c"> Rebuilding</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>No efficient decrease-key: lazy deletion keeps it O(log n).</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Heapify n elements costs?</legend><label><input type="radio" name="heaps-q3" value="a"> O(n log n)</label><label><input type="radio" name="heaps-q3" value="b"> O(n)</label><label><input type="radio" name="heaps-q3" value="c"> O(n²)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Bottom-up sift-downs: most nodes sit near leaves with tiny heights.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-heaps"><h2 id="v-heaps">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-heaps"><h2 id="c-heaps">✅ Move on when you can…</h2><ul class='checklist' data-checklist='heaps'><li><input type='checkbox' id='heaps-0'><label for='heaps-0'>You can recognize when a heap provides efficient min/max access</label></li><li><input type='checkbox' id='heaps-1'><label for='heaps-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='heaps-2'><label for='heaps-2'>You can state when this applies</label></li><li><input type='checkbox' id='heaps-3'><label for='heaps-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

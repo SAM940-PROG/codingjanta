@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 26 · Segment Tree &amp; Fenwick | Ultimate DSA Guide</title>
+<meta name="description" content="Range query + update in O(log n): BIT for prefix sums, segtree for general merges, lazy for range updates.">
+<link rel="canonical" href="/algorithms/segment-tree/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 26 · Segment Trees &amp; Binary Indexed Trees (Fenwick)">
+<meta property="og:description" content="Range query + update in O(log n): BIT for prefix sums, segtree for general merges, lazy for range updates.">
+<meta property="og:url" content="/algorithms/segment-tree/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html" aria-current="page">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 26 · Segment Trees &amp; Binary Indexed Trees (Fenwick)</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">A</span></p><h1>Topic 26 · Segment Trees & Binary Indexed Trees (Fenwick)</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>A</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, prefix sums, trees</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>2–3 h</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-segment-tree"><h2 id="i-segment-tree">Intuition</h2><p>Range query + update in O(log n): BIT for prefix sums, segtree for general merges, lazy for range updates.</p><p><strong>Learn:</strong> Fenwick tree (BIT), segment tree, lazy propagation, range query + update &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-segtree"><h2 id="sg-segtree">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Range query + point/range update interleaved.</li><li>Range min/max/sum/gcd with updates.</li><li>Counting inversions offline.</li><li>Static RMQ with zero updates → sparse table is simpler.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Only prefix sums, no updates → plain prefix array.</li><li>Updates only, no queries → difference array.</li></ul></div></section>
+<section aria-labelledby="m-segment-tree'><h2 id='m-segment-tree'>Common mistakes</h2><ul><li>Size 4n arrays; lazy not pushed before going down.</li><li>BIT is 1-indexed — translate indices consistently.</li></ul></section>
+<section aria-labelledby="w-segtree"><h2 id="w-segtree">Worked example — Range sum with updates</h2><p><strong>Problem.</strong> Array <code>[1,3,5,7,9]</code>. Query sum(1,3), then set a[2]=6.</p><ol class="steps"><li><strong>What should we notice?</strong> Merge intervals: each tree node stores its segment sum; query touches O(log n) disjoint nodes.</li><li><strong>Naive thought.</strong> Rescan per query: O(n) each.</li><li><strong>Key observation.</strong> Build sums bottom-up. Query recurses only into overlapping children; point update rewrites one leaf path.</li><li><strong>Optimized strategy.</strong> Tree: root 25; children 9 ([0,1]) and 16 ([2,4])… query(1,3) = a[1] + node[2,3](12) = 3+12=15. Update a[2]=6: fix path 5→6, 16→17, 25→26.</li><li><strong>Step-by-step.</strong> Lazy twin: range-add stores pending tags instead of descending.</li><li><strong>Final answer.</strong> 15, then structure reflects 6.</li><li><strong>Complexity.</strong> Build O(n); query/update O(log n); 4n arrays.</li><li><strong>What to remember.</strong> Merge function + overlap cases. Lazy for range updates; BIT when the op is prefix-invertible.</li></ol></section>
+<section aria-labelledby="dr-segment-tree"><h2 id="dr-segment-tree">Interactive dry run — Segment tree build and query</h2><p>Watch how a range query touches only O(log n) nodes instead of the whole array.</p><div class="dryrun" id="viz-segtree" data-dryrun><script type="application/json">{"type": "segtree", "a": [1, 3, 5, 7, 9, 11, 13, 15], "l": 2, "r": 5, "p": 3, "v": 10, "fallback": "query[2,5]=5+7+9+11=32; update a[3]+=10 reshapes only the path to the root."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-segment-tree"><h2 id="r-segment-tree">Quick reference</h2><div class="card" id="segment-tree">
+      <h3>Topic 26 · Segment Trees & Binary Indexed Trees (Fenwick)</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use segment trees or Fenwick trees for range queries and point/range updates. They enable O(log n) operations where brute force would be O(n).
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, prefix sums, trees</p>
+<p class="prereq"><strong>Learn this:</strong> Fenwick tree (BIT), segment tree, lazy propagation, range query + update</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize when range queries need O(log n) data structures</p>
+      </div>
+
+
+      <h4>Algorithm — Fenwick Tree (Binary Indexed Tree)</h4>
+<pre><code>// Point update, range query in O(log n)
+class FenwickTree {
+    int[] tree;
+    int n;
+    
+    FenwickTree(int n) { this.n = n; tree = new int[n + 1]; }
+    
+    // Add val to index i (1-indexed)
+    void update(int i, int val) {
+        for (; i &lt;= n; i += i & (-i))
+            tree[i] += val;
+    }
+    
+    // Prefix sum [1, i]
+    int query(int i) {
+        int sum = 0;
+        for (; i > 0; i -= i & (-i))
+            sum += tree[i];
+        return sum;
+    }
+    
+    // Range sum [l, r]
+    int rangeQuery(int l, int r) {
+        return query(r) - query(l - 1);
+    }
+}
+
+// Build from array
+FenwickTree ft = new FenwickTree(n);
+for (int i = 0; i &lt; n; i++) ft.update(i + 1, arr[i]);
+</code></pre>
+
+      <h4>Algorithm — Segment Tree</h4>
+<pre><code>// Range query + range/point update in O(log n)
+class SegmentTree {
+    int[] tree;
+    int[] lazy;  // For lazy propagation
+    int n;
+    
+    SegmentTree(int[] arr) {
+        n = arr.length;
+        tree = new int[4 * n];
+        lazy = new int[4 * n];
+        build(arr, 1, 0, n - 1);
+    }
+    
+    void build(int[] arr, int node, int start, int end) {
+        if (start == end) { tree[node] = arr[start]; return; }
+        int mid = (start + end) / 2;
+        build(arr, 2 * node, start, mid);
+        build(arr, 2 * node + 1, mid + 1, end);
+        tree[node] = tree[2 * node] + tree[2 * node + 1];  // Merge operation
+    }
+    
+    // Point Update
+    void update(int node, int start, int end, int idx, int val) {
+        if (start == end) { tree[node] = val; return; }
+        int mid = (start + end) / 2;
+        if (idx &lt;= mid) update(2 * node, start, mid, idx, val);
+        else update(2 * node + 1, mid + 1, end, idx, val);
+        tree[node] = tree[2 * node] + tree[2 * node + 1];
+    }
+    
+    // Range Query
+    int query(int node, int start, int end, int l, int r) {
+        if (r &lt; start || end &lt; l) return 0;  // Identity for sum
+        if (l &lt;= start && end &lt;= r) return tree[node];
+        int mid = (start + end) / 2;
+        return query(2 * node, start, mid, l, r) +
+               query(2 * node + 1, mid + 1, end, l, r);
+    }
+    
+    // Lazy Propagation — Range Update
+    void pushDown(int node, int start, int end) {
+        if (lazy[node] != 0) {
+            int mid = (start + end) / 2;
+            tree[2*node] += lazy[node] * (mid - start + 1);
+            tree[2*node+1] += lazy[node] * (end - mid);
+            lazy[2*node] += lazy[node];
+            lazy[2*node+1] += lazy[node];
+            lazy[node] = 0;
+        }
+    }
+    
+    void rangeUpdate(int node, int start, int end, int l, int r, int val) {
+        if (r &lt; start || end &lt; l) return;
+        if (l &lt;= start && end &lt;= r) {
+            tree[node] += val * (end - start + 1);
+            lazy[node] += val;
+            return;
+        }
+        pushDown(node, start, end);
+        int mid = (start + end) / 2;
+        rangeUpdate(2*node, start, mid, l, r, val);
+        rangeUpdate(2*node+1, mid+1, end, l, r, val);
+        tree[node] = tree[2*node] + tree[2*node+1];
+    }
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Prefix Sum Update.</strong> Given an array, support point updates and range sum queries using a Fenwick tree.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Range Query.</strong> Given an array, support range minimum queries using a segment tree.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Inversions.</strong> Given an array, count inversions using a modified merge sort or BIT.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #307 — Range Sum Query (Mutable)</li>
+        <li class="medium">LC #315 — Count of Smaller Numbers After Self</li>
+        <li class="medium">LC #1649 — Create Sorted Array through Instructions</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #327 — Count of Range Sum</li>
+        <li class="hard">LC #493 — Reverse Pairs</li>
+        <li class="hard">LC #218 — The Skyline Problem</li>
+        <li class="hard">LC #699 — Falling Squares</li>
+        <li class="hard">CF #339D — Xenia and Bit Operations (Segment Tree)</li>
+        <li class="hard">CF #380C — Sereja and Brackets (Segment Tree)</li>
+        <li class="hard">CF #474F — Ant Colony (Segment Tree)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  TOPIC 27: SPARSE TABLE, LCA, HLD                     -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-segtree"><h2 id="qz-segtree">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="segtree" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. A query visits O(log n) nodes because?</legend><label><input type="radio" name="segtree-q1" value="a"> The tree is small</label><label><input type="radio" name="segtree-q1" value="b"> Each level contributes O(1) disjoint covering nodes</label><label><input type="radio" name="segtree-q1" value="c"> Recursion is fast</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Standard segment decomposition covers any range with ≤2 nodes per level.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Lazy propagation exists to?</legend><label><input type="radio" name="segtree-q2" value="a"> Save memory</label><label><input type="radio" name="segtree-q2" value="b"> Defer range updates via pending tags — O(log n) instead of O(n)</label><label><input type="radio" name="segtree-q2" value="c"> Speed queries only</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Push tags only along visited paths.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. BIT vs segment tree: BIT wins when?</legend><label><input type="radio" name="segtree-q3" value="a"> Range max queries</label><label><input type="radio" name="segtree-q3" value="b"> Prefix-sum-style invertible ops with less code</label><label><input type="radio" name="segtree-q3" value="c"> Lazy range assign</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>BIT is shorter and faster for prefix sums; segtree is general.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="qz-segment-tree"><h2 id="qz-segment-tree">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="segment-tree" aria-label="Segment tree quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. A range sum query on a segment tree costs...</legend><label><input type="radio" name="segment-tree-q1" value="a"> O(1)</label><label><input type="radio" name="segment-tree-q1" value="b"> O(log n)</label><label><input type="radio" name="segment-tree-q1" value="c"> O(n)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Only O(log n) nodes cover any range.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Fenwick (BIT) trees are indexed from...</legend><label><input type="radio" name="segment-tree-q2" value="a"> 0</label><label><input type="radio" name="segment-tree-q2" value="b"> 1</label><label><input type="radio" name="segment-tree-q2" value="c"> Either</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>BIT uses 1-based indices; translate carefully.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Lazy propagation is needed when...</legend><label><input type="radio" name="segment-tree-q3" value="a"> Queries are offline</label><label><input type="radio" name="segment-tree-q3" value="b"> A range update would otherwise touch many nodes</label><label><input type="radio" name="segment-tree-q3" value="c"> The array is static</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Lazy tags defer updates to children until they are visited.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-segment-tree"><h2 id="v-segment-tree">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-segment-tree"><h2 id="c-segment-tree">✅ Move on when you can…</h2><ul class='checklist' data-checklist='segment-tree'><li><input type='checkbox' id='segment-tree-0'><label for='segment-tree-0'>You can recognize when range queries need O(log n) data structures</label></li><li><input type='checkbox' id='segment-tree-1'><label for='segment-tree-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='segment-tree-2'><label for='segment-tree-2'>You can state when this applies</label></li><li><input type='checkbox' id='segment-tree-3'><label for='segment-tree-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

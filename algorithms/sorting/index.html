@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 3 · Sorting Algorithms | Ultimate DSA Guide</title>
+<meta name="description" content="Ordering unlocks everything: binary search, two pointers, greedy. Know O(n log n) sorts, when built-ins suffice, and how comparators steer them.">
+<link rel="canonical" href="/algorithms/sorting/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 3 · Sorting Algorithms">
+<meta property="og:description" content="Ordering unlocks everything: binary search, two pointers, greedy. Know O(n log n) sorts, when built-ins suffice, and how comparators steer them.">
+<meta property="og:url" content="/algorithms/sorting/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html" aria-current="page">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 3 · Sorting Algorithms</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">F</span></p><h1>Topic 3 · Sorting Algorithms</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>F</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, basic loops, Big-O</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>45–60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-sorting"><h2 id="i-sorting">Intuition</h2><p>Ordering unlocks everything: binary search, two pointers, greedy. Know O(n log n) sorts, when built-ins suffice, and how comparators steer them.</p><p><strong>Learn:</strong> Merge sort, quick sort, built-in sort, comparators &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium problems</p></section>
+<section aria-labelledby="sg-sorting"><h2 id="sg-sorting">How to recognize this</h2><p><strong>Reach for it when:</strong> Order enables the next technique (binary search, two pointers, greedy); k-th order / duplicates / custom keys; Nearly-sorted or tiny input (insertion/counted quirks).</p><p><strong>Red flags:</strong> O(n) counting/frequency decides it — don't sort first; Top-k from a stream — heap wins.</p></section>
+<section aria-labelledby="m-sorting'><h2 id='m-sorting'>Common mistakes</h2><ul><li>Hand-rolling quicksort instead of Arrays.sort (slower, buggier).</li><li>Unstable assumptions: equal elements may reorder with Arrays.sort on primitives (irrelevant) vs objects (stable).</li></ul></section>
+<section aria-labelledby="w-sorting"><h2 id="w-sorting">Worked example — Merging intuition</h2><p><strong>Problem.</strong> Merge <code>[3,8]</code> and <code>[2,5]</code>.</p><ol class="steps"><li><strong>What should we notice?</strong> Both sorted ⇒ the next output is always a head.</li><li><strong>Naive thought.</strong> Re-sort the concatenation: O(n log n) for an O(n) job.</li><li><strong>Key observation.</strong> Two fingers on the heads; emit the smaller, advance. Exhaustion appends the rest.</li><li><strong>Optimized strategy.</strong> 3 vs 2 → 2; 3 vs 5 → 3; 8 vs 5 → 5; 8 → done: [2,3,5,8].</li><li><strong>Step-by-step.</strong> Dutch-flag twin: three regions (0s, unknown, 2s) with the same head-pointer discipline.</li><li><strong>Final answer.</strong> [2,3,5,8].</li><li><strong>Complexity.</strong> Merge O(n); mergesort O(n log n), O(n) extra (O(1) with care in contests: use built-ins).</li><li><strong>What to remember.</strong> Sorted halves merge linearly. In contests: sort with the library, spend insight elsewhere.</li></ol></section>
+<section aria-labelledby="dr-sorting"><h2 id="dr-sorting">Interactive dry run — Insertion sort</h2><p>Grow a sorted prefix; each new element shifts into place. Predict where 4 lands before pressing Next.</p><div class="dryrun" id="viz-sort" data-dryrun><script type="application/json">{"type": "sort", "a": [5, 2, 4, 6, 1, 3], "note": "Insertion sort is O(n^2) worst case but near-linear on almost-sorted data.", "fallback": "Repeatedly insert the next element into the sorted prefix."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-sorting"><h2 id="r-sorting">Quick reference</h2><div class="card" id="sorting">
+      <h3>Topic 3 · Sorting Algorithms</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use sorting when you need ordered data. Many problems become easy once sorted -- binary search, two pointers, and greedy approaches all rely on sorted input.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, basic loops, Big-O</p>
+<p class="prereq"><strong>Learn this:</strong> Merge sort, quick sort, built-in sort, comparators</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium problems</p>
+<p class="prereq"><strong>Move on when:</strong> You know when sorting unlocks a solution and which O(n log n) sort to use</p>
+      </div>
+
+
+      <h4>Why?</h4>
+      <p>Sorting is a prerequisite for many algorithms: binary search, two pointers, greedy approaches. Knowing when and which sort to use is critical.</p>
+
+      <h4>Easy — Bubble Sort, Selection Sort, Insertion Sort</h4>
+<pre><code>// Bubble Sort — O(n²) time, O(1) space, STABLE
+public void bubbleSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i &lt; n - 1; i++) {
+        boolean swapped = false;
+        for (int j = 0; j &lt; n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        if (!swapped) break;  // Early termination if already sorted
+    }
+}
+
+// Selection Sort — O(n²) time, O(1) space, NOT STABLE
+public void selectionSort(int[] arr) {
+    for (int i = 0; i &lt; arr.length - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j &lt; arr.length; j++) {
+            if (arr[j] &lt; arr[minIdx]) minIdx = j;
+        }
+        int temp = arr[i]; arr[i] = arr[minIdx]; arr[minIdx] = temp;
+    }
+}
+
+// Insertion Sort — O(n²) time, O(1) space, STABLE
+// Best for nearly sorted data — O(n) best case
+public void insertionSort(int[] arr) {
+    for (int i = 1; i &lt; arr.length; i++) {
+        int key = arr[i], j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+</code></pre>
+
+      <h4>Medium — Merge Sort, Quick Sort</h4>
+<pre><code>// Merge Sort — O(n log n) time, O(n) space, STABLE
+// Excellent for linked lists and external sorting
+public void mergeSort(int[] arr, int left, int right) {
+    if (left >= right) return;
+    int mid = left + (right - left) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+}
+
+private void merge(int[] arr, int left, int mid, int right) {
+    int[] temp = new int[right - left + 1];
+    int i = left, j = mid + 1, k = 0;
+    while (i &lt;= mid && j &lt;= right) {
+        if (arr[i] &lt;= arr[j]) temp[k++] = arr[i++];
+        else temp[k++] = arr[j++];
+    }
+    while (i &lt;= mid) temp[k++] = arr[i++];
+    while (j &lt;= right) temp[k++] = arr[j++];
+    System.arraycopy(temp, 0, arr, left, temp.length);
+}
+
+// Quick Sort — O(n log n) avg, O(n²) worst, O(log n) space, NOT STABLE
+// Fastest in practice for random data
+public void quickSort(int[] arr, int low, int high) {
+    if (low >= high) return;
+    int pivotIdx = partition(arr, low, high);
+    quickSort(arr, low, pivotIdx - 1);
+    quickSort(arr, pivotIdx + 1, high);
+}
+
+private int partition(int[] arr, int low, int high) {
+    // Randomized pivot to avoid worst case
+    int randIdx = low + (int)(Math.random() * (high - low + 1));
+    int temp = arr[randIdx]; arr[randIdx] = arr[high]; arr[high] = temp;
+    
+    int pivot = arr[high], i = low;
+    for (int j = low; j &lt; high; j++) {
+        if (arr[j] &lt; pivot) {
+            temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+            i++;
+        }
+    }
+    temp = arr[i]; arr[i] = arr[high]; arr[high] = temp;
+    return i;
+}
+</code></pre>
+
+      <h4>Hard — Counting Sort, Radix Sort, Heap Sort</h4>
+<pre><code>// Counting Sort — O(n + k) time, O(k) space, STABLE
+// Use when range of values (k) is small relative to n
+public void countingSort(int[] arr) {
+    int max = Arrays.stream(arr).max().getAsInt();
+    int min = Arrays.stream(arr).min().getAsInt();
+    int range = max - min + 1;
+    int[] count = new int[range], output = new int[arr.length];
+    for (int val : arr) count[val - min]++;
+    for (int i = 1; i &lt; range; i++) count[i] += count[i - 1];
+    for (int i = arr.length - 1; i >= 0; i--) {
+        output[count[arr[i] - min] - 1] = arr[i];
+        count[arr[i] - min]--;
+    }
+    System.arraycopy(output, 0, arr, 0, arr.length);
+}
+
+// Radix Sort — O(d × (n + k)) time, O(n + k) space, STABLE
+// d = number of digits, k = radix (10 for decimal)
+public void radixSort(int[] arr) {
+    int max = Arrays.stream(arr).max().getAsInt();
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+        countingSortByDigit(arr, exp);
+    }
+}
+
+// Heap Sort — O(n log n) time, O(1) space, NOT STABLE
+// In-place but not cache friendly
+public void heapSort(int[] arr) {
+    int n = arr.length;
+    for (int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0]; arr[0] = arr[i]; arr[i] = temp;
+        heapify(arr, i, 0);
+    }
+}
+
+private void heapify(int[] arr, int n, int i) {
+    int largest = i, left = 2 * i + 1, right = 2 * i + 2;
+    if (left &lt; n && arr[left] > arr[largest]) largest = left;
+    if (right &lt; n && arr[right] > arr[largest]) largest = right;
+    if (largest != i) {
+        int temp = arr[i]; arr[i] = arr[largest]; arr[largest] = temp;
+        heapify(arr, n, largest);
+    }
+}
+</code></pre>
+
+      <h4>Sorting Summary</h4>
+      <table>
+        <tr><th>Algorithm</th><th>Time (Avg)</th><th>Time (Worst)</th><th>Space</th><th>Stable?</th><th>Best For</th></tr>
+        <tr><td>Bubble</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td><td>Teaching only</td></tr>
+        <tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>❌</td><td>Minimum swaps</td></tr>
+        <tr><td>Insertion</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✅</td><td>Nearly sorted</td></tr>
+        <tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>✅</td><td>Linked lists, external</td></tr>
+        <tr><td>Quick</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>❌</td><td>General purpose</td></tr>
+        <tr><td>Heap</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>❌</td><td>Space constrained</td></tr>
+        <tr><td>Counting</td><td>O(n+k)</td><td>O(n+k)</td><td>O(k)</td><td>✅</td><td>Small range values</td></tr>
+        <tr><td>Radix</td><td>O(d(n+k))</td><td>O(d(n+k))</td><td>O(n+k)</td><td>✅</td><td>Fixed-length integers</td></tr>
+      </table>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sort and Verify.</strong> Given an unsorted array, sort it and verify the output is correct.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sort by Second Element.</strong> Sort a list of pairs by their second value. Understand custom comparators.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sort Colors.</strong> Given an array of 0s, 1s, and 2s, sort them in-place in one pass.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy">LC #912 — Sort an Array</li>
+        <li class="easy">LC #88 — Merge Sorted Array</li>
+        <li class="easy"><a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">Valid Anagram — LC #242</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #148 — Sort List (Merge Sort on Linked List)</li>
+        <li class="medium">LC #56 — Merge Intervals</li>
+        <li class="medium">LC #179 — Largest Number</li>
+        <li class="medium">LC #75 — Sort Colors (Dutch National Flag)</li>
+        <li class="medium"><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" rel="noopener">Kth Largest Element in an Array — LC #215</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">Top K Frequent Elements — LC #347</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #315 — Count of Smaller Numbers After Self</li>
+        <li class="hard">LC #493 — Reverse Pairs (Merge Sort variant)</li>
+        <li class="hard">LC #327 — Count of Range Sum</li>
+        <li class="hard">CF #1353D — Constructing the Array</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 4: SEARCHING ALGORITHMS             -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-sorting"><h2 id="qz-sorting">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="sorting" aria-label="Sorting quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Java's Arrays.sort on primitives uses...</legend><label><input type="radio" name="sorting-q1" value="a"> Merge sort</label><label><input type="radio" name="sorting-q1" value="b"> Dual-pivot quicksort</label><label><input type="radio" name="sorting-q1" value="c"> Bubble sort</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Primitives use dual-pivot quicksort (unstable); objects use TimSort (stable).</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Comparators should avoid a - b because...</legend><label><input type="radio" name="sorting-q2" value="a"> It is slow</label><label><input type="radio" name="sorting-q2" value="b"> Subtraction can overflow int</label><label><input type="radio" name="sorting-q2" value="c"> It is unstable</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Use Integer.compare (or comparingInt) to avoid overflow.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. A stable sort guarantees...</legend><label><input type="radio" name="sorting-q3" value="a"> O(n) time</label><label><input type="radio" name="sorting-q3" value="b"> Equal elements keep their relative order</label><label><input type="radio" name="sorting-q3" value="c"> No extra memory</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>This matters when sorting objects by a secondary key.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-sorting"><h2 id="v-sorting">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-sorting"><h2 id="c-sorting">✅ Move on when you can…</h2><ul class='checklist' data-checklist='sorting'><li><input type='checkbox' id='sorting-0'><label for='sorting-0'>You know when sorting unlocks a solution and which O(n log n) sort to use</label></li><li><input type='checkbox' id='sorting-1'><label for='sorting-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='sorting-2'><label for='sorting-2'>You can state when this applies</label></li><li><input type='checkbox' id='sorting-3'><label for='sorting-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

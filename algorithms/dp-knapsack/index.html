@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 20 · Knapsack DP | Ultimate DSA Guide</title>
+<meta name="description" content="Choose items under capacity: 0/1 (once) vs unbounded (reuse) — loop order decides which. Subset-sum is the core reduction.">
+<link rel="canonical" href="/algorithms/dp-knapsack/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 20 · Knapsack DP">
+<meta property="og:description" content="Choose items under capacity: 0/1 (once) vs unbounded (reuse) — loop order decides which. Subset-sum is the core reduction.">
+<meta property="og:url" content="/algorithms/dp-knapsack/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html" aria-current="page">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 20 · Dynamic Programming — Knapsack Variants</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 20 · Dynamic Programming — Knapsack Variants</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>1D DP, arrays, recursion</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-dp-knapsack"><h2 id="i-dp-knapsack">Intuition</h2><p>Choose items under capacity: 0/1 (once) vs unbounded (reuse) — loop order decides which. Subset-sum is the core reduction.</p><p><strong>Learn:</strong> 0/1 knapsack, unbounded knapsack, subset sum, counting ways &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-knapsack"><h2 id="sg-knapsack">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Choose items under a capacity/weight limit.</li><li>Subset-sum / partition / target-sum phrasing.</li><li>'Each item once' (0/1) vs 'unlimited reuse' (unbounded).</li><li>Counting ways vs max value under a budget.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Items have no weight constraint — greedy/sort may do.</li><li>Fractional items allowed — greedy by ratio wins.</li></ul></div></section>
+<section aria-labelledby="m-dp-knapsack'><h2 id='m-dp-knapsack'>Common mistakes</h2><ul><li>Loop-order bug: capacity-outer + item-inner accidentally allows reuse.</li><li>Subset-sum target off by total-sum parity check.</li></ul></section>
+<section aria-labelledby="w-knapsack"><h2 id="w-knapsack">Worked example — Partition Equal Subset</h2><p><strong>Problem.</strong> Array <code>[1,5,11,5]</code>. Split into equal sums?</p><ol class="steps"><li><strong>What should we notice?</strong> Total 22 → need subset summing to 11: subset-sum DP.</li><li><strong>Naive thought.</strong> All 2ⁿ subsets: fine for n≤20, dead beyond.</li><li><strong>Key observation.</strong> Boolean dp[s]: reachable sums. For each item, sweep s downward (0/1: no reuse).</li><li><strong>Optimized strategy.</strong> dp after items: {0} → {0,1} → {0,1,5,6} → {0,1,5,6,11,12,16,17} → 11 reachable ✓ (11 alone).</li><li><strong>Step-by-step.</strong> Unbounded twin: same loop upward — coin change ways.</li><li><strong>Final answer.</strong> True.</li><li><strong>Complexity.</strong> O(n·sum) time, O(sum) space. Check total parity first.</li><li><strong>What to remember.</strong> Capacity-outer/item-inner direction decides once vs reuse.</li></ol></section>
+<section aria-labelledby="dr-dp-knapsack"><h2 id="dr-dp-knapsack">Interactive dry run — 0/1 knapsack</h2><p>Capacity is scanned downward so each item is used at most once.</p><div class="dryrun" id="viz-knapsack" data-dryrun><script type="application/json">{"type": "knapsack", "cap": 7, "items": [[1, 1], [3, 4], [4, 5], [5, 7]], "fallback": "Best value with capacity 7 is 9 (items 2 and 3)."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-dp-knapsack"><h2 id="r-dp-knapsack">Quick reference</h2><div class="card" id="dp-knapsack">
+      <h3>Topic 20 · Dynamic Programming — Knapsack Variants</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use knapsack DP when you need to select items with constraints (weight, capacity) to maximize value. 0/1 knapsack for each item once, unbounded for unlimited reuse.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> 1D DP, arrays, recursion</p>
+<p class="prereq"><strong>Learn this:</strong> 0/1 knapsack, unbounded knapsack, subset sum, counting ways</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize knapsack structure -- choosing items under a constraint</p>
+      </div>
+
+
+      <h4>Algorithms</h4>
+<pre><code>// ── 0/1 Knapsack ──
+// dp[i][w] = max value using first i items with capacity w
+int knapsack01(int[] weights, int[] values, int W) {
+    int n = weights.length;
+    int[] dp = new int[W + 1];  // Space-optimized to 1D
+    for (int i = 0; i &lt; n; i++)
+        for (int w = W; w >= weights[i]; w--)  // Reverse for 0/1
+            dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
+    return dp[W];
+}
+
+// ── Unbounded Knapsack (items can be reused) ──
+int knapsackUnbounded(int[] weights, int[] values, int W) {
+    int[] dp = new int[W + 1];
+    for (int w = 1; w &lt;= W; w++)
+        for (int i = 0; i &lt; weights.length; i++)
+            if (weights[i] &lt;= w)
+                dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
+    return dp[W];
+}
+
+// ── Subset Sum (Boolean Knapsack) ──
+boolean canPartition(int[] nums, int target) {
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true;
+    for (int num : nums)
+        for (int j = target; j >= num; j--)
+            dp[j] = dp[j] || dp[j - num];
+    return dp[target];
+}
+
+// ── Count of Subsets with Given Sum ──
+int countSubsets(int[] nums, int target) {
+    int[] dp = new int[target + 1];
+    dp[0] = 1;
+    for (int num : nums)
+        for (int j = target; j >= num; j--)
+            dp[j] += dp[j - num];
+    return dp[target];
+}
+
+// ── Coin Change (Ways) — Unbounded Knapsack ──
+int coinChangeWays(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+    for (int coin : coins)            // Outer loop = coin (prevents duplicate combos)
+        for (int j = coin; j &lt;= amount; j++)
+            dp[j] += dp[j - coin];
+    return dp[amount];
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Can Partition.</strong> Given an array, determine if it can be partitioned into two subsets with equal sum.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Coin Ways.</strong> Given coins and an amount, find the number of ways to make the amount (unbounded).</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Target Sum.</strong> Given numbers and a target, find the number of ways to assign + or - to reach the target.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank" rel="noopener">Partition Equal Subset Sum — LC #416</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener">Coin Change — LC #322</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/coin-change-ii/" target="_blank" rel="noopener">Coin Change II — LC #518</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #377 — Combination Sum IV</li>
+        <li class="medium">LC #474 — Ones and Zeroes (2D Knapsack)</li>
+        <li class="medium"><a href="https://leetcode.com/problems/target-sum/" target="_blank" rel="noopener">Target Sum — LC #494</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #1049 — Last Stone Weight II</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #879 — Profitable Schemes</li>
+        <li class="hard">LC #956 — Tallest Billboard</li>
+        <li class="hard">LC #1235 — Maximum Profit in Job Scheduling</li>
+        <li>CC — KNPSK (Knapsack) [CodeChef]</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--   TOPIC 21: DP — INTERVAL, BITMASK, DIGIT DP           -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-knapsack"><h2 id="qz-knapsack">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="knapsack" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. 0/1 requires capacity loop?</legend><label><input type="radio" name="knapsack-q1" value="a"> Upward</label><label><input type="radio" name="knapsack-q1" value="b"> Downward — so each item is used once</label><label><input type="radio" name="knapsack-q1" value="c"> Either</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Downward reads last-iteration states; upward reuses the current item.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. First check for partition?</legend><label><input type="radio" name="knapsack-q2" value="a"> Sort</label><label><input type="radio" name="knapsack-q2" value="b"> Total evenness — odd total is impossible</label><label><input type="radio" name="knapsack-q2" value="c"> Duplicates</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Target total/2 must be integral.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>3. Unbounded coin-change-ways order?</legend><label><input type="radio" name="knapsack-q3" value="a"> Item-outer, amount-inner upward</label><label><input type="radio" name="knapsack-q3" value="b"> Amount-outer</label><label><input type="radio" name="knapsack-q3" value="c"> Doesn't matter</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Item-outer counts combinations; amount-outer counts permutations.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="qz-dp-knapsack"><h2 id="qz-dp-knapsack">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="dp-knapsack" aria-label="Knapsack DP quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. 0/1 knapsack differs from unbounded because...</legend><label><input type="radio" name="dp-knapsack-q1" value="a"> The capacity differs</label><label><input type="radio" name="dp-knapsack-q1" value="b"> Each item may be used at most once</label><label><input type="radio" name="dp-knapsack-q1" value="c"> Values are negative</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>0/1 uses each item once; unbounded allows reuse.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. For 0/1 knapsack on a one-dimensional dp, capacity must be scanned...</legend><label><input type="radio" name="dp-knapsack-q2" value="a"> Upward</label><label><input type="radio" name="dp-knapsack-q2" value="b"> Downward</label><label><input type="radio" name="dp-knapsack-q2" value="c"> In any order</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Downward prevents reading a state that already used the current item.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>3. Subset-sum is a special case of knapsack where...</legend><label><input type="radio" name="dp-knapsack-q3" value="a"> Weights equal values</label><label><input type="radio" name="dp-knapsack-q3" value="b"> Values equal 0</label><label><input type="radio" name="dp-knapsack-q3" value="c"> Capacity is 1</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Asking whether a target sum is reachable treats each value as both weight and value.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-dp-knapsack"><h2 id="v-dp-knapsack">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-dp-knapsack"><h2 id="c-dp-knapsack">✅ Move on when you can…</h2><ul class='checklist' data-checklist='dp-knapsack'><li><input type='checkbox' id='dp-knapsack-0'><label for='dp-knapsack-0'>You can recognize knapsack structure -- choosing items under a constraint</label></li><li><input type='checkbox' id='dp-knapsack-1'><label for='dp-knapsack-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='dp-knapsack-2'><label for='dp-knapsack-2'>You can state when this applies</label></li><li><input type='checkbox' id='dp-knapsack-3'><label for='dp-knapsack-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

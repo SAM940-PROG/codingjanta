@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 11 · Trees (Binary Tree, BST) | Ultimate DSA Guide</title>
+<meta name="description" content="Hierarchies with O(log n) BST ops when balanced. Traversals (in/pre/post/level) are the vocabulary; BST order is the tool.">
+<link rel="canonical" href="/algorithms/trees/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 11 · Trees (Binary Tree, BST)">
+<meta property="og:description" content="Hierarchies with O(log n) BST ops when balanced. Traversals (in/pre/post/level) are the vocabulary; BST order is the tool.">
+<meta property="og:url" content="/algorithms/trees/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html" aria-current="page">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 11 · Trees (Binary Tree, BST)</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 11 · Trees (Binary Tree, BST)</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Recursion, basic data structures</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90+ min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-trees"><h2 id="i-trees">Intuition</h2><p>Hierarchies with O(log n) BST ops when balanced. Traversals (in/pre/post/level) are the vocabulary; BST order is the tool.</p><p><strong>Learn:</strong> Tree traversals, BST operations, LCA, serialization, level-order &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-trees"><h2 id="sg-trees">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Hierarchies, ancestry, nesting depth.</li><li>BST order statistics / validation / search.</li><li>Level-by-level or path questions on trees.</li><li>Diameter/LCA/subtree shapes.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>General graph with cycles — use graph traversal instead.</li><li>Only sorted-array behavior needed — BST is overkill.</li></ul></div></section>
+<section aria-labelledby="m-trees'><h2 id='m-trees'>Common mistakes</h2><ul><li>Recursion depth on skewed trees (stack overflow) — consider iterative or balanced input guarantees.</li><li>BST validation with int bounds fails at Integer.MIN/MAX — use long/null bounds.</li></ul></section>
+<section aria-labelledby="w-trees"><h2 id="w-trees">Worked example — Maximum depth</h2><p><strong>Problem.</strong> Tree <code>[3,9,20,null,null,15,7]</code>. Height?</p><ol class="steps"><li><strong>What should we notice?</strong> Height is recursive: 1 + max(children); null contributes 0.</li><li><strong>Naive thought.</strong> BFS counting levels: fine, but recursion mirrors the definition.</li><li><strong>Key observation.</strong> depth(node) = 0 if null else 1+max(depth(L),depth(R)). Solve children, combine — postorder thinking.</li><li><strong>Optimized strategy.</strong> depth(9)=1, depth(15)=depth(7)=1 → depth(20)=2 → depth(3)=1+max(1,2)=3.</li><li><strong>Step-by-step.</strong> Validation twin: carry (low,high) bounds down; each node must fit, bounds tighten per side.</li><li><strong>Final answer.</strong> 3.</li><li><strong>Complexity.</strong> O(n) time, O(height) stack.</li><li><strong>What to remember.</strong> Null=0 base; combine children. BST work = bounds propagation.</li></ol></section><section aria-labelledby="dr-trees"><h2 id="dr-trees">Interactive dry run — Inorder walk</h2><p>Left, node, right — on a BST this prints sorted order.</p><div class="dryrun" id="viz-traversal" data-dryrun><script type="application/json">{"type": "traversal", "tree": [4, 2, 6, 1, 3, 5, 7], "order": "in", "fallback": "Visit order 1,2,3,4,5,6,7 \u2014 sorted."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-trees"><h2 id="r-trees">Quick reference</h2><div class="card" id="trees">
+      <h3>Topic 11 · Trees (Binary Tree, BST)</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use trees when data has hierarchical relationships. BSTs enable O(log n) search. Tree traversals (inorder, preorder, postorder, level-order) are foundational for many problems.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Recursion, basic data structures</p>
+<p class="prereq"><strong>Learn this:</strong> Tree traversals, BST operations, LCA, serialization, level-order</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can traverse a tree and apply BST properties to solve problems</p>
+      </div>
+
+
+      <h4>Algorithms</h4>
+<pre><code>// TreeNode definition
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) { this.val = val; }
+}
+
+// ── DFS Traversals ──
+// Inorder (Left → Root → Right) — gives sorted order for BST
+void inorder(TreeNode root) {
+    if (root == null) return;
+    inorder(root.left);
+    process(root.val);
+    inorder(root.right);
+}
+
+// Preorder (Root → Left → Right) — serialize tree
+void preorder(TreeNode root) {
+    if (root == null) return;
+    process(root.val);
+    preorder(root.left);
+    preorder(root.right);
+}
+
+// Postorder (Left → Right → Root) — delete tree, evaluate expressions
+void postorder(TreeNode root) {
+    if (root == null) return;
+    postorder(root.left);
+    postorder(root.right);
+    process(root.val);
+}
+
+// Iterative Inorder (using stack)
+List&lt;Integer&gt; inorderIterative(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    Deque&lt;TreeNode&gt; stack = new ArrayDeque&lt;&gt;();
+    TreeNode curr = root;
+    while (curr != null || !stack.isEmpty()) {
+        while (curr != null) { stack.push(curr); curr = curr.left; }
+        curr = stack.pop();
+        result.add(curr.val);
+        curr = curr.right;
+    }
+    return result;
+}
+
+// ── BFS / Level Order ──
+List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    if (root == null) return result;
+    Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;&gt;();
+    queue.offer(root);
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+        List&lt;Integer&gt; level = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; size; i++) {
+            TreeNode node = queue.poll();
+            level.add(node.val);
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+        result.add(level);
+    }
+    return result;
+}
+
+// ── Height / Depth ──
+int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}
+
+// ── BST Search ──
+TreeNode search(TreeNode root, int target) {
+    if (root == null || root.val == target) return root;
+    return target &lt; root.val ? search(root.left, target) : search(root.right, target);
+}
+
+// ── BST Insert ──
+TreeNode insert(TreeNode root, int val) {
+    if (root == null) return new TreeNode(val);
+    if (val &lt; root.val) root.left = insert(root.left, val);
+    else root.right = insert(root.right, val);
+    return root;
+}
+
+// ── BST Delete ──
+TreeNode delete(TreeNode root, int val) {
+    if (root == null) return null;
+    if (val &lt; root.val) root.left = delete(root.left, val);
+    else if (val > root.val) root.right = delete(root.right, val);
+    else {
+        if (root.left == null) return root.right;
+        if (root.right == null) return root.left;
+        TreeNode min = root.right;
+        while (min.left != null) min = min.left;
+        root.val = min.val;
+        root.right = delete(root.right, min.val);
+    }
+    return root;
+}
+
+// ── Lowest Common Ancestor (BST) ──
+TreeNode lcaBST(TreeNode root, TreeNode p, TreeNode q) {
+    if (root.val > p.val && root.val > q.val) return lcaBST(root.left, p, q);
+    if (root.val &lt; p.val && root.val &lt; q.val) return lcaBST(root.right, p, q);
+    return root;
+}
+
+// ── Lowest Common Ancestor (Binary Tree) ──
+TreeNode lca(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) return root;
+    TreeNode left = lca(root.left, p, q);
+    TreeNode right = lca(root.right, p, q);
+    if (left != null && right != null) return root;
+    return left != null ? left : right;
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Max Depth.</strong> Given a binary tree, find its maximum depth using recursion or BFS.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Validate BST.</strong> Given a binary tree, check if it is a valid BST using inorder traversal.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Level Order.</strong> Given a binary tree, return its level-order traversal (BFS).</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener">Maximum Depth of Binary Tree — LC #104</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener">Invert Binary Tree — LC #226</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener">Same Tree — LC #100</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #101 — Symmetric Tree</li>
+        <li class="easy">LC #543 — Diameter of Binary Tree</li>
+        <li class="easy">LC #110 — Balanced Binary Tree</li>
+        <li class="easy">LC #112 — Path Sum</li>
+        <li class="easy">LC #572 — Subtree of Another Tree</li>
+        <li class="easy">LC #700 — Search in a BST</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener">Binary Tree Level Order Traversal — LC #102</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener">Validate Binary Search Tree — LC #98</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #230 — Kth Smallest Element in a BST</li>
+        <li class="medium">LC #105 — Construct BT from Preorder and Inorder</li>
+        <li class="medium">LC #199 — Binary Tree Right Side View</li>
+        <li class="medium"><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" rel="noopener">Lowest Common Ancestor of a Binary Tree — LC #236</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #450 — Delete Node in a BST</li>
+        <li class="medium">LC #113 — Path Sum II</li>
+        <li class="medium">LC #437 — Path Sum III</li>
+        <li class="medium">LC #1448 — Count Good Nodes in Binary Tree</li>
+        <li class="medium"><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener">Lowest Common Ancestor of a Binary Search Tree — LC #235</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener">Binary Tree Maximum Path Sum — LC #124</a> <span class="plat">LeetCode</span></li>
+        <li class="hard"><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener">Serialize and Deserialize Binary Tree — LC #297</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #99 — Recover Binary Search Tree</li>
+        <li class="hard">LC #987 — Vertical Order Traversal</li>
+        <li class="hard">LC #968 — Binary Tree Cameras</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 12: HEAPS / PRIORITY QUEUES          -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-trees"><h2 id="qz-trees">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="trees" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Inorder of a BST yields?</legend><label><input type="radio" name="trees-q1" value="a"> Insertion order</label><label><input type="radio" name="trees-q1" value="b"> Sorted order</label><label><input type="radio" name="trees-q1" value="c"> Level order</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Left < node < right at every subtree composes into global sortedness.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. BST validation needs?</legend><label><input type="radio" name="trees-q2" value="a"> Checking each parent-child pair only</label><label><input type="radio" name="trees-q2" value="b"> Propagating (low, high) bounds — local checks miss far violations</label><label><input type="radio" name="trees-q2" value="c"> Sorting the tree</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A deep descendant can violate a distant ancestor while satisfying its parent.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Recursion depth risk?</legend><label><input type="radio" name="trees-q3" value="a"> None — stacks are infinite</label><label><input type="radio" name="trees-q3" value="b"> Skewed trees overflow the call stack; prefer iterative or guarantee balance</label><label><input type="radio" name="trees-q3" value="c"> Only for heaps</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Depth = height; a 10⁵ chain breaks default stacks.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-trees"><h2 id="v-trees">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-trees"><h2 id="c-trees">✅ Move on when you can…</h2><ul class='checklist' data-checklist='trees'><li><input type='checkbox' id='trees-0'><label for='trees-0'>You can traverse a tree and apply BST properties to solve problems</label></li><li><input type='checkbox' id='trees-1'><label for='trees-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='trees-2'><label for='trees-2'>You can state when this applies</label></li><li><input type='checkbox' id='trees-3'><label for='trees-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

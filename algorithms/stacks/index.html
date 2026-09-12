@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 8 · Stacks &amp; Monotonic Stacks | Ultimate DSA Guide</title>
+<meta name="description" content="Stacks remember pending work; monotonic stacks additionally discard dominated candidates, turning O(n²) &#x27;next greater&#x27; scans into O(n).">
+<link rel="canonical" href="/algorithms/stacks/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 8 · Stacks &amp; Monotonic Stacks">
+<meta property="og:description" content="Stacks remember pending work; monotonic stacks additionally discard dominated candidates, turning O(n²) &#x27;next greater&#x27; scans into O(n).">
+<meta property="og:url" content="/algorithms/stacks/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html" aria-current="page">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 8 · Stacks &amp; Monotonic Stacks</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 8 · Stacks & Monotonic Stacks</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, basic iteration</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-stacks"><h2 id="i-stacks">Intuition</h2><p>Stacks remember pending work; monotonic stacks additionally discard dominated candidates, turning O(n²) 'next greater' scans into O(n).</p><p><strong>Learn:</strong> Stack basics, monotonic increasing/decreasing stacks, stock span, histogram &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-stacks"><h2 id="sg-stacks">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Matching/nesting (brackets, tags, syntax).</li><li>'Next greater/smaller element' or storm-survey shapes.</li><li>Undo history, call-like LIFO processing.</li><li>Monotonic candidates (histogram, stock span, daily temperatures).</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>FIFO order needed — that's a queue.</li><li>Random access to the middle — use an array.</li></ul></div></section>
+<section aria-labelledby="m-stacks'><h2 id='m-stacks'>Common mistakes</h2><ul><li>Popping on empty stack for unbalanced closers — check empty first.</li><li>Monotonic: wrong comparison direction (≥ vs >) breaks duplicate handling.</li></ul></section>
+<section aria-labelledby="w-stacks"><h2 id="w-stacks">Worked example — Valid Parentheses</h2><p><strong>Problem.</strong> String <code>“([])”</code> — balanced?</p><ol class="steps"><li><strong>What should we notice?</strong> Openers are promises a closer must keep, in reverse order: LIFO.</li><li><strong>Naive thought.</strong> Repeatedly delete “()”/“[]”/“{}” pairs: O(n²) rescans.</li><li><strong>Key observation.</strong> Push openers; each closer must match the top. Mismatch, empty-pop, or leftover stack all mean unbalanced.</li><li><strong>Optimized strategy.</strong> ( push → [ ( ]; [ push → [(,[]; ] matches top ✓ pop; ) matches ✓ pop; end: empty → valid.</li><li><strong>Step-by-step.</strong> Monotonic twin: Daily Temperatures — keep a decreasing stack of indices; each hotter day resolves everyone it beats.</li><li><strong>Final answer.</strong> Valid.</li><li><strong>Complexity.</strong> O(n) time, O(n) space.</li><li><strong>What to remember.</strong> Stack = pending work. Monotonic stack = pending work minus dominated candidates.</li></ol></section><section aria-labelledby="dr-stacks"><h2 id="dr-stacks">Interactive dry run — Push / pop discipline</h2><p>The top is the only thing you may touch — watch pending work resolve.</p><div class="dryrun" id="viz-stack" data-dryrun><script type="application/json">{"type": "stack", "ops": [["push", "(", "promise: need )"], ["push", "[", "promise: need ]"], ["pop", "]", "top [ matches"], ["pop", ")", "top ( matches"]], "fallback": "Push (, push [, pop on ], pop on ) \u2014 empty at end means balanced."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-stacks"><h2 id="r-stacks">Quick reference</h2><div class="card" id="stacks">
+      <h3>Topic 8 · Stacks & Monotonic Stacks</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use stacks for LIFO problems, matching parentheses, or monotonic stacks for next greater element problems. They turn nested loops into single passes.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, basic iteration</p>
+<p class="prereq"><strong>Learn this:</strong> Stack basics, monotonic increasing/decreasing stacks, stock span, histogram</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize next greater/smaller patterns and apply a monotonic stack</p>
+      </div>
+
+
+      <h4>Algorithm — Monotonic Stack</h4>
+<pre><code>// Next Greater Element (Monotonic Decreasing Stack)
+// For each element, find the next element that is greater
+public int[] nextGreaterElement(int[] arr) {
+    int n = arr.length;
+    int[] result = new int[n];
+    Arrays.fill(result, -1);
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();  // Stores indices
+    
+    for (int i = 0; i &lt; n; i++) {
+        while (!stack.isEmpty() && arr[stack.peek()] &lt; arr[i]) {
+            result[stack.pop()] = arr[i];
+        }
+        stack.push(i);
+    }
+    return result;
+}
+
+// Previous Smaller Element (Monotonic Increasing Stack)
+public int[] prevSmallerElement(int[] arr) {
+    int n = arr.length;
+    int[] result = new int[n];
+    Arrays.fill(result, -1);
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+    
+    for (int i = 0; i &lt; n; i++) {
+        while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+            stack.pop();
+        }
+        if (!stack.isEmpty()) result[i] = arr[stack.peek()];
+        stack.push(i);
+    }
+    return result;
+}
+
+// Largest Rectangle in Histogram — Classic Monotonic Stack
+public int largestRectangleArea(int[] heights) {
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+    int maxArea = 0, n = heights.length;
+    
+    for (int i = 0; i &lt;= n; i++) {
+        int h = (i == n) ? 0 : heights[i];
+        while (!stack.isEmpty() && heights[stack.peek()] > h) {
+            int height = heights[stack.pop()];
+            int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+            maxArea = Math.max(maxArea, height * width);
+        }
+        stack.push(i);
+    }
+    return maxArea;
+}
+</code></pre>
+
+      <h4>Why?</h4>
+      <p>Monotonic stacks solve "next/previous greater/smaller" problems in O(n). They're essential for histogram, stock span, temperature, and many optimization problems.</p>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Valid Parentheses.</strong> Given a string of brackets, check if they are balanced using a stack.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Min Stack.</strong> Design a stack that supports push, pop, top, and getMin in O(1).</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Daily Temperatures.</strong> Given daily temperatures, return how many days until a warmer temperature.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">Valid Parentheses — LC #20</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener">Min Stack — LC #155</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #496 — Next Greater Element I</li>
+        <li class="easy">LC #1047 — Remove All Adjacent Duplicates In String</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener">Daily Temperatures — LC #739</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #150 — Evaluate Reverse Polish Notation</li>
+        <li class="medium">LC #71 — Simplify Path</li>
+        <li class="medium">LC #503 — Next Greater Element II (circular)</li>
+        <li class="medium">LC #394 — Decode String</li>
+        <li class="medium">LC #856 — Score of Parentheses</li>
+        <li class="medium">LC #907 — Sum of Subarray Minimums</li>
+        <li class="medium">LC #901 — Online Stock Span</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">Largest Rectangle in Histogram — LC #84</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #85 — Maximal Rectangle</li>
+        <li class="hard"><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener">Trapping Rain Water — LC #42</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #224 — Basic Calculator</li>
+        <li class="hard">LC #32 — Longest Valid Parentheses</li>
+        <li class="hard">CF #1313C2 — Skyscrapers (hard version)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 9: QUEUES & MONOTONIC QUEUES        -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-stacks"><h2 id="qz-stacks">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="stacks" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. A closer mismatches the top — verdict?</legend><label><input type="radio" name="stacks-q1" value="a"> Keep scanning</label><label><input type="radio" name="stacks-q1" value="b"> Immediately invalid</label><label><input type="radio" name="stacks-q1" value="c"> Pop twice</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>LIFO order is the contract; a mismatch can never be repaired later.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>2. Monotonic decreasing stack for 'next greater' pops while?</legend><label><input type="radio" name="stacks-q2" value="a"> top ≤ current — they're dominated</label><label><input type="radio" name="stacks-q2" value="b"> The stack is nonempty</label><label><input type="radio" name="stacks-q2" value="c"> Current is smaller</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Current beats everything ≤ it to its left for all future queries.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Why ArrayDeque over legacy Stack?</legend><label><input type="radio" name="stacks-q3" value="a"> It's synchronized</label><label><input type="radio" name="stacks-q3" value="b"> Legacy Stack is synchronized/slower; ArrayDeque is the modern LIFO</label><label><input type="radio" name="stacks-q3" value="c"> No reason</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Same semantics, better performance, cleaner API.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-stacks"><h2 id="v-stacks">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-stacks"><h2 id="c-stacks">✅ Move on when you can…</h2><ul class='checklist' data-checklist='stacks'><li><input type='checkbox' id='stacks-0'><label for='stacks-0'>You can recognize next greater/smaller patterns and apply a monotonic stack</label></li><li><input type='checkbox' id='stacks-1'><label for='stacks-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='stacks-2'><label for='stacks-2'>You can state when this applies</label></li><li><input type='checkbox' id='stacks-3'><label for='stacks-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

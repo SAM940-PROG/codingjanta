@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 15 · Shortest Path Algorithms | Ultimate DSA Guide</title>
+<meta name="description" content="Match algorithm to weights: BFS (unweighted), Dijkstra (≥0), Bellman-Ford (negative), Floyd (all-pairs, small n).">
+<link rel="canonical" href="/algorithms/shortest-path/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 15 · Shortest Path Algorithms">
+<meta property="og:description" content="Match algorithm to weights: BFS (unweighted), Dijkstra (≥0), Bellman-Ford (negative), Floyd (all-pairs, small n).">
+<meta property="og:url" content="/algorithms/shortest-path/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html" aria-current="page">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 15 · Shortest Path Algorithms</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 15 · Shortest Path Algorithms</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Graphs, heaps, BFS</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90+ min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-shortest-path"><h2 id="i-shortest-path">Intuition</h2><p>Match algorithm to weights: BFS (unweighted), Dijkstra (≥0), Bellman-Ford (negative), Floyd (all-pairs, small n).</p><p><strong>Learn:</strong> BFS (unweighted), Dijkstra, Bellman-Ford, Floyd-Warshall, 0-1 BFS &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-shortest"><h2 id="sg-shortest">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>'Shortest/fastest/cheapest route' with weights.</li><li>Non-negative weights → Dijkstra; negative → Bellman-Ford; tiny n all-pairs → Floyd.</li><li>Unweighted → plain BFS (don't deploy Dijkstra).</li><li>Minimize the maximum edge? Sort + DSU may beat shortest-path.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Negative cycle reachability needed — detect, don't route.</li><li>Only connectivity matters — BFS/DFS suffices.</li></ul></div></section>
+<section aria-labelledby="m-shortest-path'><h2 id='m-shortest-path'>Common mistakes</h2><ul><li>Dijkstra with negative edges (wrong) — use Bellman-Ford.</li><li>Not skipping stale PQ entries (still correct but TLE-prone).</li></ul></section>
+<section aria-labelledby="w-shortest"><h2 id="w-shortest">Worked example — Network Delay Time</h2><p><strong>Problem.</strong> n=4, edges <code>[[2,1,1],[2,3,1],[3,4,1]]</code>, source 2. Time for all to receive?</p><ol class="steps"><li><strong>What should we notice?</strong> Single-source shortest + max = broadcast time; unreachable ⇒ −1.</li><li><strong>Naive thought.</strong> Try all routes per node: exponential without structure.</li><li><strong>Key observation.</strong> Dijkstra settles nodes in final order: extract-min is done forever (weights ≥ 0); relax neighbors.</li><li><strong>Optimized strategy.</strong> dist=[∞,0,∞,∞] → settle 2 (0): d1=1,d3=1 → settle 1 (1): nothing → settle 3 (1): d4=2 → settle 4. dist=[1,0,1,2].</li><li><strong>Step-by-step.</strong> Bellman-Ford twin: relax all edges n−1 times; one more improving pass proves a negative cycle.</li><li><strong>Final answer.</strong> max = 2.</li><li><strong>Complexity.</strong> O((V+E) log V) with a heap; skip stale PQ entries.</li><li><strong>What to remember.</strong> Settle-in-order + relax. Always ask: can weights be negative?</li></ol></section><section aria-labelledby="dr-shortest"><h2 id="dr-shortest">Interactive dry run — Dijkstra settling</h2><p>Each extraction is final — watch distances freeze in order.</p><div class="dryrun" id="viz-dijkstra" data-dryrun><script type="application/json">{"type": "dijkstra", "n": 4, "edges": [[0, 1, 4], [0, 2, 1], [2, 1, 2], [1, 3, 1], [2, 3, 5]], "src": 0, "fallback": "Settle 0, then 2, then 1, then 3. Distances 0,3,1,4."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-shortest-path"><h2 id="r-shortest-path">Quick reference</h2><div class="card" id="shortest-path">
+      <h3>Topic 15 · Shortest Path Algorithms</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use Dijkstra for non-negative weighted graphs, Bellman-Ford for negative weights, or BFS for unweighted graphs. Choose based on edge weights and constraints.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Graphs, heaps, BFS</p>
+<p class="prereq"><strong>Learn this:</strong> BFS (unweighted), Dijkstra, Bellman-Ford, Floyd-Warshall, 0-1 BFS</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can match the shortest path algorithm to the problem's constraints</p>
+      </div>
+
+
+      <h4>Algorithm — Dijkstra's (Non-negative weights)</h4>
+<pre><code>// O((V + E) log V) with PriorityQueue
+// SSSP: Single-Source Shortest Path
+int[] dijkstra(int n, List&lt;List&lt;int[]&gt;&gt; adj, int src) {
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    
+    // {distance, node}
+    PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -> a[0] - b[0]);
+    pq.offer(new int[]{0, src});
+    
+    while (!pq.isEmpty()) {
+        int[] curr = pq.poll();
+        int d = curr[0], u = curr[1];
+        if (d > dist[u]) continue;  // Skip outdated entries
+        
+        for (int[] edge : adj.get(u)) {
+            int v = edge[0], w = edge[1];
+            if (dist[u] + w &lt; dist[v]) {
+                dist[v] = dist[u] + w;
+                pq.offer(new int[]{dist[v], v});
+            }
+        }
+    }
+    return dist;
+}
+</code></pre>
+
+      <h4>Algorithm — Bellman-Ford (Handles negative weights)</h4>
+<pre><code>// O(V × E) — can detect negative cycles
+int[] bellmanFord(int n, int[][] edges, int src) {
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    
+    for (int i = 0; i &lt; n - 1; i++) {
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            if (dist[u] != Integer.MAX_VALUE && dist[u] + w &lt; dist[v]) {
+                dist[v] = dist[u] + w;
+            }
+        }
+    }
+    
+    // Check for negative cycles
+    for (int[] edge : edges) {
+        int u = edge[0], v = edge[1], w = edge[2];
+        if (dist[u] != Integer.MAX_VALUE && dist[u] + w &lt; dist[v]) {
+            throw new RuntimeException("Negative cycle detected!");
+        }
+    }
+    return dist;
+}
+</code></pre>
+
+      <h4>Algorithm — Floyd-Warshall (All-Pairs)</h4>
+<pre><code>// O(V³) — All pairs shortest path
+int[][] floydWarshall(int n, int[][] adj) {
+    int[][] dist = new int[n][n];
+    int INF = (int) 1e9;
+    
+    // Initialize
+    for (int[] row : dist) Arrays.fill(row, INF);
+    for (int i = 0; i &lt; n; i++) dist[i][i] = 0;
+    for (int[] edge : edges) dist[edge[0]][edge[1]] = edge[2];
+    
+    // DP
+    for (int k = 0; k &lt; n; k++)
+        for (int i = 0; i &lt; n; i++)
+            for (int j = 0; j &lt; n; j++)
+                if (dist[i][k] + dist[k][j] &lt; dist[i][j])
+                    dist[i][j] = dist[i][k] + dist[k][j];
+    
+    return dist;
+}
+</code></pre>
+
+      <h4>Algorithm — 0-1 BFS (Edge weights 0 or 1)</h4>
+<pre><code>// O(V + E) using Deque
+int[] bfs01(int n, List&lt;List&lt;int[]&gt;&gt; adj, int src) {
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();
+    deque.offerFirst(src);
+    
+    while (!deque.isEmpty()) {
+        int u = deque.pollFirst();
+        for (int[] edge : adj.get(u)) {
+            int v = edge[0], w = edge[1];
+            if (dist[u] + w &lt; dist[v]) {
+                dist[v] = dist[u] + w;
+                if (w == 0) deque.offerFirst(v);
+                else deque.offerLast(v);
+            }
+        }
+    }
+    return dist;
+}
+</code></pre>
+
+      <h4>When to Use What?</h4>
+      <table>
+        <tr><th>Algorithm</th><th>Time</th><th>Use When</th></tr>
+        <tr><td>BFS</td><td>O(V+E)</td><td>Unweighted graph</td></tr>
+        <tr><td>0-1 BFS</td><td>O(V+E)</td><td>Weights are only 0 or 1</td></tr>
+        <tr><td>Dijkstra</td><td>O((V+E) log V)</td><td>Non-negative weights, single source</td></tr>
+        <tr><td>Bellman-Ford</td><td>O(V×E)</td><td>Negative weights, detect neg cycles</td></tr>
+        <tr><td>Floyd-Warshall</td><td>O(V³)</td><td>All pairs, small graph (V ≤ 500)</td></tr>
+      </table>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Unweighted Shortest.</strong> Given an unweighted graph and two nodes, find the shortest path length using BFS.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Dijkstra Basic.</strong> Given a weighted graph with non-negative edges, find shortest distances from a source.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Network Delay.</strong> Given a graph and a starting node, calculate how long it takes for all nodes to receive a signal.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/network-delay-time/" target="_blank" rel="noopener">Network Delay Time — LC #743</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #787 — Cheapest Flights Within K Stops</li>
+        <li class="medium">LC #1514 — Path with Maximum Probability</li>
+        <li class="medium">LC #1631 — Path With Minimum Effort</li>
+        <li class="medium">LC #1976 — Number of Ways to Arrive at Destination</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #778 — Swim in Rising Water</li>
+        <li class="hard">LC #882 — Reachable Nodes In Subdivided Graph</li>
+        <li class="hard">LC #1334 — Find the City With Fewest Neighbors (Floyd-Warshall)</li>
+        <li class="hard">CF #20C — Dijkstra? (Classic)</li>
+        <li class="hard">CF #1473D — Program (Bellman-Ford variant)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 16: MST — KRUSKAL, PRIM             -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-shortest"><h2 id="qz-shortest">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="shortest" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Dijkstra breaks with?</legend><label><input type="radio" name="shortest-q1" value="a"> Large graphs</label><label><input type="radio" name="shortest-q1" value="b"> Negative edges — settled is no longer final</label><label><input type="radio" name="shortest-q1" value="c"> Zero weights</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A later negative edge can undercut a settled distance.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Stale PQ entries (old, larger distance) should be?</legend><label><input type="radio" name="shortest-q2" value="a"> Processed anyway</label><label><input type="radio" name="shortest-q2" value="b"> Skipped when popped — the node already settled better</label><label><input type="radio" name="shortest-q2" value="c"> Deleted eagerly</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Lazy deletion keeps decrease-key O(log n)-free and stays correct.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Unweighted shortest path: use?</legend><label><input type="radio" name="shortest-q3" value="a"> Dijkstra</label><label><input type="radio" name="shortest-q3" value="b"> BFS — layers are distances</label><label><input type="radio" name="shortest-q3" value="c"> Bellman-Ford</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>BFS is Dijkstra with all weights 1, minus the heap.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-shortest-path"><h2 id="v-shortest-path">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-shortest-path"><h2 id="c-shortest-path">✅ Move on when you can…</h2><ul class='checklist' data-checklist='shortest-path'><li><input type='checkbox' id='shortest-path-0'><label for='shortest-path-0'>You can match the shortest path algorithm to the problem&#x27;s constraints</label></li><li><input type='checkbox' id='shortest-path-1'><label for='shortest-path-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='shortest-path-2'><label for='shortest-path-2'>You can state when this applies</label></li><li><input type='checkbox' id='shortest-path-3'><label for='shortest-path-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

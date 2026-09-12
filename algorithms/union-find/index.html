@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 17 · Union-Find (Disjoint Set Union) | Ultimate DSA Guide</title>
+<meta name="description" content="Near-O(1) connectivity with path compression + union by rank. Components, cycles, Kruskal, offline queries.">
+<link rel="canonical" href="/algorithms/union-find/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 17 · Union-Find (Disjoint Set Union)">
+<meta property="og:description" content="Near-O(1) connectivity with path compression + union by rank. Components, cycles, Kruskal, offline queries.">
+<meta property="og:url" content="/algorithms/union-find/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html" aria-current="page">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 17 · Union-Find (Disjoint Set Union)</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 17 · Union-Find (Disjoint Set Union)</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Graphs, basic data structures</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>45–60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-union-find"><h2 id="i-union-find">Intuition</h2><p>Near-O(1) connectivity with path compression + union by rank. Components, cycles, Kruskal, offline queries.</p><p><strong>Learn:</strong> Find with path compression, union by rank, connected components, weighted UF &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-unionfind"><h2 id="sg-unionfind">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Dynamic connectivity queries (are x,y linked?).</li><li>Cycle detection in an undirected stream.</li><li>Kruskal, components, offline deletions (reverse-time).</li><li>Grouping / equivalence classes.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Directed reachability — DSU can't do direction.</li><li>Need the actual path, not just connectivity.</li><li>Splits/deletions online — DSU only merges.</li></ul></div></section>
+<section aria-labelledby="m-union-find'><h2 id='m-union-find'>Common mistakes</h2><ul><li>find() without path compression in tight loops.</li><li>Union by size/rank omitted → degenerate trees.</li></ul></section>
+<section aria-labelledby="w-unionfind"><h2 id="w-unionfind">Worked example — Redundant Connection</h2><p><strong>Problem.</strong> Edges <code>[[1,2],[1,3],[2,3]]</code>. Which edge closes a cycle?</p><ol class="steps"><li><strong>What should we notice?</strong> First edge whose endpoints already share a set is the answer.</li><li><strong>Naive thought.</strong> BFS per edge from scratch: O(n·E).</li><li><strong>Key observation.</strong> Union with path compression: find returns the representative; equal representatives ⇒ cycle.</li><li><strong>Optimized strategy.</strong> union(1,2); union(1,3) → {1,2,3}; edge (2,3): find= same → redundant.</li><li><strong>Step-by-step.</strong> Components twin: count distinct representatives after all unions.</li><li><strong>Final answer.</strong> [2,3].</li><li><strong>Complexity.</strong> ~O(E α(n)) — effectively linear.</li><li><strong>What to remember.</strong> Find with compression, union by rank. 1-indexed input → size n+1 arrays.</li></ol></section><section aria-labelledby="dr-unionfind"><h2 id="dr-unionfind">Interactive dry run — Union + path compression</h2><p>Watch roots attach and paths flatten.</p><div class="dryrun" id="viz-uf" data-dryrun><script type="application/json">{"type": "uf", "n": 5, "ops": [[0, 1], [2, 3], [1, 2], [3, 4]], "fallback": "Unions merge sets; finds flatten to the root."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-union-find"><h2 id="r-union-find">Quick reference</h2><div class="card" id="union-find">
+      <h3>Topic 17 · Union-Find (Disjoint Set Union)</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use Union-Find when you need to efficiently check connectivity or merge groups -- cycle detection, connected components, Kruskal's MST, and grouping problems.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Graphs, basic data structures</p>
+<p class="prereq"><strong>Learn this:</strong> Find with path compression, union by rank, connected components, weighted UF</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify when Union-Find efficiently handles connectivity queries</p>
+      </div>
+
+
+      <h4>Algorithm — Optimized Union-Find</h4>
+<pre><code>class UnionFind {
+    int[] parent, rank;
+    int components;
+    
+    UnionFind(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        components = n;
+        for (int i = 0; i &lt; n; i++) parent[i] = i;
+    }
+    
+    // Find with Path Compression — nearly O(1) amortized
+    int find(int x) {
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    // Union by Rank
+    boolean union(int x, int y) {
+        int px = find(x), py = find(y);
+        if (px == py) return false;  // Already connected
+        if (rank[px] &lt; rank[py]) { int t = px; px = py; py = t; }
+        parent[py] = px;
+        if (rank[px] == rank[py]) rank[px]++;
+        components--;
+        return true;
+    }
+    
+    boolean connected(int x, int y) { return find(x) == find(y); }
+    int getComponents() { return components; }
+}
+
+// Weighted Union-Find (track component sizes)
+class WeightedUF {
+    int[] parent, size;
+    
+    WeightedUF(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i &lt; n; i++) { parent[i] = i; size[i] = 1; }
+    }
+    
+    int find(int x) {
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    void union(int x, int y) {
+        int px = find(x), py = find(y);
+        if (px == py) return;
+        if (size[px] &lt; size[py]) { int t = px; px = py; py = t; }
+        parent[py] = px;
+        size[px] += size[py];
+    }
+    
+    int getSize(int x) { return size[find(x)]; }
+}
+</code></pre>
+
+      <h4>Why?</h4>
+      <p>Union-Find supports near-O(1) union and find operations. Essential for Kruskal's MST, dynamic connectivity, detecting cycles in undirected graphs, and grouping problems.</p>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Connected.</strong> Given n nodes and edges, check if two nodes are connected using Union-Find.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Components.</strong> Given n nodes and edges, count connected components using Union-Find.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Redundant Connection.</strong> Given edges, find the edge that creates a cycle using Union-Find.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #547 — Number of Provinces</li>
+        <li class="medium">LC #684 — Redundant Connection</li>
+        <li class="medium">LC #130 — Surrounded Regions</li>
+        <li class="medium"><a href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener">Number of Islands (Union-Find variant) — LC #200</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #721 — Accounts Merge</li>
+        <li class="medium">LC #990 — Satisfiability of Equality Equations</li>
+        <li class="medium">LC #1319 — Number of Operations to Make Network Connected</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #305 — Number of Islands II (Online)</li>
+        <li class="hard">LC #685 — Redundant Connection II (Directed)</li>
+        <li class="hard">LC #803 — Bricks Falling When Hit (Reverse Union-Find)</li>
+        <li class="hard">LC #1632 — Rank Transform of a Matrix</li>
+        <li class="hard">CF #1213G — Path Queries (Offline + Union-Find)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 18: DP — 1D                         -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-unionfind"><h2 id="qz-unionfind">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="unionfind" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Without path compression, worst case is?</legend><label><input type="radio" name="unionfind-q1" value="a"> Still O(1)</label><label><input type="radio" name="unionfind-q1" value="b"> A degenerate chain — O(n) finds</label><label><input type="radio" name="unionfind-q1" value="c"> A crash</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Repeated unions can line up; compression + rank keep trees flat.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. union(a,b) when find equal means?</legend><label><input type="radio" name="unionfind-q2" value="a"> Merge anyway</label><label><input type="radio" name="unionfind-q2" value="b"> They're connected — for cycle detection, report</label><label><input type="radio" name="unionfind-q2" value="c"> Restart</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A second path between them just closed: that's a cycle.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Inverse Ackermann α(n) means?</legend><label><input type="radio" name="unionfind-q3" value="a"> Logarithmic</label><label><input type="radio" name="unionfind-q3" value="b"> Effectively constant (≤5 for any real input)</label><label><input type="radio" name="unionfind-q3" value="c"> Linear</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Amortized near-O(1): the famous 'almost constant'.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-union-find"><h2 id="v-union-find">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-union-find"><h2 id="c-union-find">✅ Move on when you can…</h2><ul class='checklist' data-checklist='union-find'><li><input type='checkbox' id='union-find-0'><label for='union-find-0'>You can identify when Union-Find efficiently handles connectivity queries</label></li><li><input type='checkbox' id='union-find-1'><label for='union-find-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='union-find-2'><label for='union-find-2'>You can state when this applies</label></li><li><input type='checkbox' id='union-find-3'><label for='union-find-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

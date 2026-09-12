@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 7 · Linked Lists (Problems &amp; Patterns) | Ultimate DSA Guide</title>
+<meta name="description" content="Dummy head, reversal, fast/slow, merge: four moves solve most list problems. Draw pointers before coding.">
+<link rel="canonical" href="/algorithms/linkedlists/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 7 · Linked Lists (Problems &amp; Patterns)">
+<meta property="og:description" content="Dummy head, reversal, fast/slow, merge: four moves solve most list problems. Draw pointers before coding.">
+<meta property="og:url" content="/algorithms/linkedlists/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html" aria-current="page">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 7 · Linked Lists (Problems &amp; Patterns)</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 7 · Linked Lists (Problems & Patterns)</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Pointers, basic data structures</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-linkedlists"><h2 id="i-linkedlists">Intuition</h2><p>Dummy head, reversal, fast/slow, merge: four moves solve most list problems. Draw pointers before coding.</p><p><strong>Learn:</strong> Dummy head, fast/slow, reversal, merge two sorted lists, cycle detection &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-linkedlists"><h2 id="sg-linkedlists">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Nodes/pointers/reversal/cycle language.</li><li>k-th from end, middle finding (fast/slow).</li><li>Merge two ordered sequences.</li><li>In-place reorder with O(1) space pressure.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Indexed access dominates — use an array/list.</li><li>Frequent search by value — add a map or rethink.</li></ul></div></section>
+<section aria-labelledby="m-linkedlists'><h2 id='m-linkedlists'>Common mistakes</h2><ul><li>No null-check on fast.next in fast/slow (NullPointerException).</li><li>Reversal: save next before rewiring, return prev as new head.</li></ul></section>
+<section aria-labelledby="w-linkedlists"><h2 id="w-linkedlists">Worked example — Reverse a list</h2><p><strong>Problem.</strong> Reverse <code>1→2→3</code> in one pass, O(1) space.</p><ol class="steps"><li><strong>What should we notice?</strong> Rewiring needs three actors: prev, curr, and saved next.</li><li><strong>Naive thought.</strong> Copy values to an array and rebuild: O(n) extra space.</li><li><strong>Key observation.</strong> Reverse each link as you walk: curr.next=prev, then advance both. Saving next first is the whole trick — otherwise the tail is lost.</li><li><strong>Optimized strategy.</strong> prev=null,curr=1: save 2; 1→null; advance. curr=2: save 3; 2→1; advance. curr=3: save null; 3→2; advance. curr=null → return prev (3).</li><li><strong>Step-by-step.</strong> Dummy-head twin: deletions/insertions at position 0 stop being special cases.</li><li><strong>Final answer.</strong> 3→2→1.</li><li><strong>Complexity.</strong> O(n) time, O(1) space.</li><li><strong>What to remember.</strong> Save next, flip, advance. Dummy head kills edge cases.</li></ol></section><section aria-labelledby="dr-linkedlists"><h2 id="dr-linkedlists">Interactive dry run — Pointer rewiring</h2><p>Follow prev/curr/next — the link flips before anything advances.</p><div class="dryrun" id="viz-reverse" data-dryrun><script type="application/json">{"type": "reverse", "a": [1, 2, 3, 4], "fallback": "Each step saves next, flips curr.next to prev, then advances both."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-linkedlists"><h2 id="r-linkedlists">Quick reference</h2><div class="card" id="linkedlists">
+      <h3>Topic 7 · Linked Lists (Problems & Patterns)</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use linked lists when you need frequent insertion/deletion at arbitrary positions. Key patterns: dummy head, fast/slow pointers, reversal.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Pointers, basic data structures</p>
+<p class="prereq"><strong>Learn this:</strong> Dummy head, fast/slow, reversal, merge two sorted lists, cycle detection</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize linked list patterns and apply the right technique</p>
+      </div>
+
+
+      <h4>Algorithm — Core Patterns</h4>
+<pre><code>// ListNode definition
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+// Pattern 1: Dummy Head (simplifies edge cases)
+ListNode dummy = new ListNode(0);
+dummy.next = head;
+// ... manipulate list ...
+return dummy.next;
+
+// Pattern 2: Two Pointers (Fast & Slow) — Cycle Detection (Floyd's)
+ListNode slow = head, fast = head;
+while (fast != null && fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow == fast) return true;  // Cycle detected
+}
+return false;
+
+// Pattern 3: Find Middle
+ListNode slow = head, fast = head;
+while (fast != null && fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+}
+// slow is now at the middle
+
+// Pattern 4: Reverse a Linked List (Iterative)
+ListNode prev = null, curr = head;
+while (curr != null) {
+    ListNode next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+}
+return prev;  // New head
+
+// Pattern 5: Merge Two Sorted Lists
+ListNode dummy = new ListNode(0), tail = dummy;
+while (l1 != null && l2 != null) {
+    if (l1.val &lt;= l2.val) { tail.next = l1; l1 = l1.next; }
+    else { tail.next = l2; l2 = l2.next; }
+    tail = tail.next;
+}
+tail.next = (l1 != null) ? l1 : l2;
+return dummy.next;
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Reverse List.</strong> Reverse a singly linked list iteratively. Return the new head.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Find Middle.</strong> Given a linked list, find the middle node using fast/slow pointers.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Has Cycle.</strong> Given a linked list, determine if it has a cycle using Floyd's algorithm.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">Reverse Linked List — LC #206</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">Merge Two Sorted Lists — LC #21</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener">Linked List Cycle — LC #141</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #160 — Intersection of Two Linked Lists</li>
+        <li class="easy">LC #83 — Remove Duplicates from Sorted List</li>
+        <li class="easy"><a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener">Middle of the Linked List — LC #876</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #234 — Palindrome Linked List</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #2 — Add Two Numbers</li>
+        <li class="medium"><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">Remove Nth Node From End — LC #19</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #142 — Linked List Cycle II (Find cycle start)</li>
+        <li class="medium">LC #24 — Swap Nodes in Pairs</li>
+        <li class="medium">LC #143 — Reorder List</li>
+        <li class="medium">LC #148 — Sort List</li>
+        <li class="medium">LC #328 — Odd Even Linked List</li>
+        <li class="medium">LC #138 — Copy List with Random Pointer</li>
+        <li class="medium">LC #61 — Rotate List</li>
+        <li class="medium">LC #86 — Partition List</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #25 — Reverse Nodes in k-Group</li>
+        <li class="hard"><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener">Merge k Sorted Lists — LC #23</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #460 — LFU Cache</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 8: STACKS & MONOTONIC STACKS        -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-linkedlists"><h2 id="qz-linkedlists">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="linkedlists" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="a"><legend>1. Fast/slow finds the middle because?</legend><label><input type="radio" name="linkedlists-q1" value="a"> Fast moves 2×; when it ends, slow is halfway</label><label><input type="radio" name="linkedlists-q1" value="b"> Slow skips nodes</label><label><input type="radio" name="linkedlists-q1" value="c"> Lists are sorted</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Distance ratio 2:1 invariant — no length precompute needed.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Forgetting to save next before rewiring causes?</legend><label><input type="radio" name="linkedlists-q2" value="a"> A slower program</label><label><input type="radio" name="linkedlists-q2" value="b"> Losing the rest of the list</label><label><input type="radio" name="linkedlists-q2" value="c"> A compile error</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>curr.next is your only handle on the tail — overwrite it blindly and it's gone.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>3. Cycle detection (Floyd) terminates because?</legend><label><input type="radio" name="linkedlists-q3" value="a"> Fast eventually laps slow inside a cycle</label><label><input type="radio" name="linkedlists-q3" value="b"> Lists are short</label><label><input type="radio" name="linkedlists-q3" value="c"> Slow stops early</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Relative speed 1 step/round guarantees a meeting in a cycle; null ends acyclic lists.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-linkedlists"><h2 id="v-linkedlists">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-linkedlists"><h2 id="c-linkedlists">✅ Move on when you can…</h2><ul class='checklist' data-checklist='linkedlists'><li><input type='checkbox' id='linkedlists-0'><label for='linkedlists-0'>You can recognize linked list patterns and apply the right technique</label></li><li><input type='checkbox' id='linkedlists-1'><label for='linkedlists-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='linkedlists-2'><label for='linkedlists-2'>You can state when this applies</label></li><li><input type='checkbox' id='linkedlists-3'><label for='linkedlists-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

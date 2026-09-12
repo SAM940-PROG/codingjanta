@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 16 · Minimum Spanning Tree (Kruskal &amp; Prim) | Ultimate DSA Guide</title>
+<meta name="description" content="Cheapest way to connect everything: sort edges (Kruskal) or grow the tree (Prim). Cut property justifies both.">
+<link rel="canonical" href="/algorithms/mst/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 16 · Minimum Spanning Tree (Kruskal &amp; Prim)">
+<meta property="og:description" content="Cheapest way to connect everything: sort edges (Kruskal) or grow the tree (Prim). Cut property justifies both.">
+<meta property="og:url" content="/algorithms/mst/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html" aria-current="page">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 16 · Minimum Spanning Tree (Kruskal &amp; Prim)</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 16 · Minimum Spanning Tree (Kruskal & Prim)</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Graphs, Union-Find, sorting</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-mst"><h2 id="i-mst">Intuition</h2><p>Cheapest way to connect everything: sort edges (Kruskal) or grow the tree (Prim). Cut property justifies both.</p><p><strong>Learn:</strong> Kruskal (edge-based), Prim (vertex-based), Union-Find for cycle detection &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-mst"><h2 id="sg-mst">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>'Connect all nodes with minimum total cost'.</li><li>Network design, clustering, spanning language.</li><li>Edge-sorted greedily works (cut property).</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Need shortest paths between specific nodes — that's shortest-path, not MST.</li><li>Directed edges — MST needs undirected (think arborescence instead).</li><li>Maximum bottleneck path — MST helps, but sort + DSU answers directly.</li></ul></div></section>
+<section aria-labelledby="m-mst'><h2 id='m-mst'>Common mistakes</h2><ul><li>Forgetting to sort edges (Kruskal) or using int for total weight (overflow → long).</li><li>Union-Find without path compression on big inputs (TLE).</li></ul></section>
+<section aria-labelledby="w-mst"><h2 id="w-mst">Worked example — Kruskal on 4 nodes</h2><p><strong>Problem.</strong> Edges: 1-2:1, 2-3:2, 1-3:3, 3-4:4, 2-4:5. Minimum total?</p><ol class="steps"><li><strong>What should we notice?</strong> Sort edges; take unless it closes a cycle (DSU).</li><li><strong>Naive thought.</strong> Enumerate all spanning trees: exponential.</li><li><strong>Key observation.</strong> Cut property: the cheapest edge crossing any cut belongs to some MST — Kruskal's greedy is provably safe.</li><li><strong>Optimized strategy.</strong> Sorted: take 1-2 (1); take 2-3 (2); skip 1-3 (cycle); take 3-4 (4) → 3 edges, done.</li><li><strong>Step-by-step.</strong> Prim twin: grow one tree, always attach the cheapest frontier edge — same total, better for dense graphs.</li><li><strong>Final answer.</strong> 1+2+4 = 7.</li><li><strong>Complexity.</strong> O(E log E) sort + ~O(E α(V)) unions.</li><li><strong>What to remember.</strong> Sort, union unless same set. Total weight in long.</li></ol></section>
+<section aria-labelledby="dr-mst"><h2 id="dr-mst">Interactive dry run — Kruskal's algorithm</h2><p>Sort edges by weight and accept each one that does not close a cycle.</p><div class="dryrun" id="viz-kruskal" data-dryrun><script type="application/json">{"type": "kruskal", "nodes": 5, "edges": [[0, 1, 1], [1, 2, 2], [0, 2, 3], [3, 4, 4], [2, 3, 5]], "fallback": "Accept 0-1,1-2,3-4,2-3; reject 0-2 (cycle). Total 12."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-mst"><h2 id="r-mst">Quick reference</h2><div class="card" id="mst">
+      <h3>Topic 16 · Minimum Spanning Tree (Kruskal & Prim)</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use Kruskal or Prim when you need to connect all nodes with minimum total cost -- network design, clustering, or any problem requiring a spanning tree.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Graphs, Union-Find, sorting</p>
+<p class="prereq"><strong>Learn this:</strong> Kruskal (edge-based), Prim (vertex-based), Union-Find for cycle detection</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize when a problem requires connecting all nodes at minimum cost</p>
+      </div>
+
+
+      <h4>Algorithm — Kruskal's (Edge-based, uses Union-Find)</h4>
+<pre><code>// O(E log E) — Sort edges, greedily add if no cycle
+int kruskal(int n, int[][] edges) {
+    Arrays.sort(edges, (a, b) -> a[2] - b[2]);  // Sort by weight
+    int[] parent = new int[n], rank = new int[n];
+    for (int i = 0; i &lt; n; i++) parent[i] = i;
+    
+    int mstWeight = 0, edgesUsed = 0;
+    for (int[] edge : edges) {
+        int u = edge[0], v = edge[1], w = edge[2];
+        if (find(parent, u) != find(parent, v)) {
+            union(parent, rank, u, v);
+            mstWeight += w;
+            if (++edgesUsed == n - 1) break;
+        }
+    }
+    return mstWeight;
+}
+</code></pre>
+
+      <h4>Algorithm — Prim's (Vertex-based, uses PriorityQueue)</h4>
+<pre><code>// O((V + E) log V) — Grow MST from a vertex
+int prim(int n, List&lt;List&lt;int[]&gt;&gt; adj) {
+    boolean[] inMST = new boolean[n];
+    PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -> a[1] - b[1]); // {node, weight}
+    pq.offer(new int[]{0, 0});
+    int mstWeight = 0;
+    
+    while (!pq.isEmpty()) {
+        int[] curr = pq.poll();
+        int u = curr[0], w = curr[1];
+        if (inMST[u]) continue;
+        inMST[u] = true;
+        mstWeight += w;
+        
+        for (int[] edge : adj.get(u)) {
+            if (!inMST[edge[0]]) pq.offer(new int[]{edge[0], edge[1]});
+        }
+    }
+    return mstWeight;
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Connect Cities.</strong> Given n cities and connection costs, find the minimum cost to connect all cities using Kruskal.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Min Cost.</strong> Given a weighted graph, find the minimum cost to connect all nodes using Prim's.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Cycle Check.</strong> Given edges, determine if adding an edge creates a cycle using Union-Find.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #1584 — Min Cost to Connect All Points</li>
+        <li class="medium">LC #1135 — Connecting Cities With Minimum Cost</li>
+        <li class="medium">LC #1168 — Optimize Water Distribution in a Village</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #1489 — Find Critical and Pseudo-Critical Edges in MST</li>
+        <li class="hard">CF #160D — Edges in MST</li>
+        <li class="hard">CF #609E — Minimum Spanning Tree for Each Edge</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 17: UNION-FIND (DSU)                -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-mst"><h2 id="qz-mst">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="mst" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Kruskal skips an edge when?</legend><label><input type="radio" name="mst-q1" value="a"> It's expensive</label><label><input type="radio" name="mst-q1" value="b"> Its endpoints are already connected (cycle)</label><label><input type="radio" name="mst-q1" value="c"> It's the last edge</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Same DSU set = a path already exists; adding it only creates a cycle.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. The greedy is safe because of?</legend><label><input type="radio" name="mst-q2" value="a"> Intuition</label><label><input type="radio" name="mst-q2" value="b"> The cut property — cheapest crossing edge of any cut is in some MST</label><label><input type="radio" name="mst-q2" value="c"> Sorting</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Every decision is the cheapest way across the grown-tree cut.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Prim vs Kruskal: prefer Prim when?</legend><label><input type="radio" name="mst-q3" value="a"> Sparse graphs</label><label><input type="radio" name="mst-q3" value="b"> Dense graphs — no global edge sort needed</label><label><input type="radio" name="mst-q3" value="c"> Negative weights</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Prim's heap processes the frontier; Kruskal's sort dominates on dense input.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="qz-mst"><h2 id="qz-mst">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="mst" aria-label="Minimum spanning tree quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Kruskal's algorithm must sort edges because...</legend><label><input type="radio" name="mst-q1" value="a"> It is required by Union-Find</label><label><input type="radio" name="mst-q1" value="b"> It greedily takes the cheapest safe edge first</label><label><input type="radio" name="mst-q1" value="c"> It avoids recursion</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Taking edges in increasing weight with cycle-checking is the whole algorithm.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Kruskal rejects an edge when...</legend><label><input type="radio" name="mst-q2" value="a"> Its weight is negative</label><label><input type="radio" name="mst-q2" value="b"> Its endpoints are already connected</label><label><input type="radio" name="mst-q2" value="c"> It is the heaviest</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A connecting edge would close a cycle.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Prim's algorithm grows the MST from...</legend><label><input type="radio" name="mst-q3" value="a"> A sorted edge list</label><label><input type="radio" name="mst-q3" value="b"> A starting vertex using a priority queue</label><label><input type="radio" name="mst-q3" value="c"> The largest edge</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Prim repeatedly adds the cheapest edge leaving the current tree.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-mst"><h2 id="v-mst">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-mst"><h2 id="c-mst">✅ Move on when you can…</h2><ul class='checklist' data-checklist='mst'><li><input type='checkbox' id='mst-0'><label for='mst-0'>You can recognize when a problem requires connecting all nodes at minimum cost</label></li><li><input type='checkbox' id='mst-1'><label for='mst-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='mst-2'><label for='mst-2'>You can state when this applies</label></li><li><input type='checkbox' id='mst-3'><label for='mst-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

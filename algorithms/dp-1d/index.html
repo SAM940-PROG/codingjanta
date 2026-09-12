@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 18 · Dynamic Programming — 1D | Ultimate DSA Guide</title>
+<meta name="description" content="Overlapping subproblems + optimal substructure: define state, transition, base. 1D first (stairs, robber, LIS, coin change).">
+<link rel="canonical" href="/algorithms/dp-1d/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 18 · Dynamic Programming — 1D">
+<meta property="og:description" content="Overlapping subproblems + optimal substructure: define state, transition, base. 1D first (stairs, robber, LIS, coin change).">
+<meta property="og:url" content="/algorithms/dp-1d/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html" aria-current="page">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 18 · Dynamic Programming — 1D</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 18 · Dynamic Programming — 1D</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, recursion, basic math</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90+ min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-dp-1d"><h2 id="i-dp-1d">Intuition</h2><p>Overlapping subproblems + optimal substructure: define state, transition, base. 1D first (stairs, robber, LIS, coin change).</p><p><strong>Learn:</strong> DP framework, state definition, transition, base case, 1D patterns (LIS, coin change, house robber) &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-dp1d"><h2 id="sg-dp1d">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Overlapping subproblems + optimal substructure.</li><li>Counting ways / min-max over sequences (stairs, robber, LIS, coin change).</li><li>'Can you reach / how many ways' on a line.</li><li>Recursion that recomputes the same states.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Greedy choice is provably safe — DP still works but wastes effort.</li><li>No overlapping subproblems (plain divide & conquer).</li><li>State needs 2+ dimensions — step up to 2D.</li></ul></div></section>
+<section aria-labelledby="m-dp-1d'><h2 id='m-dp-1d'>Common mistakes</h2><ul><li>Wrong iteration direction reusing items in 0/1 knapsack (that's unbounded).</li><li>int overflow on counting DP — use long/mod.</li></ul></section>
+<section aria-labelledby="w-dp1d"><h2 id="w-dp1d">Worked example — Climbing Stairs (n=4)</h2><p><strong>Problem.</strong> 1 or 2 steps at a time. Ways to reach step 4?</p><ol class="steps"><li><strong>What should we notice?</strong> Ways to i come only from i−1 and i−2: dp[i]=dp[i−1]+dp[i−2].</li><li><strong>Naive thought.</strong> Enumerate all sequences: O(2ⁿ).</li><li><strong>Key observation.</strong> State = position; transition = last jump size; bases dp[0]=dp[1]=1.</li><li><strong>Optimized strategy.</strong> dp: [1,1] → dp[2]=2 → dp[3]=3 → dp[4]=5.</li><li><strong>Step-by-step.</strong> Robber twin: dp[i]=max(dp[i−1], dp[i−2]+nums[i]) — same skeleton, maximizing choice.</li><li><strong>Final answer.</strong> 5.</li><li><strong>Complexity.</strong> O(n) time; O(1) with two rolling variables.</li><li><strong>What to remember.</strong> Name the state first. Write transition, then bases — code last.</li></ol></section><section aria-labelledby="dr-dp1d"><h2 id="dr-dp1d">Interactive dry run — Table fill</h2><p>Each cell reads only its two predecessors — dependencies first, always.</p><div class="dryrun" id="viz-dp1d" data-dryrun><script type="application/json">{"type": "dp1d", "n": 5, "why": "Ways to climb n stairs taking 1 or 2: dp[i]=dp[i-1]+dp[i-2].", "fallback": "dp fills 1,1,2,3,5,8 \u2014 answer 8."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="dr-lis"><h2 id="dr-lis">Interactive dry run — Longest increasing subsequence</h2><p>Maintain the smallest possible tails with binary search: O(n log n).</p><div class="dryrun" id="viz-lis" data-dryrun><script type="application/json">{"type": "lis", "a": [10, 9, 2, 5, 3, 7, 101, 18], "fallback": "tails evolves to [2,3,7,18] -> LIS length 4."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-dp-1d"><h2 id="r-dp-1d">Quick reference</h2><div class="card" id="dp-1d">
+      <h3>Topic 18 · Dynamic Programming — 1D</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use DP when a problem has overlapping subproblems and optimal substructure. 1D DP is the starting point -- each state depends on previous states in one dimension.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, recursion, basic math</p>
+<p class="prereq"><strong>Learn this:</strong> DP framework, state definition, transition, base case, 1D patterns (LIS, coin change, house robber)</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify DP state and transition for a new problem</p>
+      </div>
+
+
+      <h4>Algorithm — DP Framework</h4>
+<pre><code>// 5-Step DP Framework:
+// 1. Define state: dp[i] = what does it represent?
+// 2. Base case: dp[0] = ?
+// 3. Transition: dp[i] = f(dp[i-1], dp[i-2], ...)
+// 4. Order: iterate in which direction?
+// 5. Answer: dp[n] or max(dp)?
+
+// ── Fibonacci / Climbing Stairs ──
+int climbStairs(int n) {
+    int a = 1, b = 1;
+    for (int i = 2; i &lt;= n; i++) {
+        int c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}
+
+// ── House Robber ──
+int rob(int[] nums) {
+    int prev2 = 0, prev1 = 0;
+    for (int num : nums) {
+        int curr = Math.max(prev1, prev2 + num);
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    return prev1;
+}
+
+// ── Longest Increasing Subsequence (LIS) — O(n log n) ──
+int lis(int[] nums) {
+    List&lt;Integer&gt; tails = new ArrayList&lt;&gt;();
+    for (int num : nums) {
+        int pos = Collections.binarySearch(tails, num);
+        if (pos &lt; 0) pos = -(pos + 1);
+        if (pos == tails.size()) tails.add(num);
+        else tails.set(pos, num);
+    }
+    return tails.size();
+}
+
+// ── Coin Change ──
+int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);
+    dp[0] = 0;
+    for (int i = 1; i &lt;= amount; i++) {
+        for (int coin : coins) {
+            if (coin &lt;= i) dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+        }
+    }
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+
+// ── Maximum Subarray (Kadane's Algorithm) ──
+int maxSubArray(int[] nums) {
+    int maxSum = nums[0], currSum = nums[0];
+    for (int i = 1; i &lt; nums.length; i++) {
+        currSum = Math.max(nums[i], currSum + nums[i]);
+        maxSum = Math.max(maxSum, currSum);
+    }
+    return maxSum;
+}
+
+// ── Word Break ──
+boolean wordBreak(String s, List&lt;String&gt; wordDict) {
+    Set&lt;String&gt; words = new HashSet&lt;&gt;(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+    for (int i = 1; i &lt;= s.length(); i++) {
+        for (int j = 0; j &lt; i; j++) {
+            if (dp[j] && words.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+    return dp[s.length()];
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Climbing Stairs.</strong> You can climb 1 or 2 steps at a time. How many ways to reach the top? Classic 1D DP.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Max Subarray.</strong> Given an array, find the contiguous subarray with the largest sum (Kadane's).</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Coin Change.</strong> Given coin denominations and an amount, find the minimum number of coins needed.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/climbing-stairs/" target="_blank" rel="noopener">Climbing Stairs — LC #70</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #746 — Min Cost Climbing Stairs</li>
+        <li class="easy">LC #509 — Fibonacci Number</li>
+        <li class="easy"><a href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener">Counting Bits — LC #338</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/house-robber/" target="_blank" rel="noopener">House Robber — LC #198</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/house-robber-ii/" target="_blank" rel="noopener">House Robber II — LC #213</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">Longest Increasing Subsequence — LC #300</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/coin-change/" target="_blank" rel="noopener">Coin Change — LC #322</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener">Maximum Subarray — LC #53</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/word-break/" target="_blank" rel="noopener">Word Break — LC #139</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #152 — Maximum Product Subarray</li>
+        <li class="medium">LC #91 — Decode Ways</li>
+        <li class="medium">LC #647 — Palindromic Substrings</li>
+        <li class="medium">LC #343 — Integer Break</li>
+        <li class="medium"><a href="https://leetcode.com/problems/perfect-squares/" target="_blank" rel="noopener">Perfect Squares — LC #279</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #377 — Combination Sum IV</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #32 — Longest Valid Parentheses</li>
+        <li class="hard">LC #354 — Russian Doll Envelopes (LIS variant)</li>
+        <li class="hard">LC #1964 — Find the Longest Valid Obstacle Course</li>
+        <li class="hard">CF #1114D — Flood Fill</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 19: DP — 2D / GRID                  -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-dp1d"><h2 id="qz-dp1d">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="dp1d" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. First DP step is?</legend><label><input type="radio" name="dp1d-q1" value="a"> Write the loops</label><label><input type="radio" name="dp1d-q1" value="b"> Define the state in words (what does dp[i] mean?)</label><label><input type="radio" name="dp1d-q1" value="c"> Pick the modulus</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A crisp state makes transition and bases obvious; code follows.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>2. 0/1 knapsack iterating capacity upward reuses items because?</legend><label><input type="radio" name="dp1d-q2" value="a"> Upward reads this-iteration values — that's the unbounded transition</label><label><input type="radio" name="dp1d-q2" value="b"> Arrays are slow</label><label><input type="radio" name="dp1d-q2" value="c"> It doesn't</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Direction encodes reuse: backward = once, forward = unlimited.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Memoized recursion vs bottom-up differ in?</legend><label><input type="radio" name="dp1d-q3" value="a"> Answers</label><label><input type="radio" name="dp1d-q3" value="b"> Order of computation (lazy vs eager) — same states, same complexity</label><label><input type="radio" name="dp1d-q3" value="c"> Correctness</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Same DAG, different traversal.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-dp-1d"><h2 id="v-dp-1d">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-dp-1d"><h2 id="c-dp-1d">✅ Move on when you can…</h2><ul class='checklist' data-checklist='dp-1d'><li><input type='checkbox' id='dp-1d-0'><label for='dp-1d-0'>You can identify DP state and transition for a new problem</label></li><li><input type='checkbox' id='dp-1d-1'><label for='dp-1d-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='dp-1d-2'><label for='dp-1d-2'>You can state when this applies</label></li><li><input type='checkbox' id='dp-1d-3'><label for='dp-1d-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

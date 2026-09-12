@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 · HashMap&lt;K, V&gt; &amp; LinkedHashMap &amp; HashTable | Ultimate DSA Guide</title>
+<meta name="description" content="Key→value in average O(1). The counting/grouping workhorse; iteration order is unspecified (use LinkedHashMap when order matters).">
+<link rel="canonical" href="/java/hashmap/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 · HashMap&lt;K, V&gt; &amp; LinkedHashMap &amp; HashTable">
+<meta property="og:description" content="Key→value in average O(1). The counting/grouping workhorse; iteration order is unspecified (use LinkedHashMap when order matters).">
+<meta property="og:url" content="/java/hashmap/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html" aria-current="page">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › 4 · HashMap&lt;K, V&gt; &amp; LinkedHashMap &amp; HashTable</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">R</span></p><h1>4 · HashMap&lt;K, V&gt; & LinkedHashMap & HashTable</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>R</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>25 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<section aria-labelledby="i-hashmap"><h2 id="i-hashmap">Intuition</h2><p>Key→value in average O(1). The counting/grouping workhorse; iteration order is unspecified (use LinkedHashMap when order matters).</p></section>
+<section aria-labelledby='m-hashmap'><h2 id='m-hashmap'>Common mistakes</h2><ul><li>Using mutable keys or arrays as keys (no proper equals/hashCode).</li><li>Assuming iteration order — it is unspecified.</li></ul></section>
+<section aria-labelledby="r-hashmap"><h2 id="r-hashmap">Quick reference</h2><div class="card" id="hashmap">
+      <h3>4 · HashMap&lt;K, V&gt; & LinkedHashMap & HashTable</h3>
+      <p>Hash-table based Map. O(1) average for get/put. Most important data structure for DSA.</p>
+
+<pre><code>import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+// Creation
+Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;(capacity, loadFactor);
+Map&lt;String, Integer&gt; map = new LinkedHashMap&lt;&gt;();  // Maintains insertion order
+Map&lt;String, Integer&gt; map = Map.of("a", 1, "b", 2); // Immutable (Java 9+)
+
+// Putting
+map.put(key, value);                // Insert or update — O(1) avg
+map.putIfAbsent(key, value);        // Only if key not present
+map.putAll(otherMap);               // Copy all entries
+
+// Getting
+map.get(key);                       // Returns value or null
+map.getOrDefault(key, defaultVal);  // Returns value or default — VERY useful
+map.containsKey(key);               // O(1) avg
+map.containsValue(value);           // O(n) — must scan all values
+
+// Removing
+map.remove(key);                    // O(1) avg
+map.remove(key, value);             // Remove only if key maps to value
+map.clear();
+
+// Size
+map.size();
+map.isEmpty();
+
+// Compute / Merge — EXTREMELY useful for DSA
+map.merge(key, 1, Integer::sum);           // Frequency counting in ONE line!
+map.compute(key, (k, v) -> v == null ? 1 : v + 1);   // Same as above
+map.computeIfAbsent(key, k -> new ArrayList&lt;&gt;());    // Adjacency list builder!
+map.computeIfPresent(key, (k, v) -> v - 1);
+
+// Iteration
+for (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) {
+    String k = entry.getKey();
+    int v = entry.getValue();
+}
+for (String key : map.keySet()) { }
+for (int val : map.values()) { }
+map.forEach((k, v) -> System.out.println(k + ": " + v));
+
+// Views
+Set&lt;String&gt; keys = map.keySet();
+Collection&lt;Integer&gt; vals = map.values();
+Set&lt;Map.Entry&lt;String,Integer&gt;&gt; entries = map.entrySet();
+
+// Replace
+map.replace(key, newValue);
+map.replace(key, oldValue, newValue);
+map.replaceAll((k, v) -> v * 2);
+</code></pre>
+
+      <h4>Common Patterns</h4>
+<pre><code>// Frequency Map
+Map&lt;Integer, Integer&gt; freq = new HashMap&lt;&gt;();
+for (int num : arr) {
+    freq.merge(num, 1, Integer::sum);
+}
+
+// Group By (Anagram grouping, etc.)
+Map&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();
+for (String s : strs) {
+    char[] ca = s.toCharArray();
+    Arrays.sort(ca);
+    String key = String.valueOf(ca);
+    groups.computeIfAbsent(key, k -> new ArrayList&lt;&gt;()).add(s);
+}
+
+// Two Sum Pattern
+Map&lt;Integer, Integer&gt; seen = new HashMap&lt;&gt;();
+for (int i = 0; i &lt; nums.length; i++) {
+    int complement = target - nums[i];
+    if (seen.containsKey(complement)) return new int[]{seen.get(complement), i};
+    seen.put(nums[i], i);
+}
+
+// Index Mapping
+Map&lt;Integer, List&lt;Integer&gt;&gt; indexMap = new HashMap&lt;&gt;();
+for (int i = 0; i &lt; arr.length; i++) {
+    indexMap.computeIfAbsent(arr[i], k -> new ArrayList&lt;&gt;()).add(i);
+}
+</code></pre>
+
+      <table class="complexity-table">
+        <tr><th>Operation</th><th>Average</th><th>Worst</th></tr>
+        <tr><td>put / get / remove</td><td>O(1)</td><td>O(n)</td></tr>
+        <tr><td>containsKey</td><td>O(1)</td><td>O(n)</td></tr>
+        <tr><td>containsValue</td><td>O(n)</td><td>O(n)</td></tr>
+      </table>
+
+      <div class="info">ℹ <strong>HashMap vs LinkedHashMap vs TreeMap</strong><br>
+        • <code>HashMap</code>: No order. O(1) avg. Best default choice.<br>
+        • <code>LinkedHashMap</code>: Insertion order. Slightly more memory. Good for LRU cache.<br>
+        • <code>TreeMap</code>: Sorted by key. O(log n). When you need sorted keys.<br>
+        • <code>Hashtable</code>: Thread-safe but legacy. Use <code>ConcurrentHashMap</code> instead.
+      </div>
+    </div>
+
+    <!-- ─── 5. HASHSET & TREESET ─── --></section>
+<section aria-labelledby="v-hashmap"><h2 id="v-hashmap">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-hashmap"><h2 id="c-hashmap">✅ Move on when you can…</h2><ul class='checklist' data-checklist='hashmap'><li><input type='checkbox' id='hashmap-0'><label for='hashmap-0'>You can implement the core template without looking</label></li><li><input type='checkbox' id='hashmap-1'><label for='hashmap-1'>You can state when this applies</label></li><li><input type='checkbox' id='hashmap-2'><label for='hashmap-2'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 28 · Advanced — Network Flow, Geometry & Games | Ultimate DSA Guide</title>
+<meta name="description" content="Flow (matching/assignment), geometry primitives, game theory (Nim/Grundy). Learn to recognize, then specialize.">
+<link rel="canonical" href="/algorithms/advanced-topics/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 28 · Advanced — Network Flow, Computational Geometry, Game Theory">
+<meta property="og:description" content="Flow (matching/assignment), geometry primitives, game theory (Nim/Grundy). Learn to recognize, then specialize.">
+<meta property="og:url" content="/algorithms/advanced-topics/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html" aria-current="page">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 28 · Advanced — Network Flow, Computational Geometry, Game Theory</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">A</span></p><h1>Topic 28 · Advanced — Network Flow, Computational Geometry, Game Theory</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>A</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Graphs, DP, math, trees</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>survey</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-advanced-topics"><h2 id="i-advanced-topics">Intuition</h2><p>Flow (matching/assignment), geometry primitives, game theory (Nim/Grundy). Learn to recognize, then specialize.</p><p><strong>Learn:</strong> Network flow (Dinic&#x27;s), computational geometry, game theory, Sprague-Grundy &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Hard (introduction level)</p></section>
+<section aria-labelledby="sg-advanced-topics"><h2 id="sg-advanced-topics">How to recognize this</h2><p><strong>Reach for it when:</strong> Bipartite matching / assignment / max flow phrasing; Geometric primitives (hull, sweep line); Win/lose game states (Nim/Grundy).</p><p><strong>Red flags:</strong> Small enough for brute force / DP; Unweighted shortest path disguised as flow.</p></section>
+<section aria-labelledby="m-advanced-topics'><h2 id='m-advanced-topics'>Common mistakes</h2><ul><li>Dinic with int capacities on large flows (overflow) — use long.</li><li>Geometry doubles: compare with epsilon, prefer integers/cross products.</li></ul></section>
+<section aria-labelledby="w-advanced-topics"><h2 id="w-advanced-topics">Worked example — Nim: who wins?</h2><p><strong>Problem.</strong> Piles <code>[3, 4, 5]</code>. Two players remove any positive number from one pile; the player taking the last object wins. Does the first player win?</p><ol class="steps">
+<li><strong>What should we notice?</strong> Perfect-information impartial game with independent piles — a game-theory signal.</li>
+<li><strong>Naive thought.</strong> Enumerate every move tree: exponential; hopeless past a handful of piles.</li>
+<li><strong>Key observation.</strong> A position is losing exactly when the XOR of pile sizes is 0. Whoever moves from XOR 0 must break it; the opponent restores 0.</li>
+<li><strong>Compute.</strong> 3 XOR 4 = 7; 7 XOR 5 = 2.</li>
+<li><strong>Interpret.</strong> XOR = 2 (non-zero) → the player to move has a winning strategy.</li>
+<li><strong>The winning move.</strong> Find a pile whose removal leaves XOR 0. Target pile = pile XOR 2: pile 3 gives 1 — reduce 3 to 1; piles [1,4,5] have XOR 0.</li>
+<li><strong>Complexity.</strong> O(n) to XOR and O(n) to find the move.</li>
+<li><strong>What to remember.</strong> XOR-zero is the losing condition. Grundy numbers extend the same idea to general impartial games.</li>
+</ol></section>
+<section aria-labelledby="dr-advanced-topics"><h2 id="dr-advanced-topics">Interactive dry run — Nim XOR</h2><p>The XOR of the piles decides the winner before any move is made.</p><div class="dryrun" id="viz-nim" data-dryrun><script type="application/json">{"type": "nim", "piles": [3, 4, 5], "fallback": "3^4=7, 7^5=2; XOR non-zero so the first player wins by moving to XOR 0."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-advanced-topics"><h2 id="r-advanced-topics">Quick reference</h2><div class="card" id="advanced-topics">
+      <h3>Topic 28 · Advanced — Network Flow, Computational Geometry, Game Theory</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use network flow for matching and assignment problems, computational geometry for spatial queries, or game theory for competitive games. These are long-term specialization topics.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Graphs, DP, math, trees</p>
+<p class="prereq"><strong>Learn this:</strong> Network flow (Dinic's), computational geometry, game theory, Sprague-Grundy</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Hard (introduction level)</p>
+<p class="prereq"><strong>Move on when:</strong> You know these techniques exist and can recognize when they might be needed</p>
+      </div>
+
+
+      <h4>Network Flow — Ford-Fulkerson / Dinic's</h4>
+<pre><code>// Max Flow — Dinic's Algorithm O(V²E)
+// Used for: max flow, min cut, bipartite matching, assignment problems
+class Dinic {
+    int[] level, iter;
+    List&lt;int[]&gt;[] graph;  // {to, cap, rev_index}
+    
+    void addEdge(int from, int to, int cap) {
+        graph[from].add(new int[]{to, cap, graph[to].size()});
+        graph[to].add(new int[]{from, 0, graph[from].size() - 1});
+    }
+    
+    boolean bfs(int s, int t) {
+        level = new int[graph.length];
+        Arrays.fill(level, -1);
+        Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();
+        level[s] = 0;
+        q.offer(s);
+        while (!q.isEmpty()) {
+            int v = q.poll();
+            for (int[] e : graph[v]) {
+                if (e[1] > 0 && level[e[0]] &lt; 0) {
+                    level[e[0]] = level[v] + 1;
+                    q.offer(e[0]);
+                }
+            }
+        }
+        return level[t] >= 0;
+    }
+    
+    int dfs(int v, int t, int f) {
+        if (v == t) return f;
+        for (; iter[v] &lt; graph[v].size(); iter[v]++) {
+            int[] e = graph[v].get(iter[v]);
+            if (e[1] > 0 && level[v] &lt; level[e[0]]) {
+                int d = dfs(e[0], t, Math.min(f, e[1]));
+                if (d > 0) {
+                    e[1] -= d;
+                    graph[e[0]].get(e[2])[1] += d;
+                    return d;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    int maxFlow(int s, int t) {
+        int flow = 0;
+        while (bfs(s, t)) {
+            iter = new int[graph.length];
+            int d;
+            while ((d = dfs(s, t, Integer.MAX_VALUE)) > 0) flow += d;
+        }
+        return flow;
+    }
+}
+</code></pre>
+
+      <h4>Computational Geometry Basics</h4>
+<pre><code>// Cross Product — determines direction of turn
+// > 0: counter-clockwise, < 0: clockwise, = 0: collinear
+long cross(long[] O, long[] A, long[] B) {
+    return (A[0] - O[0]) * (B[1] - O[1]) - (A[1] - O[1]) * (B[0] - O[0]);
+}
+
+// Convex Hull — Andrew's Monotone Chain — O(n log n)
+List&lt;long[]&gt; convexHull(long[][] points) {
+    Arrays.sort(points, (a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(a[1], b[1]));
+    List&lt;long[]&gt; hull = new ArrayList&lt;&gt;();
+    
+    // Lower hull
+    for (long[] p : points) {
+        while (hull.size() >= 2 && cross(hull.get(hull.size()-2), hull.get(hull.size()-1), p) &lt;= 0)
+            hull.remove(hull.size() - 1);
+        hull.add(p);
+    }
+    
+    // Upper hull
+    int lower = hull.size() + 1;
+    for (int i = points.length - 2; i >= 0; i--) {
+        while (hull.size() >= lower && cross(hull.get(hull.size()-2), hull.get(hull.size()-1), points[i]) &lt;= 0)
+            hull.remove(hull.size() - 1);
+        hull.add(points[i]);
+    }
+    hull.remove(hull.size() - 1);
+    return hull;
+}
+</code></pre>
+
+      <h4>Game Theory — Sprague-Grundy Theorem</h4>
+<pre><code>// Nim Game: XOR of all pile sizes
+// If XOR != 0, first player wins; if XOR == 0, second player wins
+boolean nimWin(int[] piles) {
+    int xor = 0;
+    for (int p : piles) xor ^= p;
+    return xor != 0;
+}
+
+// Grundy Number (Sprague-Grundy)
+// G(position) = mex({G(next_positions)})
+// mex = minimum excludant (smallest non-negative integer not in set)
+int mex(Set&lt;Integer&gt; set) {
+    int m = 0;
+    while (set.contains(m)) m++;
+    return m;
+}
+
+// Composite game: XOR of Grundy numbers of independent sub-games
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Max Flow.</strong> Given a flow network, find the maximum flow using Ford-Fulkerson.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Convex Hull.</strong> Given a set of points, find the convex hull using Andrew's monotone chain.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Nim Game.</strong> Given piles of stones, determine the winner of the Nim game using Sprague-Grundy.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #587 — Erect the Fence (Convex Hull)</li>
+        <li class="hard">LC #1515 — Best Position for a Service Centre</li>
+        <li class="hard">LC #292 — Nim Game</li>
+        <li class="hard">LC #464 — Can I Win (Game Theory + Bitmask)</li>
+        <li class="hard">LC #486 — Predict the Winner</li>
+        <li class="hard">CF #850C — Arpa and a Game with Mojtaba (Game Theory)</li>
+        <li class="hard">CF #1114C — Trailing Loves (Number Theory)</li>
+        <li class="hard">CF #166E — Tetrahedron (DP + Matrix Exponentiation)</li>
+      </ul>
+    </div>
+
+  
+
+
+
+</section>
+<section aria-labelledby="qz-advanced-topics"><h2 id="qz-advanced-topics">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="advanced-topics" aria-label="Advanced topics quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. In Nim, a position is losing exactly when...</legend><label><input type="radio" name="advanced-topics-q1" value="a"> The largest pile is odd</label><label><input type="radio" name="advanced-topics-q1" value="b"> The XOR of all pile sizes is 0</label><label><input type="radio" name="advanced-topics-q1" value="c"> The total number of objects is even</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A zero XOR cannot be left at zero by the mover; the opponent restores zero every turn.</p></details></div><div class="quiz-q"><fieldset data-answer="c"><legend>2. A geometry problem should usually avoid floating point because...</legend><label><input type="radio" name="advanced-topics-q2" value="a"> Doubles are slow</label><label><input type="radio" name="advanced-topics-q2" value="b"> The interactive checker rejects them</label><label><input type="radio" name="advanced-topics-q2" value="c"> Cross products and integer orientation tests avoid precision errors</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Prefer integer cross products for orientation/collinearity; use epsilons only when geometry truly is continuous.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Dinic's algorithm computes...</legend><label><input type="radio" name="advanced-topics-q3" value="a"> Shortest paths</label><label><input type="radio" name="advanced-topics-q3" value="b"> Maximum flow</label><label><input type="radio" name="advanced-topics-q3" value="c"> Minimum spanning tree</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Dinic is a max-flow algorithm; matching and assignment are reductions to max flow.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-advanced-topics"><h2 id="v-advanced-topics">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-advanced-topics"><h2 id="c-advanced-topics">✅ Move on when you can…</h2><ul class='checklist' data-checklist='advanced-topics'><li><input type='checkbox' id='advanced-topics-0'><label for='advanced-topics-0'>You know these techniques exist and can recognize when they might be needed</label></li><li><input type='checkbox' id='advanced-topics-1'><label for='advanced-topics-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='advanced-topics-2'><label for='advanced-topics-2'>You can state when this applies</label></li><li><input type='checkbox' id='advanced-topics-3'><label for='advanced-topics-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

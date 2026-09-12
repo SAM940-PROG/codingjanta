@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2 · Recursion &amp; Backtracking | Ultimate DSA Guide</title>
+<meta name="description" content="Solve smaller copies of the same problem: base case stops, recursive case shrinks. Backtracking is recursion + undo, enumerating all candidates.">
+<link rel="canonical" href="/algorithms/recursion/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 2 · Recursion &amp; Backtracking">
+<meta property="og:description" content="Solve smaller copies of the same problem: base case stops, recursive case shrinks. Backtracking is recursion + undo, enumerating all candidates.">
+<meta property="og:url" content="/algorithms/recursion/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html" aria-current="page">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 2 · Recursion &amp; Backtracking</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">F</span></p><h1>Topic 2 · Recursion & Backtracking</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>F</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Loops, basic functions, problem decomposition</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-recursion"><h2 id="i-recursion">Intuition</h2><p>Solve smaller copies of the same problem: base case stops, recursive case shrinks. Backtracking is recursion + undo, enumerating all candidates.</p><p><strong>Learn:</strong> Base case, recursive case, call stack &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Subsets -&gt; Backtracking</p></section>
+<section aria-labelledby="sg-recursion"><h2 id="sg-recursion">How to recognize this</h2><p><strong>Reach for it when:</strong> Self-similar structure (trees, subsets, permutations); Exhaustive search with undo (backtracking); Divide & conquer halves.</p><p><strong>Red flags:</strong> Deep linear chains (10⁵) — iterate; Overlapping subproblems without memo — that's DP missing its table.</p></section>
+<section aria-labelledby="m-recursion'><h2 id='m-recursion'>Common mistakes</h2><ul><li>Missing base case or non-shrinking argument (StackOverflowError).</li><li>Recomputing overlapping subproblems — memoize (that's DP).</li></ul></section>
+<section aria-labelledby="w-recursion"><h2 id="w-recursion">Worked example — Subsets of [1,2]</h2><p><strong>Problem.</strong> Enumerate all subsets.</p><ol class="steps"><li><strong>What should we notice?</strong> Each element: take or skip — a binary decision tree of depth n.</li><li><strong>Naive thought.</strong> Bitmask loops work but hide the structure backtracking teaches.</li><li><strong>Key observation.</strong> Decide index i, recurse both branches, undo (pop) after the take-branch.</li><li><strong>Optimized strategy.</strong> {} → take 1 → {1} → take 2 → {1,2}; backtrack; skip 2 → {1}; backtrack; skip 1 → {} → take 2 → {2}.</li><li><strong>Step-by-step.</strong> Permutation twin: swap-into-position i, recurse, swap back.</li><li><strong>Final answer.</strong> {}, {1}, {2}, {1,2}.</li><li><strong>Complexity.</strong> O(n·2ⁿ) time (output-sized), O(n) stack.</li><li><strong>What to remember.</strong> Choose, recurse, undo. The undo is the difference between DFS and backtracking.</li></ol></section><section aria-labelledby="dr-recursion"><h2 id="dr-recursion">Interactive dry run — The call stack</h2><p>Frames pile up going down, unwind coming back — depth is the risk.</p><div class="dryrun" id="viz-callstack" data-dryrun><script type="application/json">{"type": "callstack", "n": 4, "fallback": "f(4)\u2026f(1) push, then unwind multiplying 1\u00b72\u00b73\u00b74=24."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-recursion"><h2 id="r-recursion">Quick reference</h2><div class="card" id="recursion">
+      <h3>Topic 2 · Recursion & Backtracking</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use recursion when a problem can be broken into smaller versions of itself -- like computing factorials, traversing trees, or generating all subsets/backtracking solutions.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Loops, basic functions, problem decomposition</p>
+<p class="prereq"><strong>Learn this:</strong> Base case, recursive case, call stack</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Subsets -> Backtracking</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify base case and recursive case for a new problem</p>
+      </div>
+
+
+      <h4>Algorithm — Recursion Template</h4>
+<pre><code>// Every recursive function has:
+// 1. Base case(s) — when to stop
+// 2. Recursive case(s) — break problem into smaller subproblems
+// 3. Return value — combine subproblem results
+
+public int solve(parameters) {
+    // 1. Base case
+    if (baseCaseCondition) return baseResult;
+    
+    // 2. Recursive calls
+    int subResult = solve(smallerProblem);
+    
+    // 3. Combine and return
+    return combine(subResult);
+}
+</code></pre>
+
+      <h4>Algorithm — Backtracking Template</h4>
+<pre><code>// Backtracking = Recursion + Pruning + Undo
+// Used when exploring ALL possible solutions (or finding one valid solution)
+
+List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+public void backtrack(List&lt;Integer&gt; current, int start, int[] candidates) {
+    // 1. Check if current state is a valid solution
+    if (isGoal(current)) {
+        result.add(new ArrayList&lt;&gt;(current));  // MUST copy!
+        return;
+    }
+    
+    // 2. Try all choices
+    for (int i = start; i &lt; candidates.length; i++) {
+        // Pruning: skip invalid choices early
+        if (!isValid(candidates[i])) continue;
+        
+        // 3. Make choice
+        current.add(candidates[i]);
+        
+        // 4. Recurse
+        backtrack(current, i + 1, candidates);  // i+1 for combinations, i for reuse
+        
+        // 5. Undo choice (backtrack)
+        current.remove(current.size() - 1);
+    }
+}
+</code></pre>
+
+      <h4>Why?</h4>
+      <p>Recursion decomposes complex problems into smaller, self-similar subproblems. Backtracking extends this by exploring a decision tree and pruning invalid branches early, making exhaustive search feasible.</p>
+
+      <h4>Example — Generate All Subsets</h4>
+<pre><code>public List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    backtrack(result, new ArrayList&lt;&gt;(), nums, 0);
+    return result;
+}
+
+private void backtrack(List&lt;List&lt;Integer&gt;&gt; result, List&lt;Integer&gt; current, int[] nums, int start) {
+    result.add(new ArrayList&lt;&gt;(current));  // Every state is a valid subset
+    for (int i = start; i &lt; nums.length; i++) {
+        current.add(nums[i]);
+        backtrack(result, current, nums, i + 1);
+        current.remove(current.size() - 1);
+    }
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Factorial.</strong> Implement factorial(n) using recursion. Trace it for n=5.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sum Array.</strong> Write a recursive function to sum all elements of an array.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Down.</strong> Write a recursive function that prints numbers from n down to 1.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy">LC #509 — Fibonacci Number</li>
+        <li class="easy"><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">Reverse Linked List (recursive) — LC #206</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">Merge Two Sorted Lists (recursive) — LC #21</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/power-of-two/" target="_blank" rel="noopener">Power of Two — LC #231</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/subsets/" target="_blank" rel="noopener">Subsets — LC #78</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/permutations/" target="_blank" rel="noopener">Permutations — LC #46</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="noopener">Combination Sum — LC #39</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #40 — Combination Sum II</li>
+        <li class="medium"><a href="https://leetcode.com/problems/word-search/" target="_blank" rel="noopener">Word Search — LC #79</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #22 — Generate Parentheses</li>
+        <li class="medium">LC #17 — Letter Combinations of a Phone Number</li>
+        <li class="medium">LC #131 — Palindrome Partitioning</li>
+        <li class="medium">LC #90 — Subsets II</li>
+        <li class="medium">LC #47 — Permutations II</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/n-queens/" target="_blank" rel="noopener">N-Queens — LC #51</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #52 — N-Queens II</li>
+        <li class="hard">LC #37 — Sudoku Solver</li>
+        <li class="hard"><a href="https://leetcode.com/problems/word-search-ii/" target="_blank" rel="noopener">Word Search II — LC #212</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">CF #1927E — Klever Permutation</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 3: SORTING ALGORITHMS               -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-recursion"><h2 id="qz-recursion">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="recursion" aria-label="Recursion quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Every correct recursion must have...</legend><label><input type="radio" name="recursion-q1" value="a"> A loop</label><label><input type="radio" name="recursion-q1" value="b"> A base case that stops the descent</label><label><input type="radio" name="recursion-q1" value="c"> A global variable</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Without a shrinking base case the calls never stop.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Backtracking = recursion + ...</legend><label><input type="radio" name="recursion-q2" value="a"> memoization</label><label><input type="radio" name="recursion-q2" value="b"> undoing the choice before returning</label><label><input type="radio" name="recursion-q2" value="c"> sorting</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Apply a choice, recurse, then revert it so sibling branches see a clean state.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Deep recursion on a long input risks...</legend><label><input type="radio" name="recursion-q3" value="a"> Wrong answers</label><label><input type="radio" name="recursion-q3" value="b"> StackOverflowError</label><label><input type="radio" name="recursion-q3" value="c"> Compile error</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Java's call stack is finite; convert to iteration when depth can be large.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-recursion"><h2 id="v-recursion">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-recursion"><h2 id="c-recursion">✅ Move on when you can…</h2><ul class='checklist' data-checklist='recursion'><li><input type='checkbox' id='recursion-0'><label for='recursion-0'>You can identify base case and recursive case for a new problem</label></li><li><input type='checkbox' id='recursion-1'><label for='recursion-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='recursion-2'><label for='recursion-2'>You can state when this applies</label></li><li><input type='checkbox' id='recursion-3'><label for='recursion-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

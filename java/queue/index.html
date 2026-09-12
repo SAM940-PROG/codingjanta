@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8 · Queue, Deque &amp; PriorityQueue | Ultimate DSA Guide</title>
+<meta name="description" content="FIFO (Queue), double-ended (Deque), and min/max-first (PriorityQueue). BFS needs a queue; sliding-window max needs a deque.">
+<link rel="canonical" href="/java/queue/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8 · Queue, Deque &amp; PriorityQueue">
+<meta property="og:description" content="FIFO (Queue), double-ended (Deque), and min/max-first (PriorityQueue). BFS needs a queue; sliding-window max needs a deque.">
+<meta property="og:url" content="/java/queue/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html" aria-current="page">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › 8 · Queue, Deque &amp; PriorityQueue</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">R</span></p><h1>8 · Queue, Deque & PriorityQueue</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>R</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>25 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<section aria-labelledby="i-queue"><h2 id="i-queue">Intuition</h2><p>FIFO (Queue), double-ended (Deque), and min/max-first (PriorityQueue). BFS needs a queue; sliding-window max needs a deque.</p></section>
+<section aria-labelledby='m-queue'><h2 id='m-queue'>Common mistakes</h2><ul><li>PriorityQueue iteration order is NOT sorted — only poll() order is.</li><li>ArrayDeque forbids nulls; LinkedList allows them — don't mix assumptions.</li></ul></section>
+<section aria-labelledby="r-queue"><h2 id="r-queue">Quick reference</h2><div class="card" id="queue">
+      <h3>8 · Queue, Deque & PriorityQueue</h3>
+
+      <h4>Queue (FIFO)</h4>
+<pre><code>import java.util.Queue;
+import java.util.ArrayDeque;
+
+Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();  // ✅ Best implementation
+// Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();  // Also works but slower
+
+queue.offer(10);          // Enqueue — O(1)
+queue.offer(20);
+queue.offer(30);
+
+queue.peek();             // 10 — front element — O(1)
+queue.poll();             // 10 — dequeue front — O(1)
+queue.isEmpty();
+queue.size();
+
+// BFS pattern
+Queue&lt;int[]&gt; queue = new ArrayDeque&lt;&gt;();
+queue.offer(new int[]{startRow, startCol});
+while (!queue.isEmpty()) {
+    int[] curr = queue.poll();
+    // process and add neighbors
+}
+</code></pre>
+
+      <h4>Deque (Double-Ended Queue)</h4>
+<pre><code>Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();
+
+deque.offerFirst(1);      // Add to front — O(1)
+deque.offerLast(2);       // Add to back — O(1)
+deque.peekFirst();        // View front — O(1)
+deque.peekLast();         // View back — O(1)
+deque.pollFirst();        // Remove front — O(1)
+deque.pollLast();         // Remove back — O(1)
+</code></pre>
+
+      <h4>PriorityQueue (Min-Heap by default)</h4>
+<pre><code>import java.util.PriorityQueue;
+
+// Min-Heap (default)
+PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
+
+// Max-Heap
+PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;(Collections.reverseOrder());
+PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;((a, b) -> b - a);
+
+// Custom comparator — sort by second element of int[]
+PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -> a[1] - b[1]);
+
+// Multi-field comparator
+PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -> {
+    if (a[0] != b[0]) return a[0] - b[0];  // First by cost
+    return a[1] - b[1];                     // Then by index
+});
+
+// Operations
+pq.offer(element);        // Insert — O(log n)
+pq.peek();                // Min/Max element — O(1)
+pq.poll();                // Remove min/max — O(log n)
+pq.remove(element);       // Remove specific — O(n)
+pq.contains(element);     // O(n)
+pq.size();
+pq.isEmpty();
+pq.toArray();
+
+// Build from collection — O(n) via heapify
+PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(list);
+</code></pre>
+
+      <table class="complexity-table">
+        <tr><th>Operation</th><th>PriorityQueue</th></tr>
+        <tr><td>offer (insert)</td><td>O(log n)</td></tr>
+        <tr><td>peek (min/max)</td><td>O(1)</td></tr>
+        <tr><td>poll (remove min/max)</td><td>O(log n)</td></tr>
+        <tr><td>remove(element)</td><td>O(n)</td></tr>
+        <tr><td>Build from collection</td><td>O(n)</td></tr>
+      </table>
+    </div>
+
+    <!-- ─── 9. COLLECTIONS & ARRAYS UTILITIES ─── --></section>
+<section aria-labelledby="v-queue"><h2 id="v-queue">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-queue"><h2 id="c-queue">✅ Move on when you can…</h2><ul class='checklist' data-checklist='queue'><li><input type='checkbox' id='queue-0'><label for='queue-0'>You can implement the core template without looking</label></li><li><input type='checkbox' id='queue-1'><label for='queue-1'>You can state when this applies</label></li><li><input type='checkbox' id='queue-2'><label for='queue-2'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

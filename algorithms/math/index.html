@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 24 · Math &amp; Number Theory | Ultimate DSA Guide</title>
+<meta name="description" content="GCD, sieve, fast pow, modular arithmetic, factorization. Most contest math is these five plus combinatorics formulas.">
+<link rel="canonical" href="/algorithms/math/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 24 · Math &amp; Number Theory">
+<meta property="og:description" content="GCD, sieve, fast pow, modular arithmetic, factorization. Most contest math is these five plus combinatorics formulas.">
+<meta property="og:url" content="/algorithms/math/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html" aria-current="page">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 24 · Math &amp; Number Theory</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 24 · Math & Number Theory</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Basic math, arrays</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-math"><h2 id="i-math">Intuition</h2><p>GCD, sieve, fast pow, modular arithmetic, factorization. Most contest math is these five plus combinatorics formulas.</p><p><strong>Learn:</strong> GCD/LCM, fast exponentiation, sieve, prime factorization, modular arithmetic, Euler&#x27;s totient &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-math"><h2 id="sg-math">How to recognize this</h2><p><strong>Reach for it when:</strong> Prime/divisibility/modular-arithmetic phrasing; Counting/combinatorics with large answers (mod 1e9+7); GCD/power/exponent patterns; Constraints like 10¹² (O(√n) max) or 10⁶ (sieve).</p><p><strong>Red flags:</strong> Floating-point equality without epsilon; Huge exponents without modular reduction; Assuming primality — sieve or Miller-Rabin first.</p></section>
+<section aria-labelledby="m-math'><h2 id='m-math'>Common mistakes</h2><ul><li>Mod of negatives in Java is negative — normalize.</li><li>pow overflow before mod — multiply with long.</li></ul></section>
+<section aria-labelledby="w-math"><h2 id="w-math">Worked example — GCD and LCM</h2><p><strong>Problem.</strong> Compute gcd(48, 36) and lcm(48, 36).</p><ol class="steps">
+<li><strong>What should we notice?</strong> "Greatest common divisor" almost always means Euclid's algorithm.</li>
+<li><strong>Naive thought.</strong> Factor both numbers and intersect prime factors — correct but slow for large inputs.</li>
+<li><strong>Key observation.</strong> gcd(a, b) = gcd(b, a mod b); the remainder strictly shrinks, so it terminates in O(log min(a,b)).</li>
+<li><strong>Compute.</strong> gcd(48, 36) → gcd(36, 12) → gcd(12, 0) = 12.</li>
+<li><strong>LCM.</strong> lcm = a / gcd · b = 48 / 12 · 36 = 144. Divide first to avoid overflow.</li>
+<li><strong>Complexity.</strong> O(log min(a,b)) time, O(1) space (iterative).</li>
+<li><strong>What to remember.</strong> Always divide before multiplying in lcm; for modular work use modular inverses via extended Euclid.</li>
+</ol></section>
+<section aria-labelledby="dr-math"><h2 id="dr-math">Interactive dry run — Euclid's algorithm</h2><p>Each step replaces (a, b) with (b, a mod b) until the remainder is zero.</p><div class="dryrun" id="viz-gcd" data-dryrun><script type="application/json">{"type": "gcd", "a": 1071, "b": 462, "fallback": "1071,462 -> 462,147 -> 147,21 -> 21,0 => gcd 21."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-math"><h2 id="r-math">Quick reference</h2><div class="card" id="math">
+      <h3>Topic 24 · Math & Number Theory</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use math techniques for prime factorization, modular arithmetic, GCD/LCM, fast exponentiation, and sieve algorithms. Common in competitive programming.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Basic math, arrays</p>
+<p class="prereq"><strong>Learn this:</strong> GCD/LCM, fast exponentiation, sieve, prime factorization, modular arithmetic, Euler's totient</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can apply number theory techniques to competitive programming problems</p>
+      </div>
+
+
+      <h4>Algorithms</h4>
+<pre><code>// ── GCD & LCM ──
+int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }
+long lcm(long a, long b) { return a / gcd((int)a, (int)b) * b; }
+
+// ── Fast Exponentiation (Binary Exponentiation) ──
+long power(long base, long exp, long mod) {
+    long result = 1;
+    base %= mod;
+    while (exp > 0) {
+        if ((exp & 1) == 1) result = result * base % mod;
+        base = base * base % mod;
+        exp >>= 1;
+    }
+    return result;
+}
+
+// ── Modular Inverse (when mod is prime) ──
+long modInverse(long a, long mod) {
+    return power(a, mod - 2, mod);  // Fermat's little theorem
+}
+
+// ── Sieve of Eratosthenes — O(n log log n) ──
+boolean[] sieve(int n) {
+    boolean[] isPrime = new boolean[n + 1];
+    Arrays.fill(isPrime, true);
+    isPrime[0] = isPrime[1] = false;
+    for (int i = 2; (long) i * i &lt;= n; i++) {
+        if (isPrime[i]) {
+            for (int j = i * i; j &lt;= n; j += i)
+                isPrime[j] = false;
+        }
+    }
+    return isPrime;
+}
+
+// ── Prime Factorization — O(√n) ──
+Map&lt;Integer, Integer&gt; primeFactors(int n) {
+    Map&lt;Integer, Integer&gt; factors = new HashMap&lt;&gt;();
+    for (int d = 2; (long) d * d &lt;= n; d++) {
+        while (n % d == 0) {
+            factors.merge(d, 1, Integer::sum);
+            n /= d;
+        }
+    }
+    if (n > 1) factors.merge(n, 1, Integer::sum);
+    return factors;
+}
+
+// ── Euler's Totient Function φ(n) ──
+int eulerTotient(int n) {
+    int result = n;
+    for (int p = 2; (long) p * p &lt;= n; p++) {
+        if (n % p == 0) {
+            while (n % p == 0) n /= p;
+            result -= result / p;
+        }
+    }
+    if (n > 1) result -= result / n;
+    return result;
+}
+
+// ── nCr (Combinations) with mod ──
+long[] fact, invFact;
+void precompute(int n, long mod) {
+    fact = new long[n + 1]; invFact = new long[n + 1];
+    fact[0] = 1;
+    for (int i = 1; i &lt;= n; i++) fact[i] = fact[i-1] * i % mod;
+    invFact[n] = power(fact[n], mod - 2, mod);
+    for (int i = n - 1; i >= 0; i--) invFact[i] = invFact[i+1] * (i+1) % mod;
+}
+long nCr(int n, int r, long mod) {
+    if (r &lt; 0 || r > n) return 0;
+    return fact[n] % mod * invFact[r] % mod * invFact[n-r] % mod;
+}
+
+// ── Matrix Exponentiation (for linear recurrences) ──
+long[][] matMul(long[][] A, long[][] B, long mod) {
+    int n = A.length, m = B[0].length, k = B.length;
+    long[][] C = new long[n][m];
+    for (int i = 0; i &lt; n; i++)
+        for (int j = 0; j &lt; m; j++)
+            for (int p = 0; p &lt; k; p++)
+                C[i][j] = (C[i][j] + A[i][p] * B[p][j]) % mod;
+    return C;
+}
+
+long[][] matPow(long[][] M, long exp, long mod) {
+    int n = M.length;
+    long[][] result = new long[n][n];
+    for (int i = 0; i &lt; n; i++) result[i][i] = 1; // Identity
+    while (exp > 0) {
+        if ((exp & 1) == 1) result = matMul(result, M, mod);
+        M = matMul(M, M, mod);
+        exp >>= 1;
+    }
+    return result;
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>GCD.</strong> Given two numbers, find their greatest common divisor using Euclid's algorithm.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sieve.</strong> Given n, find all primes up to n using the Sieve of Eratosthenes.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Power Mod.</strong> Given base, exponent, and mod, compute (base^exponent) % mod efficiently.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/count-primes/" target="_blank" rel="noopener">Count Primes — LC #204</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #1137 — N-th Tribonacci Number</li>
+        <li class="easy"><a href="https://leetcode.com/problems/palindrome-number/" target="_blank" rel="noopener">Palindrome Number — LC #9</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/powx-n/" target="_blank" rel="noopener">Pow(x, n) — LC #50</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #2 — Add Two Numbers</li>
+        <li class="medium">LC #29 — Divide Two Integers</li>
+        <li class="medium">LC #172 — Factorial Trailing Zeroes</li>
+        <li class="medium">LC #1390 — Four Divisors</li>
+        <li class="medium">LC #365 — Water and Jug Problem (GCD)</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #878 — Nth Magical Number</li>
+        <li class="hard">LC #1201 — Ugly Number III (LCM + Binary Search)</li>
+        <li class="hard">CF #1228C — Primes and Multiplication</li>
+        <li class="hard">CF #1295D — Same GCDs (Euler Totient)</li>
+        <li class="hard">CF #1359D — Yet Another Yet Another Task</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 25: STRING ALGORITHMS               -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-math"><h2 id="qz-math">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="math" aria-label="Math and number theory quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. gcd(48, 36) using Euclid is...</legend><label><input type="radio" name="math-q1" value="a"> 6</label><label><input type="radio" name="math-q1" value="b"> 12</label><label><input type="radio" name="math-q1" value="c"> 144</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>48,36 -> 36,12 -> 12,0, so the gcd is 12.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Why compute a / gcd * b instead of a * b / gcd for the LCM?</legend><label><input type="radio" name="math-q2" value="a"> It is faster</label><label><input type="radio" name="math-q2" value="b"> a * b can overflow before the division</label><label><input type="radio" name="math-q2" value="c"> They differ mathematically</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Divide first to keep the intermediate value small.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. A sieve of Eratosthenes finds all primes up to n in...</legend><label><input type="radio" name="math-q3" value="a"> O(n)</label><label><input type="radio" name="math-q3" value="b"> O(n log log n)</label><label><input type="radio" name="math-q3" value="c"> O(n^1.5)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Each composite is crossed out by its smallest prime; the total work is O(n log log n).</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-math"><h2 id="v-math">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-math"><h2 id="c-math">✅ Move on when you can…</h2><ul class='checklist' data-checklist='math'><li><input type='checkbox' id='math-0'><label for='math-0'>You can apply number theory techniques to competitive programming problems</label></li><li><input type='checkbox' id='math-1'><label for='math-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='math-2'><label for='math-2'>You can state when this applies</label></li><li><input type='checkbox' id='math-3'><label for='math-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

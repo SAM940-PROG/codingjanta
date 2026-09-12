@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 5 · Two Pointers &amp; Sliding Window | Ultimate DSA Guide</title>
+<meta name="description" content="Two indices moving monotonically replace nested loops: opposite ends on sorted data, fast/slow for in-place edits, windows for contiguous ranges.">
+<link rel="canonical" href="/algorithms/twopointers/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 5 · Two Pointers &amp; Sliding Window">
+<meta property="og:description" content="Two indices moving monotonically replace nested loops: opposite ends on sorted data, fast/slow for in-place edits, windows for contiguous ranges.">
+<meta property="og:url" content="/algorithms/twopointers/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html" aria-current="page">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 5 · Two Pointers &amp; Sliding Window</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 5 · Two Pointers & Sliding Window</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays, sorting, Big-O</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-twopointers"><h2 id="i-twopointers">Intuition</h2><p>Two indices moving monotonically replace nested loops: opposite ends on sorted data, fast/slow for in-place edits, windows for contiguous ranges.</p><p><strong>Learn:</strong> Opposite pointers, fast/slow pointers, fixed window, variable window &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-twopointers"><h2 id="sg-twopointers">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Sorted array + a pair/triplet condition (sum, closest, container).</li><li>In-place rewrite or dedup (fast/slow) on an array.</li><li>Contiguous subarray/substring with a monotonic window property.</li><li>Partitioning around a pivot.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Data is unsorted and order carries no meaning.</li><li>You must enumerate ALL subarrays, not just find an optimum.</li><li>The window property is not monotonic (e.g. shrinking a valid window can make it valid again for the wrong reason — negatives in sum windows).</li><li>You need random access history — consider prefix sums / hashing instead.</li></ul></div></section>
+<section aria-labelledby="m-twopointers'><h2 id='m-twopointers'>Common mistakes</h2><ul><li>Moving the wrong pointer on equal sums in opposite-ends search.</li><li>Forgetting to sort first when the pattern needs sorted data.</li></ul></section>
+<section aria-labelledby="w-twopointers"><h2 id="w-twopointers">Worked example — Two Sum II — sorted pair</h2><p><strong>Problem.</strong> Sorted <code>a=[2,7,11,15]</code>, target 9. Return 1-based indices.</p><ol class="steps"><li><strong>What should we notice?</strong> Sorted + pair sum: the ends carry maximum information.</li><li><strong>Naive thought.</strong> Check all pairs: O(n²) comparisons.</li><li><strong>Key observation.</strong> If a[L]+a[R] is too small, a[L] pairs with nothing (even the biggest partner fails) — L is dead. Too big mirrors to R.</li><li><strong>Optimized strategy.</strong> Start L=0,R=3 (2+15=17&gt;9 → R--); L=0,R=2 (13&gt;9 → R--); L=0,R=1 (9=9 ✓).</li><li><strong>Step-by-step.</strong> Sliding-window twin: max sum of k=3 in [1,4,2,10,2,3,1] — add right, drop left: 7,16,14,15,6.</li><li><strong>Final answer.</strong> Indices (1,2). Window best 16.</li><li><strong>Complexity.</strong> O(n) time, O(1) space — each pointer moves monotonically.</li><li><strong>What to remember.</strong> Sorted + pair → opposite ends. Contiguous + fixed/constrained → window that only slides forward.</li></ol></section><section aria-labelledby="dr-twopointers"><h2 id="dr-twopointers">Interactive dry run — Pair sum</h2><p>Watch L and R eliminate one element per step — predict each move before pressing Next.</p><div class="dryrun" id="viz-pair" data-dryrun><script type="application/json">{"type": "twoptr", "a": [2, 7, 11, 15], "target": 9, "fallback": "2+15 too big, drop R; 2+11 too big, drop R; 2+7 equals 9."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section><section aria-labelledby="dr-window"><h2 id="dr-window">Interactive dry run — Fixed sliding window</h2><p>The window sum updates in O(1): add the newcomer, subtract the leaver.</p><div class="dryrun" id="viz-window" data-dryrun><script type="application/json">{"type": "window", "a": [1, 4, 2, 10, 2, 3, 1], "k": 3, "fallback": "Window sums 7, 16, 14, 15, 6 \u2014 best 16."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-twopointers"><h2 id="r-twopointers">Quick reference</h2><div class="card" id="twopointers">
+      <h3>Topic 5 · Two Pointers & Sliding Window</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use two pointers on sorted arrays or sliding window for contiguous subarray/substring problems. They eliminate nested loops -- turning O(n^2) into O(n).
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Arrays, sorting, Big-O</p>
+<p class="prereq"><strong>Learn this:</strong> Opposite pointers, fast/slow pointers, fixed window, variable window</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can recognize when two pointers or a sliding window eliminate a nested loop</p>
+      </div>
+
+
+      <h4>Algorithm — Two Pointers Templates</h4>
+<pre><code>// Pattern 1: Opposite Ends (sorted array)
+int left = 0, right = arr.length - 1;
+while (left &lt; right) {
+    int sum = arr[left] + arr[right];
+    if (sum == target) { /* found */ left++; right--; }
+    else if (sum &lt; target) left++;
+    else right--;
+}
+
+// Pattern 2: Same Direction (Fast & Slow — remove duplicates, partition)
+int slow = 0;
+for (int fast = 0; fast &lt; arr.length; fast++) {
+    if (arr[fast] != arr[slow]) {
+        slow++;
+        arr[slow] = arr[fast];
+    }
+}
+
+// Pattern 3: Merge Two Sorted Arrays
+int i = 0, j = 0;
+while (i &lt; a.length && j &lt; b.length) {
+    if (a[i] &lt;= b[j]) result.add(a[i++]);
+    else result.add(b[j++]);
+}
+</code></pre>
+
+      <h4>Algorithm — Sliding Window Templates</h4>
+<pre><code>// Fixed Size Window
+int windowSum = 0;
+for (int i = 0; i &lt; arr.length; i++) {
+    windowSum += arr[i];
+    if (i >= k) windowSum -= arr[i - k];  // Shrink from left
+    if (i >= k - 1) maxSum = Math.max(maxSum, windowSum);  // Window is full
+}
+
+// Variable Size Window — Find minimum window satisfying condition
+int left = 0, minLen = Integer.MAX_VALUE;
+for (int right = 0; right &lt; arr.length; right++) {
+    // Expand: add arr[right] to window state
+    
+    while (windowSatisfiesCondition()) {
+        minLen = Math.min(minLen, right - left + 1);
+        // Shrink: remove arr[left] from window state
+        left++;
+    }
+}
+
+// Variable Size Window — Find maximum window satisfying condition
+int left = 0, maxLen = 0;
+for (int right = 0; right &lt; arr.length; right++) {
+    // Expand: add arr[right] to window state
+    
+    while (!windowSatisfiesCondition()) {
+        // Shrink: remove arr[left] from window state
+        left++;
+    }
+    maxLen = Math.max(maxLen, right - left + 1);
+}
+
+// Sliding Window with HashMap (character frequency)
+Map&lt;Character, Integer&gt; window = new HashMap&lt;&gt;();
+int left = 0;
+for (int right = 0; right &lt; s.length(); right++) {
+    char c = s.charAt(right);
+    window.merge(c, 1, Integer::sum);
+    
+    while (/* window invalid */) {
+        char d = s.charAt(left);
+        window.merge(d, -1, Integer::sum);
+        if (window.get(d) == 0) window.remove(d);
+        left++;
+    }
+    // update answer
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Sum Pair.</strong> Given a sorted array, find if any two elements sum to a target. Use two pointers from both ends.<details><summary>Solution</summary><p>Sort first (if not sorted). L=0, R=n−1: sum==t → found; sum&lt;t → L++; else R−−. Each step discards one element: O(n).</p></details></div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Remove Duplicates.</strong> Given a sorted array, remove duplicates in-place using fast/slow pointers.<details><summary>Solution</summary><p>slow=0; fast scans 1..n−1; when a[fast]≠a[slow]: slow++, a[slow]=a[fast]. Answer length slow+1. O(n)/O(1).</p></details></div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Max Sum K.</strong> Given an array and window size k, find the maximum sum of any contiguous subarray of size k.<details><summary>Solution</summary><p>Sum first k, then slide: add a[i], subtract a[i−k], track max. O(n) — each element enters/leaves once.</p></details></div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener">Two Sum II - Input Array Is Sorted — LC #167</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener">Remove Duplicates from Sorted Array — LC #26</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/move-zeroes/" target="_blank" rel="noopener">Move Zeroes — LC #283</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener">Valid Palindrome — LC #125</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/maximum-average-subarray-i/" target="_blank" rel="noopener">Maximum Average Subarray I — LC #643</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener">3Sum — LC #15</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener">Container With Most Water — LC #11</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener">Longest Substring Without Repeating Characters — LC #3</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank" rel="noopener">Minimum Size Subarray Sum — LC #209</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener">Longest Repeating Character Replacement — LC #424</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/permutation-in-string/" target="_blank" rel="noopener">Permutation in String — LC #567</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/" target="_blank" rel="noopener">Find All Anagrams in a String — LC #438</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/subarray-product-less-than-k/" target="_blank" rel="noopener">Subarray Product Less Than K — LC #713</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/4sum/" target="_blank" rel="noopener">4Sum — LC #18</a> <span class="plat">LeetCode</span></li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener">Minimum Window Substring — LC #76</a> <span class="plat">LeetCode</span></li>
+        <li class="hard"><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" rel="noopener">Sliding Window Maximum — LC #239</a> <span class="plat">LeetCode</span></li>
+        <li class="hard"><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener">Subarrays with K Different Integers — LC #992</a> <span class="plat">LeetCode</span></li>
+        <li class="hard"><a href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank" rel="noopener">Substring with Concatenation of All Words — LC #30</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">CF #1555D — Say No to Palindromes</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 6: PREFIX SUM & DIFFERENCE ARRAY    -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-twopointers"><h2 id="qz-twopointers">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="twopointers" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. a=[1,2,4,6,8], target 10. First step (L=0,R=4, sum 9&lt;10)?</legend><label><input type="radio" name="twopointers-q1" value="a"> R-- because the sum is small</label><label><input type="radio" name="twopointers-q1" value="b"> L++ because a[L] pairs with nothing</label><label><input type="radio" name="twopointers-q1" value="c"> Return (0,4) — close enough</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Sum too small with the largest partner: a[L] is dead. L++.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>2. Fast/slow in-place dedup: why does it stay O(1) space?</legend><label><input type="radio" name="twopointers-q2" value="a"> It uses no extra array — slow marks the write frontier</label><label><input type="radio" name="twopointers-q2" value="b"> It uses a HashSet</label><label><input type="radio" name="twopointers-q2" value="c"> Duplicates are rare</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Slow is the boundary of finished output; fast scans. No second array.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Fixed window k slides: cost per step?</legend><label><input type="radio" name="twopointers-q3" value="a"> O(k) — rescan the window</label><label><input type="radio" name="twopointers-q3" value="b"> O(1) — add right, subtract left</label><label><input type="radio" name="twopointers-q3" value="c"> O(log n)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>The overlap between consecutive windows is k−1 elements; only two change.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-twopointers"><h2 id="v-twopointers">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-twopointers"><h2 id="c-twopointers">✅ Move on when you can…</h2><ul class='checklist' data-checklist='twopointers'><li><input type='checkbox' id='twopointers-0'><label for='twopointers-0'>You can recognize when two pointers or a sliding window eliminate a nested loop</label></li><li><input type='checkbox' id='twopointers-1'><label for='twopointers-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='twopointers-2'><label for='twopointers-2'>You can state when this applies</label></li><li><input type='checkbox' id='twopointers-3'><label for='twopointers-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

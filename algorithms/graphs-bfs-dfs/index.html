@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 14 · BFS, DFS & Topo Sort | Ultimate DSA Guide</title>
+<meta name="description" content="Nodes + edges. BFS = shortest in unweighted graphs; DFS = components, cycles, ordering. Representation choice (adj list) comes first.">
+<link rel="canonical" href="/algorithms/graphs-bfs-dfs/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 14 · BFS, DFS & Topo Sort">
+<meta property="og:description" content="Nodes + edges. BFS = shortest in unweighted graphs; DFS = components, cycles, ordering. Representation choice (adj list) comes first.">
+<meta property="og:url" content="/algorithms/graphs-bfs-dfs/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html" aria-current="page">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 14 · Graphs — BFS, DFS, Topological Sort</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 14 · Graphs — BFS, DFS, Topological Sort</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Queues, stacks, recursion, basic data structures</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90+ min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-graphs-bfs-dfs"><h2 id="i-graphs-bfs-dfs">Intuition</h2><p>Nodes + edges. BFS = shortest in unweighted graphs; DFS = components, cycles, ordering. Representation choice (adj list) comes first.</p><p><strong>Learn:</strong> Graph representation, BFS, DFS, cycle detection, topological sort, connected components &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-graphs"><h2 id="sg-graphs">How to recognize this pattern</h2><div class="callout good"><strong>Reach for it when:</strong><ul><li>Entities + relationships (grids, networks, dependencies).</li><li>Shortest path in unweighted graphs (BFS).</li><li>Components, cycles, ordering (DFS/topo).</li><li>Flood fill / island counting.</li></ul></div><div class="callout warn"><strong>Red flags — probably NOT this:</strong><ul><li>Weighted edges with shortest-path need — that's Dijkstra, not plain BFS.</li><li>Dense complete graphs where matrix reasoning suffices.</li><li>You need the k-th shortest or constrained path — heavier machinery.</li></ul></div></section>
+<section aria-labelledby="m-graphs-bfs-dfs'><h2 id='m-graphs-bfs-dfs'>Common mistakes</h2><ul><li>Recursive DFS overflows on 10⁵-node graphs — use iterative.</li><li>Topo sort on cyclic graph: verify processed count == n.</li></ul></section>
+<section aria-labelledby="w-graphs"><h2 id="w-graphs">Worked example — Number of Islands</h2><p><strong>Problem.</strong> 4×4 binary grid. Count connected 1-components (4-directional).</p><ol class="steps"><li><strong>What should we notice?</strong> Components = DFS/BFS launches. Water is free separation.</li><li><strong>Naive thought.</strong> Compare every cell pair for connectivity: O((nm)²).</li><li><strong>Key observation.</strong> Visit-once flooding: each land cell is sunk exactly once; each launch discovers one island.</li><li><strong>Optimized strategy.</strong> Grid [[1,1,0,0],[1,0,0,1],[0,0,1,1],[0,0,1,0]]: launch at (0,0) → sinks 3 cells (island 1); scan finds (1,3) alone (island 2); (2,2) flood takes (2,3),(3,2) (island 3).</li><li><strong>Step-by-step.</strong> Topo twin: Kahn's algorithm — repeatedly emit zero-indegree nodes; leftover nodes prove a cycle.</li><li><strong>Final answer.</strong> 3 islands.</li><li><strong>Complexity.</strong> O(n·m) time, O(n·m) visited (or mutate grid to O(1) extra).</li><li><strong>What to remember.</strong> Launch = component. Mark on enqueue/visit, 4 directions, boundary checks first.</li></ol></section><section aria-labelledby="dr-graphs"><h2 id="dr-graphs">Interactive dry run — Breadth-first search</h2><p>The queue enforces level order — predict each dequeue before pressing Next.</p><div class="dryrun" id="viz-bfs" data-dryrun><script type="application/json">{"type": "bfs", "adj": {"0": [1, 2], "1": [0, 3], "2": [0, 3], "3": [1, 2, 4], "4": [3]}, "start": 0, "fallback": "Order 0,1,2,3,4 \u2014 levels {0},{1,2},{3},{4}."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-graphs-bfs-dfs"><h2 id="r-graphs-bfs-dfs">Quick reference</h2><div class="card" id="graphs-bfs-dfs">
+      <h3>Topic 14 · Graphs — BFS, DFS, Topological Sort</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use BFS for shortest paths in unweighted graphs and level-order traversal. Use DFS for connected components, cycle detection, and topological sorting.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Queues, stacks, recursion, basic data structures</p>
+<p class="prereq"><strong>Learn this:</strong> Graph representation, BFS, DFS, cycle detection, topological sort, connected components</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can see graphs as nodes + edges and choose BFS or DFS appropriately</p>
+      </div>
+
+
+      <h4>Graph Representation</h4>
+<pre><code>// Adjacency List (most common)
+List&lt;List&lt;Integer&gt;&gt; adj = new ArrayList&lt;&gt;();
+for (int i = 0; i &lt; n; i++) adj.add(new ArrayList&lt;&gt;());
+// Add edge u -> v
+adj.get(u).add(v);
+adj.get(v).add(u);  // For undirected
+
+// Weighted Adjacency List
+List&lt;List&lt;int[]&gt;&gt; adj = new ArrayList&lt;&gt;();  // int[] = {neighbor, weight}
+
+// Adjacency Matrix
+int[][] adj = new int[n][n];  // adj[u][v] = weight (0 or INF if no edge)
+
+// Edge List
+int[][] edges;  // edges[i] = {u, v, weight}
+</code></pre>
+
+      <h4>Algorithm — BFS</h4>
+<pre><code>// BFS — O(V + E) — Shortest path in unweighted graphs
+void bfs(List&lt;List&lt;Integer&gt;&gt; adj, int start) {
+    boolean[] visited = new boolean[n];
+    Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+    visited[start] = true;
+    queue.offer(start);
+    int dist = 0;
+    
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+        for (int i = 0; i &lt; size; i++) {
+            int node = queue.poll();
+            for (int neighbor : adj.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        dist++;  // Distance from start
+    }
+}
+
+// BFS on Grid (2D)
+int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+Queue&lt;int[]&gt; queue = new ArrayDeque&lt;&gt;();
+boolean[][] visited = new boolean[m][n];
+queue.offer(new int[]{startRow, startCol});
+visited[startRow][startCol] = true;
+
+while (!queue.isEmpty()) {
+    int[] cell = queue.poll();
+    for (int[] d : dirs) {
+        int nr = cell[0] + d[0], nc = cell[1] + d[1];
+        if (nr >= 0 && nr &lt; m && nc >= 0 && nc &lt; n && !visited[nr][nc] && grid[nr][nc] != WALL) {
+            visited[nr][nc] = true;
+            queue.offer(new int[]{nr, nc});
+        }
+    }
+}
+</code></pre>
+
+      <h4>Algorithm — DFS</h4>
+<pre><code>// DFS Recursive
+void dfs(List&lt;List&lt;Integer&gt;&gt; adj, int node, boolean[] visited) {
+    visited[node] = true;
+    for (int neighbor : adj.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(adj, neighbor, visited);
+        }
+    }
+}
+
+// DFS Iterative
+void dfsIterative(List&lt;List&lt;Integer&gt;&gt; adj, int start) {
+    boolean[] visited = new boolean[n];
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+    stack.push(start);
+    while (!stack.isEmpty()) {
+        int node = stack.pop();
+        if (visited[node]) continue;
+        visited[node] = true;
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) stack.push(neighbor);
+        }
+    }
+}
+
+// Count Connected Components
+int components = 0;
+boolean[] visited = new boolean[n];
+for (int i = 0; i &lt; n; i++) {
+    if (!visited[i]) {
+        dfs(adj, i, visited);
+        components++;
+    }
+}
+
+// Cycle Detection in Directed Graph (DFS with coloring)
+// 0 = unvisited, 1 = in current path, 2 = fully processed
+int[] color = new int[n];
+boolean hasCycle(int node) {
+    color[node] = 1;
+    for (int next : adj.get(node)) {
+        if (color[next] == 1) return true;       // Back edge → cycle
+        if (color[next] == 0 && hasCycle(next)) return true;
+    }
+    color[node] = 2;
+    return false;
+}
+</code></pre>
+
+      <h4>Algorithm — Topological Sort</h4>
+<pre><code>// Kahn's Algorithm (BFS-based) — also detects cycles
+List&lt;Integer&gt; topoSort(int n, List&lt;List&lt;Integer&gt;&gt; adj) {
+    int[] indegree = new int[n];
+    for (int u = 0; u &lt; n; u++)
+        for (int v : adj.get(u)) indegree[v]++;
+    
+    Queue&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();
+    for (int i = 0; i &lt; n; i++)
+        if (indegree[i] == 0) queue.offer(i);
+    
+    List&lt;Integer&gt; order = new ArrayList&lt;&gt;();
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        order.add(node);
+        for (int neighbor : adj.get(node)) {
+            if (--indegree[neighbor] == 0) queue.offer(neighbor);
+        }
+    }
+    return order.size() == n ? order : new ArrayList&lt;&gt;();  // Empty if cycle
+}
+
+// DFS-based Topological Sort
+Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+boolean[] visited = new boolean[n];
+
+void topoSortDFS(int node) {
+    visited[node] = true;
+    for (int neighbor : adj.get(node))
+        if (!visited[neighbor]) topoSortDFS(neighbor);
+    stack.push(node);  // Add after all descendants
+}
+
+// Call for all nodes, then stack contains topological order
+for (int i = 0; i &lt; n; i++)
+    if (!visited[i]) topoSortDFS(i);
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Components.</strong> Given an undirected graph, count the number of connected components using BFS or DFS.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Valid Path.</strong> Given a graph and two nodes, determine if a path exists between them.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Topological Order.</strong> Given a DAG, return a valid topological ordering using Kahn's algorithm.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy">LC #733 — Flood Fill</li>
+        <li class="easy">LC #463 — Island Perimeter</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/number-of-islands/" target="_blank" rel="noopener">Number of Islands — LC #200</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #695 — Max Area of Island</li>
+        <li class="medium"><a href="https://leetcode.com/problems/clone-graph/" target="_blank" rel="noopener">Clone Graph — LC #133</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener">Course Schedule — LC #207</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank" rel="noopener">Course Schedule II — LC #210</a> <span class="plat">LeetCode</span></li>
+        <li class="medium"><a href="https://leetcode.com/problems/rotting-oranges/" target="_blank" rel="noopener">Rotting Oranges — LC #994</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #785 — Is Graph Bipartite?</li>
+        <li class="medium">LC #417 — Pacific Atlantic Water Flow</li>
+        <li class="medium">LC #130 — Surrounded Regions</li>
+        <li class="medium">LC #1091 — Shortest Path in Binary Matrix</li>
+        <li class="medium">LC #802 — Find Eventual Safe States</li>
+        <li class="medium">LC #684 — Redundant Connection</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard"><a href="https://leetcode.com/problems/word-ladder/" target="_blank" rel="noopener">Word Ladder — LC #127</a> <span class="plat">LeetCode</span></li>
+        <li class="hard">LC #269 — Alien Dictionary</li>
+        <li class="hard">LC #332 — Reconstruct Itinerary (Euler Path)</li>
+        <li class="hard">LC #1192 — Critical Connections (Tarjan's Bridges)</li>
+        <li class="hard">CF #1594D — The Number of Imposters</li>
+        <li class="hard">CF #1791F — Range Update Point Query</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--   TOPIC 15: SHORTEST PATH — DIJKSTRA, BELLMAN, FLOYD  -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-graphs"><h2 id="qz-graphs">Check yourself</h2><p>Three questions. Predict, don't peek — then verify against the lesson.</p><div class="quizwrap"><form data-quiz="graphs" aria-label="Topic quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. BFS must mark visited when?</legend><label><input type="radio" name="graphs-q1" value="a"> On dequeue</label><label><input type="radio" name="graphs-q1" value="b"> On enqueue — otherwise nodes are queued exponentially</label><label><input type="radio" name="graphs-q1" value="c"> Never on grids</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>A node reachable twice gets enqueued twice before either copy is processed.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. Topo sort fails (processed < n) means?</legend><label><input type="radio" name="graphs-q2" value="a"> Wrong start node</label><label><input type="radio" name="graphs-q2" value="b"> A cycle exists</label><label><input type="radio" name="graphs-q2" value="c"> Disconnected graph</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Cycle members never reach indegree zero — Kahn stalls exactly there.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. DFS on a 10⁵-node chain risks?</legend><label><input type="radio" name="graphs-q3" value="a"> Nothing</label><label><input type="radio" name="graphs-q3" value="b"> Stack overflow — use iterative DFS</label><label><input type="radio" name="graphs-q3" value="c"> Wrong order</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Recursion depth equals path length.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-graphs-bfs-dfs"><h2 id="v-graphs-bfs-dfs">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-graphs-bfs-dfs"><h2 id="c-graphs-bfs-dfs">✅ Move on when you can…</h2><ul class='checklist' data-checklist='graphs-bfs-dfs'><li><input type='checkbox' id='graphs-bfs-dfs-0'><label for='graphs-bfs-dfs-0'>You can see graphs as nodes + edges and choose BFS or DFS appropriately</label></li><li><input type='checkbox' id='graphs-bfs-dfs-1'><label for='graphs-bfs-dfs-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='graphs-bfs-dfs-2'><label for='graphs-bfs-dfs-2'>You can state when this applies</label></li><li><input type='checkbox' id='graphs-bfs-dfs-3'><label for='graphs-bfs-dfs-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

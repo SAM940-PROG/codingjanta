@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheet | Ultimate DSA Guide</title>
+<meta name="description" content="Complexity lookup, Java I/O template and pitfalls.">
+<link rel="canonical" href="/reference/cheatsheet/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cheat Sheet">
+<meta property="og:description" content="Complexity lookup, Java I/O template and pitfalls.">
+<meta property="og:url" content="/reference/cheatsheet/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html" aria-current="page">Cheat Sheet</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Cheat Sheet</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+<header><h1>Cheat Sheet</h1><p class='lede'>Complexity lookup, Java I/O template and pitfalls.</p></header><section><h2>Key notes</h2><div class="card">
+      <h3>When to Use What — Decision Table</h3>
+      <table>
+        <tr><th>Problem Pattern</th><th>Data Structure / Algorithm</th></tr>
+        <tr><td>Find pair with target sum</td><td>HashMap (Two Sum) or Two Pointers (sorted)</td></tr>
+        <tr><td>Subarray sum = k</td><td>Prefix Sum + HashMap</td></tr>
+        <tr><td>Sliding window min/max</td><td>Monotonic Deque</td></tr>
+        <tr><td>Next greater/smaller element</td><td>Monotonic Stack</td></tr>
+        <tr><td>Top K elements</td><td>PriorityQueue (Heap)</td></tr>
+        <tr><td>Stream median</td><td>Two Heaps (max + min)</td></tr>
+        <tr><td>Shortest path (unweighted)</td><td>BFS</td></tr>
+        <tr><td>Shortest path (weighted, no neg)</td><td>Dijkstra</td></tr>
+        <tr><td>Shortest path (negative edges)</td><td>Bellman-Ford</td></tr>
+        <tr><td>All pairs shortest path</td><td>Floyd-Warshall</td></tr>
+        <tr><td>Minimum spanning tree</td><td>Kruskal (sparse) or Prim (dense)</td></tr>
+        <tr><td>Connected components / cycle</td><td>Union-Find or DFS</td></tr>
+        <tr><td>Topological ordering</td><td>Kahn's BFS or DFS post-order</td></tr>
+        <tr><td>Prefix/autocomplete</td><td>Trie</td></tr>
+        <tr><td>Range query + update</td><td>Segment Tree or Fenwick Tree</td></tr>
+        <tr><td>Range query (static)</td><td>Sparse Table (min/max)</td></tr>
+        <tr><td>Pattern matching</td><td>KMP or Z-Algorithm</td></tr>
+        <tr><td>Longest palindrome</td><td>Manacher's or DP</td></tr>
+        <tr><td>Optimization with constraints</td><td>DP (Knapsack variants)</td></tr>
+        <tr><td>All subsets / permutations</td><td>Backtracking or Bitmask</td></tr>
+        <tr><td>Binary search on answer</td><td>Binary Search + validation function</td></tr>
+        <tr><td>LCA on tree</td><td>Binary Lifting</td></tr>
+        <tr><td>Tree path queries</td><td>HLD + Segment Tree</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Complexity Quick Lookup</h3>
+      <table>
+        <tr><th>Constraint (n)</th><th>Max Complexity</th><th>Typical Approach</th></tr>
+        <tr><td>n ≤ 10</td><td>O(n!), O(n × 2ⁿ)</td><td>Brute force, backtracking, bitmask</td></tr>
+        <tr><td>n ≤ 20</td><td>O(2ⁿ)</td><td>Bitmask DP, meet in middle</td></tr>
+        <tr><td>n ≤ 500</td><td>O(n³)</td><td>Floyd-Warshall, interval DP</td></tr>
+        <tr><td>n ≤ 5000</td><td>O(n²)</td><td>2D DP, nested loops</td></tr>
+        <tr><td>n ≤ 10⁵</td><td>O(n log n)</td><td>Sorting, segment tree, binary search</td></tr>
+        <tr><td>n ≤ 10⁶</td><td>O(n)</td><td>Linear scan, two pointers, hashing</td></tr>
+        <tr><td>n ≤ 10⁸</td><td>O(n) or O(n log log n)</td><td>Sieve, simple iteration</td></tr>
+        <tr><td>n ≤ 10¹⁸</td><td>O(log n) or O(√n)</td><td>Binary search, math, matrix expo</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Java I/O Template for Competitive Programming</h3>
+<pre><code>import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        
+        int t = Integer.parseInt(br.readLine().trim());
+        while (t-- > 0) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
+            
+            int[] arr = new int[n];
+            st = new StringTokenizer(br.readLine());
+            for (int i = 0; i &lt; n; i++) {
+                arr[i] = Integer.parseInt(st.nextToken());
+            }
+            
+            // Solve...
+            sb.append(answer).append('\n');
+        }
+        System.out.print(sb);
+    }
+}
+</code></pre>
+      <div class="warning">⚠ <strong>Never use Scanner for competitive programming</strong> — it's 5-10x slower than BufferedReader. Always use BufferedReader + StringTokenizer.</div></section>
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

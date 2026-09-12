@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO: unique per topic. Replace the domain with the production domain at deploy. -->
+  <title>Binary Search — Learn, Visualize &amp; Practice (Java) | Ultimate DSA Guide</title>
+  <meta name="description" content="Teaching-first Binary Search lesson for rusty programmers: intuition, when to use it, brute force first, one fully worked problem (Koko Eating Bananas), annotated Java, mistakes, warm-ups, graded practice, quiz and interactive visualizer.">
+  <link rel="canonical" href="/algorithms/binary-search/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Binary Search — Learn, Visualize &amp; Practice (Java)">
+  <meta property="og:description" content="From 'I vaguely remember this' to recognizing Binary Search in a contest. Intuition first, then code, then graded practice.">
+  <meta property="og:url" content="/algorithms/binary-search/">
+  <meta property="og:image" content="/assets/og-binary-search.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"LearningResource","name":"Binary Search (Java) — teaching-first lesson","teaches":"Binary search, lower/upper bound, binary search on answer","educationalLevel":"intermediate","inLanguage":"en"}
+  </script>
+  <script>
+  // Set theme before first paint to avoid a flash of the wrong theme.
+  (function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to lesson content</a>
+
+  <aside class="sidebar" id="sidebar" aria-label="Site">
+    <div class="sidebar-top">
+      <a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a>
+      <button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button>
+    </div>
+    <div class="sidebar-search">
+      <input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation">
+    </div>
+    <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+    <nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html" aria-current="page">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+  </aside>
+  <button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+
+  <div class="content">
+    <div class="topbar">
+      <button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button>
+      <span class="breadcrumb"><a href="../../index.html">Roadmap</a> › <a href="#main">Patterns</a> › Binary Search</span>
+      <span style="margin-left:auto"></span>
+      <button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button>
+    </div>
+
+    <main class="prose" id="main">
+      <header>
+        <p><span class="tag">Foundation → Core</span> <span class="tag">Pattern</span> <span class="tag">Java</span></p>
+        <h1>Binary Search</h1>
+        <p class="lede">Find anything in a sorted space — or find the smallest answer that passes a yes/no test — by throwing away half the candidates at every step.</p>
+        <div class="meta-grid" role="list" aria-label="Lesson metadata">
+          <div class="meta-card" role="listitem"><b>Level</b>Foundation → Core</div>
+          <div class="meta-card" role="listitem"><b>Prerequisites</b>Arrays · Big-O · sorted data</div>
+          <div class="meta-card" role="listitem"><b>Estimated time</b>60–90 min + practice</div>
+          <div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div>
+        </div>
+        <nav class="toc-inline" aria-label="On this page">
+          <strong>On this page:</strong>
+          <a href="#intuition">Intuition</a> ·
+          <a href="#signals">When to think it</a> ·
+          <a href="#brute-force">Brute force first</a> ·
+          <a href="#worked">Worked problem</a> ·
+          <a href="#implementation">Code</a> ·
+          <a href="#warmups">Practice</a> ·
+          <a href="#quiz">Quiz</a> ·
+          <a href="#visualizer">Visualizer</a>
+        </nav>
+      </header>
+
+      <section id="reassurance" aria-labelledby="reassurance-h">
+        <h2 id="reassurance-h">If you're rusty, that's normal</h2>
+        <p>You haven't lost the ability to learn this — you've lost <em>recognition</em>, which is exactly what a break does to rarely used patterns. This lesson rebuilds recognition first ("when do I reach for this?"), then the implementation habit. If syntax feels fuzzy, read the code slowly; the reasoning comments carry the weight, not memorized APIs.</p>
+      </section>
+
+      <section id="intuition" aria-labelledby="intuition-h">
+        <h2 id="intuition-h">Plain-language intuition</h2>
+        <p>Suppose you must find a value among a million sorted items. Checking each one is a million checks. But sorted order is a promise: if the middle item is too small, <strong>everything left of it is also too small</strong>, so you can discard the whole left half sight unseen. Repeat on the remaining half. Each check halves the suspects, so a million items take about 20 checks.</p>
+        <p><strong>Analogy:</strong> finding a word in a paper dictionary. You don't read page 1, then page 2. You open near the middle, see whether your word comes before or after, and discard the useless half. Binary search is that habit, formalized.</p>
+      </section>
+
+      <section id="signals" aria-labelledby="signals-h">
+        <h2 id="signals-h">When should I think “Binary Search”?</h2>
+        <div class="callout"><strong>Recognition beats memorization.</strong> When you read a problem and see one of these shapes, let Binary Search come to mind — then verify the monotonic property before coding.</div>
+        <table>
+          <thead><tr><th scope="col">Signal</th><th scope="col">Why it points to Binary Search</th></tr></thead>
+          <tbody>
+            <tr><td>Sorted array + “find a value / position”</td><td>Order lets one comparison eliminate a whole half.</td></tr>
+            <tr><td>Sorted data + “first / last occurrence”</td><td>Duplicates form a block; lower/upper bound finds its edges in O(log n).</td></tr>
+            <tr><td>“Minimum possible X” / “maximum possible X”</td><td>Classic <em>search on answer</em>: the answer lives in a range, not an array.</td></tr>
+            <tr><td>A monotonic yes/no condition (FFFF…TTTT)</td><td>Monotonicity is the real requirement — sorted arrays are just one instance.</td></tr>
+            <tr><td>The answer can be <em>checked</em> independently</td><td>If <code>check(X)</code> is easy (usually O(n)), Binary Search finds the boundary fast.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="callout warn"><strong>Red flags — probably NOT Binary Search:</strong><ul><li>Unsorted data with no monotonic predicate to exploit.</li><li>You need ALL matches counted in a way bounds can't frame.</li><li>The predicate isn't monotonic (true…false…true) — verify before coding.</li></ul></div>
+      <section id="visual" aria-labelledby="visual-h">
+        <h2 id="visual-h">See the elimination</h2>
+        <div class="figure" role="img" aria-label="Target 11 in [1,3,5,7,9,11,13,15]. Middle is 7, so the left half is discarded, leaving [9,11,13,15].">
+          <p><strong>Target = 11</strong> in <code>[1, 3, 5, 7, 9, 11, 13, 15]</code></p>
+          <div class="cells" aria-hidden="true">
+            <div class="cell">1</div><div class="cell">3</div><div class="cell">5</div><div class="cell mid">7<small>mid</small></div><div class="cell">9</div><div class="cell">11</div><div class="cell">13</div><div class="cell">15</div>
+          </div>
+          <p>↓ <code>7 &lt; 11</code> → discard the entire left half, <em>including</em> mid.</p>
+          <div class="cells" aria-hidden="true">
+            <div class="cell out">1</div><div class="cell out">3</div><div class="cell out">5</div><div class="cell out">7</div><div class="cell">9</div><div class="cell mid">11<small>mid</small></div><div class="cell">13</div><div class="cell">15</div>
+          </div>
+          <p>→ <code>11 == 11</code> → found. Two checks instead of six.</p>
+        </div>
+        <details><summary>Text alternative (step-by-step)</summary>
+          <ol><li>Range [0,7], mid index 3 (value 7). 7 &lt; 11: new range [4,7].</li><li>Range [4,7], mid index 5 (value 11). Match: return 5.</li></ol>
+        </details>
+      </section>
+
+      <section id="brute-force" aria-labelledby="brute-force-h">
+        <h2 id="brute-force-h">Brute force first — why we need this at all</h2>
+        <ol class="steps">
+          <li><strong>Problem.</strong> Given a sorted array of <code>n</code> numbers, is <code>target</code> present?</li>
+          <li><strong>Brute-force idea.</strong> Scan left to right and compare each element. Simple, correct, works on <em>any</em> array.</li>
+          <li><strong>Complexity.</strong> Time O(n), space O(1).</li>
+          <li><strong>Why it becomes too slow.</strong> At <code>n = 10⁶</code> with many queries (typical in contests: <code>q</code> up to 10⁵), O(n·q) means ~10¹¹ operations — seconds turn into hours. Sorted order is unused information.</li>
+          <li><strong>The Binary Search insight.</strong> Sorted order makes the predicate “<code>a[i] &lt; target</code>” monotonic: once it flips, it never flips back. So one middle comparison tells you which half <em>cannot</em> contain the answer — discard it.</li>
+        </ol>
+        <p>Never treat Binary Search as magic: it is linear scan <em>plus</em> the exploitation of order.</p>
+      </section>
+
+      <section id="worked" aria-labelledby="worked-h">
+        <h2 id="worked-h">One fully worked problem</h2>
+        <p><strong>Problem:</strong> <a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener">Koko Eating Bananas — LeetCode 875<span class="tag">LeetCode</span></a> (representative “minimum possible X” problem; the same shape appears constantly on Codeforces under different stories).</p>
+        <ol class="steps">
+          <li><strong>What is being asked?</strong> Piles of bananas; Koko eats at speed <code>k</code> piles-per-hour equivalent (k bananas/hour, one pile at a time, round up partial hours). Given guard return time <code>h</code> hours, find the <em>smallest integer speed</em> that finishes everything in time. We minimize <code>k</code>, plain language: “how slow can she afford to be?”</li>
+          <li><strong>What do the constraints imply?</strong> <code>n ≤ 10⁴</code>, pile size and <code>h</code> up to 10⁹. Trying every speed up to max pile (10⁹) with an O(n) check each is up to ~10¹³ work — impossible. But an O(n log maxPile) solution (≈ 10⁴ × 30) is trivial. Constraints scream “log factor available.”</li>
+          <li><strong>Brute force.</strong> Try <code>k = 1, 2, 3, …</code>; for each, compute hours = Σ ceil(pile / k); return the first <code>k</code> with hours ≤ h.</li>
+          <li><strong>Why brute force is too slow.</strong> O(maxPile × n): up to ~10⁹ × 10⁴. The check is correct but the outer scan wastes the structure of the problem.</li>
+          <li><strong>The key observation.</strong> <code>canFinish(k)</code> is <em>monotonic</em>: if speed <code>k</code> finishes in time, every faster speed also finishes (FFFF…TTTT over k). So the speeds form exactly the shape Binary Search needs — even though there is no sorted array.</li>
+          <li><strong>The algorithm.</strong> Search the <em>answer range</em> [1, maxPile]. Mid <code>m</code>: if <code>canFinish(m)</code>, the answer is <code>m</code> or slower-left → <code>hi = m</code>; else we need faster → <code>lo = m + 1</code>. Loop while <code>lo &lt; hi</code>; return <code>lo</code>.</li>
+          <li><strong>Dry run.</strong> <code>piles = [3,6,7,11]</code>, <code>h = 8</code>. maxPile = 11 → range [1,11]. mid 6: hours = 1+1+2+2 = 6 ≤ 8 → hi = 6. mid 3: hours = 1+2+3+4 = 10 &gt; 8 → lo = 4. mid 5: hours = 1+2+2+3 = 8 ≤ 8 → hi = 5. mid 4: hours = 1+2+2+3 = 8 ≤ 8 → hi = 4. lo == hi == 4 → answer 4. ✓</li>
+          <li><strong>Implementation.</strong> See the annotated code below (<a href="#implementation">jump to code</a>).</li>
+          <li><strong>Complexity.</strong> Time O(n log maxPile), space O(1).</li>
+        </ol>
+      </section>
+
+      <section id="implementation" aria-labelledby="implementation-h">
+        <h2 id="implementation-h">Annotated implementation</h2>
+        <p>Two listings: the classic search (learn the invariant here), then the worked-problem solution (same invariant, applied to answers).</p>
+        <h3>Listing 1 — Classic binary search (memorize this shape)</h3>
+<pre><code>public int binarySearch(int[] a, int target) {
+    int lo = 0, hi = a.length - 1;
+    // INVARIANT: if target exists, it is inside [lo, hi].
+    while (lo &lt;= hi) {
+        // Overflow-safe mid: (lo + hi) can overflow for large indices.
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] == target) return mid;
+        // a[mid] &lt; target + sorted order proves EVERYTHING at
+        // indices &lt;= mid is too small — discard the whole left half.
+        if (a[mid] &lt; target) lo = mid + 1;
+        // Symmetric: a[mid] proves everything &gt;= mid's right side
+        // only; discard mid and everything right of it.
+        else hi = mid - 1;
+    }
+    // Range is empty, so target was proven absent — not "not found yet".
+    return -1;
+}</code></pre>
+
+        <h3>Listing 2 — Worked solution: Koko (binary search on answer)</h3>
+<pre><code>public int minEatingSpeed(int[] piles, int h) {
+    int lo = 1, hi = maxOf(piles);
+    // INVARIANT: the answer is always inside [lo, hi].
+    // check(m) is monotonic: false...false true...true.
+    while (lo &lt; hi) {
+        int mid = lo + (hi - lo) / 2;
+        // mid might BE the answer, so keep it: hi = mid (not mid - 1).
+        if (canFinish(piles, h, mid)) hi = mid;
+        // mid is proven too slow; everything &lt;= mid is too slow too.
+        else lo = mid + 1;
+    }
+    return lo;
+}
+
+// Decision procedure: easy O(n) check that BS calls O(log M) times.
+// Hours can exceed int range (n * pile up to ~1e13), so accumulate in long.
+private boolean canFinish(int[] piles, int h, int speed) {
+    long hours = 0;
+    for (int p : piles) hours += (p + (long) speed - 1) / speed; // ceil without doubles
+    return hours &lt;= h;
+}</code></pre>
+
+        <div class="callout good" id="complexity">
+          <strong>Complexity (this lesson's code).</strong>
+          Listing 1 — <strong>Time: O(log n), Space: O(1).</strong>
+          Listing 2 — <strong>Time: O(n log maxPile), Space: O(1).</strong>
+          Each step removes roughly half of the remaining candidates, so the number of checks grows logarithmically, not linearly.
+        </div>
+      </section>
+
+      <section id="mistakes" aria-labelledby="mistakes-h">
+        <h2 id="mistakes-h">Common Binary-Search-specific mistakes</h2>
+        <table>
+          <thead><tr><th scope="col">Mistake</th><th scope="col">Why it happens / how to avoid</th></tr></thead>
+          <tbody>
+            <tr><td><code>mid = (lo + hi) / 2</code> overflow</td><td><code>lo + hi</code> can overflow int near 2³¹. Always use <code>lo + (hi - lo) / 2</code>.</td></tr>
+            <tr><td>Wrong loop condition (<code>&lt;</code> vs <code>&lt;=</code>)</td><td><code>lo &lt;= hi</code> pairs with <code>hi = len − 1</code>; <code>lo &lt; hi</code> pairs with <code>hi = len</code> or answer-search. Mixing them skips the last candidate or loops forever.</td></tr>
+            <tr><td>Infinite loop on two elements</td><td>Updating with <code>lo = mid</code> / <code>hi = mid</code> without progress stalls when <code>hi − lo == 1</code>. Use <code>mid + 1</code> / <code>mid − 1</code>, or the <code>hi = mid / lo = mid + 1</code> answer-search pair.</td></tr>
+            <tr><td>Mixing inclusive/exclusive ranges</td><td>Pick one convention per function and keep it: either <code>[lo, hi]</code> inclusive or <code>[lo, hi)</code> half-open. The reference templates below show both — don't blend them mid-function.</td></tr>
+            <tr><td>Returning <code>mid</code> too early in bound searches</td><td>Lower/upper bound asks for the <em>first</em> position satisfying a condition; returning on first match gives <em>a</em> match. Shrink the range instead and return <code>lo</code>.</td></tr>
+            <tr><td>Duplicates handled by luck</td><td>Classic search returns <em>any</em> occurrence. If the problem wants first/last, you must use the lower/upper-bound template, not hope.</td></tr>
+            <tr><td>Broken invariant (“searching” an unsorted/monotonic-violating space)</td><td>Discarding a half is only legal if the predicate is monotonic. Rotated arrays, bitonic arrays, or buggy <code>check()</code> functions silently break the proof — verify monotonicity first.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="warmups" aria-labelledby="warmups-h">
+        <h2 id="warmups-h">🌱 Warm-up problems</h2>
+        <p>Do these before serious practice. Original, platform-neutral, increasing in demand: recognition → implementation → small application. No fake problem IDs.</p>
+        <ol class="steps">
+          <li><strong>Exists?</strong> — Given a sorted array and a target, return true/false.
+            <details><summary>Solution</summary><p>Classic template; return <code>mid</code> on equality, <code>-1</code>/false when the range empties. Time O(log n).</p></details> <em>Concept:</em> recognition + classic template. <em>Difficulty:</em> trivial.
+            <details><summary>Hint (optional)</summary>Sort order means one middle comparison eliminates a half. Start from Listing 1.</details></li>
+          <li><strong>First occurrence.</strong> — Sorted array may contain duplicates; return the index of the <em>first</em> target, or −1.
+            <details><summary>Solution</summary><p>Lower bound: on match set <code>hi = mid</code> (never return early); loop <code>lo &lt; hi</code>; verify <code>a[lo]==target</code> at the end.</p></details> <em>Concept:</em> lower bound. <em>Difficulty:</em> easy.
+            <details><summary>Hint (optional)</summary>Don't return on match — record nothing, just move <code>hi = mid</code> and let the loop converge on the left edge.</details></li>
+          <li><strong>Insert position.</strong> — Sorted array + target; return the index where it belongs to keep order.
+            <details><summary>Solution</summary><p>Lower bound again — return <code>lo</code> unconditionally; absence just means insertion point.</p></details> <em>Concept:</em> lower bound as insertion point. <em>Difficulty:</em> easy.
+            <details><summary>Hint (optional)</summary>This is exactly what lower bound returns even when the target is absent — return <code>lo</code>, not −1.</details></li>
+        </ol>
+      </section>
+
+      <section id="practice" aria-labelledby="practice-h">
+        <h2 id="practice-h">Practice progression</h2>
+        <p class="status" data-practice-progress aria-live="polite"></p>
+        <p>External links open in a new tab. Platform is shown on every link so you know where you're going.</p>
+        <h3><span class="tag easy">Easy</span> Confirm the template</h3>
+        <ul class="problem-list">
+          <li class="easy"><a href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener">Binary Search — LC 704</a> <span class="plat">LeetCode</span> · straight classic search.</li>
+          <li class="easy"><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">Search Insert Position — LC 35</a> <span class="plat">LeetCode</span> · lower bound = answer.</li>
+          <li class="easy"><a href="https://leetcode.com/problems/first-bad-version/" target="_blank" rel="noopener">First Bad Version — LC 278</a> <span class="plat">LeetCode</span> · first-true boundary; the Koko shape in miniature.
+            <details><summary>Hints (progressive)</summary><p>Hint 1: versions are FFFF…TTTT (good…bad). Hint 2: a bad mid keeps itself as candidate (<code>hi = mid</code>). Hint 3: return <code>lo</code>, the first true.</p></details></li>
+          <li class="easy"><a href="https://leetcode.com/problems/sqrtx/" target="_blank" rel="noopener">Sqrt(x) — LC 69</a> <span class="plat">LeetCode</span> · search the answer range, beware <code>mid*mid</code> overflow — compare <code>mid &gt; x / mid</code>.</li>
+        </ul>
+        <h3><span class="tag medium">Medium</span> Bend the pattern</h3>
+        <ul class="problem-list">
+          <li class="medium"><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener">First and Last Position — LC 34</a> <span class="plat">LeetCode</span> · two bounds, O(log n).</li>
+          <li class="medium"><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener">Search in Rotated Sorted Array — LC 33</a> <span class="plat">LeetCode</span> · one half is always sorted; test which.
+            <details><summary>Hints (progressive)</summary><p>Hint 1: at every mid, either [lo,mid] or [mid,hi] is sorted. Hint 2: check whether the target lies inside the sorted half. Hint 3: only then discard the other half.</p></details></li>
+          <li class="medium"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">Minimum in Rotated Sorted Array — LC 153</a> <span class="plat">LeetCode</span></li>
+          <li class="medium"><a href="https://leetcode.com/problems/find-peak-element/" target="_blank" rel="noopener">Find Peak Element — LC 162</a> <span class="plat">LeetCode</span> · binary search without a sorted array: an uphill neighbor proves a peak exists there.</li>
+          <li class="medium"><a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener">Koko Eating Bananas — LC 875</a> <span class="plat">LeetCode</span> · the worked problem above; redo it unaided.</li>
+          <li class="medium"><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/" target="_blank" rel="noopener">Ship Packages Within D Days — LC 1011</a> <span class="plat">LeetCode</span> · same “minimum feasible X” skeleton, different <code>check()</code>.</li>
+          <li class="medium"><a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">Search a 2D Matrix — LC 74</a> <span class="plat">LeetCode</span> · flatten mentally to 1-D.</li>
+        </ul>
+        <h3><span class="tag hard">Hard</span> Contest-grade</h3>
+        <ul class="problem-list">
+          <li class="hard"><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener">Median of Two Sorted Arrays — LC 4</a> <span class="plat">LeetCode</span> · binary search on a partition, not a value.</li>
+          <li class="hard"><a href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener">Split Array Largest Sum — LC 410</a> <span class="plat">LeetCode</span> · “minimize the maximum”: decision problem + search on answer.</li>
+          <li class="hard"><a href="https://codeforces.com/problemset/problem/1201/C" target="_blank" rel="noopener">Maximum Median — CF 1201C</a> <span class="plat">Codeforces</span> · raising a median with k operations; monotonic feasibility check.</li>
+        </ul>
+        <p><small>Problem selection and ordering are new teaching content. Difficulty labels follow the host platforms.</small></p>
+      </section>
+
+      <section id="move-on" aria-labelledby="move-on-h">
+        <h2 id="move-on-h">✅ Move on when you can…</h2>
+        <p>A learning gate, not decoration. Check each box honestly (saved on this device only).</p>
+        <ul class="checklist" data-checklist="binary-search">
+          <li><input type="checkbox" id="mo1"><label for="mo1">Explain Binary Search without looking at code</label></li>
+          <li><input type="checkbox" id="mo2"><label for="mo2">State when it applies (sortedness <em>or</em> monotonic predicate)</label></li>
+          <li><input type="checkbox" id="mo3"><label for="mo3">Implement standard Binary Search cold, with safe mid</label></li>
+          <li><input type="checkbox" id="mo4"><label for="mo4">Explain why the complexity is O(log n)</label></li>
+          <li><input type="checkbox" id="mo5"><label for="mo5">Handle boundaries correctly (no infinite loop on 2 elements)</label></li>
+          <li><input type="checkbox" id="mo6"><label for="mo6">Solve several Easy problems independently</label></li>
+          <li><input type="checkbox" id="mo7"><label for="mo7">Recognize a Binary Search pattern in an unfamiliar problem</label></li>
+        </ul>
+      </section>
+
+      <section id="review" aria-labelledby="review-h">
+        <h2 id="review-h">Spaced-review checkpoint</h2>
+        <div class="callout good"><strong>Before moving on:</strong> redo one previous problem <em>without looking at the solution</em>. Then explain aloud: why your approach works, its complexity, and what input would break it. Revisit this page in 3 days and redo Koko from memory — that single retrieval rep is worth more than three re-reads.</div>
+      </section>
+
+      <section id="quiz" aria-labelledby="quiz-h">
+        <h2 id="quiz-h">Diagnostic quiz (5 questions)</h2>
+        <p>Client-side only — nothing leaves your browser. Use it to route yourself: 4–5 right → skim to practice; fewer → take the full lesson in order.</p>
+        <form aria-label="Binary search diagnostic quiz">
+          <div class="quiz-q"><fieldset data-answer="b"><legend>1. What does Binary Search require?</legend>
+            <label><input type="radio" name="q1" value="a"> Any array — it always works.</label>
+            <label><input type="radio" name="q1" value="b"> A monotonic predicate (e.g. sorted order), so one check can discard a half.</label>
+            <label><input type="radio" name="q1" value="c"> A hash map of the values.</label>
+            <p class="quiz-feedback" aria-live="polite"></p>
+            <details><summary>Explanation</summary><p>Discarding half the space is only legal if “too small / too big” generalizes — that is monotonicity. Sorted arrays are the common special case.</p></details>
+          </fieldset></div>
+          <div class="quiz-q"><fieldset data-answer="b"><legend>2. O(log n) for n = 1,000,000 means roughly…</legend>
+            <label><input type="radio" name="q2" value="a"> About a million checks.</label>
+            <label><input type="radio" name="q2" value="b"> About 20 checks, because each step halves the candidates.</label>
+            <label><input type="radio" name="q2" value="c"> Exactly 2 checks.</label>
+            <p class="quiz-feedback" aria-live="polite"></p>
+            <details><summary>Explanation</summary><p>2²⁰ ≈ 10⁶. Halving 20 times collapses a million candidates to one.</p></details>
+          </fieldset></div>
+          <div class="quiz-q"><fieldset data-answer="c"><legend>3. If a[mid] &lt; target in a sorted array, you…</legend>
+            <label><input type="radio" name="q3" value="a"> Discard the right half.</label>
+            <label><input type="radio" name="q3" value="b"> Check a[mid+1] only.</label>
+            <label><input type="radio" name="q3" value="c"> Discard mid and everything left of it (lo = mid + 1).</label>
+            <p class="quiz-feedback" aria-live="polite"></p>
+            <details><summary>Explanation</summary><p>Sortedness proves all of those are too small — not just mid.</p></details>
+          </fieldset></div>
+          <div class="quiz-q"><fieldset data-answer="b"><legend>4. For “first true” answer-search over [lo, hi], the correct pair is…</legend>
+            <label><input type="radio" name="q4" value="a"> <code>hi = mid − 1 / lo = mid</code>, loop <code>lo &lt;= hi</code>.</label>
+            <label><input type="radio" name="q4" value="b"> <code>hi = mid / lo = mid + 1</code>, loop <code>lo &lt; hi</code>, return <code>lo</code>.</label>
+            <label><input type="radio" name="q4" value="c"> Either works as long as mid uses (lo+hi)/2.</label>
+            <p class="quiz-feedback" aria-live="polite"></p>
+            <details><summary>Explanation</summary><p>Mid may be the answer, so it must stay in range (<code>hi = mid</code>). The <code>lo &lt; hi</code> loop converges exactly on the boundary.</p></details>
+          </fieldset></div>
+          <div class="quiz-q"><fieldset data-answer="c"><legend>5. Which problem is most likely Binary Search on answer?</legend>
+            <label><input type="radio" name="q5" value="a"> Count how many times each value appears.</label>
+            <label><input type="radio" name="q5" value="b"> Reverse a linked list.</label>
+            <label><input type="radio" name="q5" value="c"> Find the minimum speed/capacity that still meets a deadline.</label>
+            <p class="quiz-feedback" aria-live="polite"></p>
+            <details><summary>Explanation</summary><p>“Minimum feasible X” with an easy feasibility check is the canonical search-on-answer shape (Koko, Ship Packages, Split Array).</p></details>
+          </fieldset></div>
+          <p class="viz-controls no-print">
+            <button class="btn primary" type="submit">Check answers</button>
+            <button class="btn" type="reset">Reset</button>
+          </p>
+          <p class="status" id="quizResult" tabindex="-1" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="visualizer" aria-labelledby="visualizer-h">
+        <h2 id="visualizer-h">Interactive dry run</h2>
+        <p>Choose a target and step through the elimination. Keyboard: Tab to the buttons, Enter/Space to activate, Escape closes the menu drawer.</p>
+        <div class="figure" id="viz">
+          <div class="field">
+            <label for="vizTarget">Target:</label>
+            <input type="number" id="vizTarget" data-target value="11" min="0" max="20" step="1">
+            <label for="vizPreset">Presets:</label>
+            <select id="vizPreset" data-preset>
+              <option value="1">1 (far left)</option>
+              <option value="7">7 (middle)</option>
+              <option value="11" selected>11 (right side)</option>
+              <option value="15">15 (far right)</option>
+              <option value="6">6 (absent)</option>
+            </select>
+          </div>
+          <div class="cells" data-cells aria-hidden="true"></div>
+          <p class="status" data-status aria-hidden="true"></p>
+          <p class="sr-only" data-live aria-live="polite" style="position:absolute;left:-9999px"></p>
+          <div class="viz-controls no-print">
+            <button class="btn primary" data-step>Step</button>
+            <button class="btn" data-auto aria-pressed="false">Auto-play</button>
+            <button class="btn" data-reset>Reset</button>
+          </div>
+        </div>
+        <details><summary>Non-interactive fallback</summary><p>Array <code>[1,3,5,7,9,11,13,15]</code>, target 11: mid 7 → discard left → range [9,11,13,15]; mid 11 → found at index 5. Target 6: mid 7 → discard right → [1,3,5]; mid 3 → discard left → [5]; mid 5 → 5 &lt; 6 → range empty → absent.</p></details>
+      </section>
+
+      <section id="reference" aria-labelledby="reference-h">
+        <h2 id="reference-h">Quick reference</h2>
+        
+        <details open>
+          <summary>Core templates + why they matter (reference) “Why?”</summary>
+<pre><code>// Template 1: Classic — find exact target
+public int binarySearch(int[] arr, int target) {
+    int lo = 0, hi = arr.length - 1;
+    while (lo &lt;= hi) {
+        int mid = lo + (hi - lo) / 2;   // Avoid overflow!
+        if (arr[mid] == target) return mid;
+        else if (arr[mid] &lt; target) lo = mid + 1;
+        else hi = mid - 1;
+    }
+    return -1;  // Not found
+}
+
+// Template 2: Lower Bound — first index where arr[i] &gt;= target
+public int lowerBound(int[] arr, int target) {
+    int lo = 0, hi = arr.length;  // NOTE: hi = length (not length-1)
+    while (lo &lt; hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (arr[mid] &lt; target) lo = mid + 1;
+        else hi = mid;
+    }
+    return lo;  // First position &gt;= target
+}
+
+// Template 3: Upper Bound — first index where arr[i] &gt; target
+public int upperBound(int[] arr, int target) {
+    int lo = 0, hi = arr.length;
+    while (lo &lt; hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (arr[mid] &lt;= target) lo = mid + 1;
+        else hi = mid;
+    }
+    return lo;  // First position &gt; target
+}
+
+// Template 4: Binary Search on Answer
+// "What is the minimum/maximum value X such that condition(X) is true?"
+public int binarySearchOnAnswer(int lo, int hi) {
+    while (lo &lt; hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (check(mid)) hi = mid;     // mid might be answer, search left
+        else lo = mid + 1;            // mid too small, search right
+    }
+    return lo;
+}
+
+// Template 5: Binary Search on Real Numbers (floating point)
+public double binarySearchDouble(double lo, double hi) {
+    for (int iter = 0; iter &lt; 100; iter++) {  // 100 iterations ≈ 10^-30 precision
+        double mid = (lo + hi) / 2;
+        if (check(mid)) hi = mid;
+        else lo = mid;
+    }
+    return lo;
+}</code></pre>
+          <p><strong>Why it matters:</strong> Binary search reduces O(n) to O(log n). It works not just on sorted arrays — any scenario with a monotonic predicate (false, false, …, true, true, …) can use binary search. “Binary Search on Answer” is a meta-technique used in hundreds of competitive programming problems.</p>
+          <p><strong>When to reach for it:</strong> Use binary search when the answer space is ordered and checking one side lets you eliminate the other half. It turns a slow linear scan into a very fast logarithmic search — essential for problems with large constraints (n ≤ 10⁶+). Also used in “binary search on answer” problems where you search for the minimum/maximum value that satisfies a condition.</p>
+          
+          
+        </details>
+      </section>
+
+      <section id="next" aria-labelledby="next-h">
+        <h2 id="next-h">What to learn next</h2>
+        <p>Binary Search pairs with <strong>sorting</strong> (which creates the order it needs) and <strong>two pointers</strong> (the other O(n)-to-O(n log n) eliminator on sorted data). Suggested order: Sorting → Binary Search (done) → Two Pointers → Prefix Sums → <a href="../../index.html">back to roadmap</a>.</p>
+      </section>
+
+      <footer class="footer">
+        <p>You are here: <code>/algorithms/binary-search/</code> — work it in order, then use it as reference at speed.</p>
+        <!-- ANALYTICS INTEGRATION POINT (do not implement yet):
+             When adding privacy-conscious analytics later, load it here with
+             defer + data-domain, cookieless, no PII, and document it in the
+             privacy note. Learning experience comes first. -->
+      <nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav></footer>
+    </main>
+  </div>
+
+  <script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

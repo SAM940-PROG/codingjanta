@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Contest Setup | Ultimate DSA Guide</title>
+<meta name="description" content="Contest-ready Java: fast input, fast output, collections done right, and the pitfalls that cost verdicts.">
+<link rel="canonical" href="/reference/java-cp/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Contest Setup">
+<meta property="og:description" content="Contest-ready Java: fast input, fast output, collections done right.">
+<meta property="og:url" content="/reference/java-cp/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap &rsaquo; Java Contest Setup</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+<header><p><span class="tag">Reference mode</span> <span class="tag">Java-first</span></p>
+<h1>Java contest setup</h1>
+<p class="lede">The small set of Java choices that decides verdicts: input that never TLEs, output that never flushes per line, collections used as intended, and the pitfalls behind the most common Wrong Answers.</p></header>
+<div class="callout"><strong>Scope.</strong> API lookup lives in the <a href="../../java/arrays/index.html">Java reference</a> section. This page is the contest subset: what to paste, what to avoid, and why.</div>
+<section><h2 id="io">Fast input + fast output</h2>
+<p><code>Scanner</code> is too slow for 10^5+ tokens. Paste this once per contest:</p>
+<pre><code>import java.io.*;
+import java.util.*;
+public class Main {
+  static class FS {
+    private final InputStream in = System.in;
+    private final byte[] buf = new byte[1 &lt;&lt; 16];
+    private int ptr = 0, len = 0;
+    private int read() throws IOException {
+      if (ptr &gt;= len) { len = in.read(buf); ptr = 0; if (len &lt;= 0) return -1; }
+      return buf[ptr++];
+    }
+    int nextInt() throws IOException {
+      int c, s = 1, v = 0;
+      do { c = read(); } while (c &lt;= ' ');
+      if (c == '-') { s = -1; c = read(); }
+      while (c &gt; ' ') { v = v * 10 + c - '0'; c = read(); }
+      return v * s;
+    }
+    long nextLong() throws IOException {
+      int c; long s = 1, v = 0;
+      do { c = read(); } while (c &lt;= ' ');
+      if (c == '-') { s = -1; c = read(); }
+      while (c &gt; ' ') { v = v * 10 + c - '0'; c = read(); }
+      return v * s;
+    }
+  }
+  public static void main(String[] a) throws Exception {
+    FS fs = new FS();
+    StringBuilder out = new StringBuilder();
+    // out.append(ans).append('
+'); ...
+    System.out.print(out);
+  }
+}</code></pre>
+<div class="callout warn"><strong>Java CP Pitfall — output.</strong> Never <code>System.out.println</code> inside a 10^5-iteration loop. Accumulate in <code>StringBuilder</code>, print once. Complexity note: repeated string <code>+</code> in a loop is O(n^2).</div>
+</section>
+<section><h2 id="collections">Collections, used as intended</h2>
+<div style="overflow-x:auto"><table><thead><tr><th>Need</th><th>Use</th><th>Complexity</th><th>Pitfall</th></tr></thead><tbody>
+<tr><td>Stack / queue / deque</td><td><code>ArrayDeque</code></td><td>O(1) amortized ends</td><td><code>Stack</code>/<code>Vector</code> are synchronized legacy; <code>LinkedList</code> boxes every node</td></tr>
+<tr><td>Min / max repeatedly</td><td><code>PriorityQueue</code></td><td>O(log n) push/poll</td><td>Iteration order is NOT sorted; default is min-heap (pass <code>reverseOrder()</code> for max)</td></tr>
+<tr><td>Hash map / set</td><td><code>HashMap</code> / <code>HashSet</code></td><td>O(1) average</td><td>Boxing overhead for primitives at 10^6+ scale; consider arrays or fastutil-style structures</td></tr>
+<tr><td>Sorted map / set</td><td><code>TreeMap</code> / <code>TreeSet</code></td><td>O(log n)</td><td>Comparator must be consistent with equals or entries silently vanish</td></tr>
+<tr><td>Sort primitives</td><td><code>Arrays.sort(int[])</code></td><td>O(n log n), dual-pivot</td><td>Not stable (irrelevant for primitives); object sorts are stable TimSort</td></tr>
+</tbody></table></div>
+<div class="callout warn"><strong>Java CP Pitfall — comparators.</strong> Never <code>(a, b) -&gt; a - b</code>: it overflows. Use <code>Integer.compare(a, b)</code>, <code>Long.compare</code>, or <code>Comparator.comparingInt</code>. An inconsistent comparator corrupts <code>TreeMap</code>/<code>TreeSet</code> and can crash sort.</div>
+</section>
+<section><h2 id="perf">Performance pitfalls that cost verdicts</h2>
+<ul>
+<li><strong>Boxing:</strong> <code>Integer</code> in a hot loop over 10^6 elements adds real constant factor and GC pressure. Prefer <code>int[]</code> for frequency/counting arrays.</li>
+<li><strong>Recursion depth:</strong> default stack handles roughly 10^4 frames. DFS on a 10^5-node chain overflows — write it iterative with an explicit <code>ArrayDeque</code>, or raise stack only where the judge allows (it usually does not).</li>
+<li><strong>Hash worst cases:</strong> adversarial keys degrade <code>HashMap</code> toward O(n). For counting with bounded values, a plain array always wins.</li>
+<li><strong>Mod arithmetic:</strong> <code>%</code> on negatives stays negative in Java — normalize with <code>((x % M) + M) % M</code>; multiply with <code>long</code> before the mod.</li>
+<li><strong>Memory:</strong> adjacency as <code>ArrayList&lt;Integer&gt;[]</code> boxes every edge. At 2e5+ edges prefer <code>int[] head/to/nxt</code> (forward star) or accept the constant.</li>
+</ul></section>
+<section><h2 id="graphs">Graph + algorithm wiring</h2>
+<p>Adjacency build, BFS/DFS skeletons, Dijkstra with stale-skip, DSU with path compression, and Kahn's topo sort each live as copyable templates in their preset cards — search the <a href="../../practice/presets/index.html">Preset Catalog</a> for “dijkstra”, “dsu”, or “topo”. Pattern choice comes first; this page only makes the Java fast.</p></section>
+<section><h2 id="review">Review</h2>
+<div class="callout good"><strong>Before a contest:</strong> you can paste the scanner blind, you print via one <code>StringBuilder</code>, your comparators never subtract, and your DFS is iterative past 10^4 depth.</div></section>
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

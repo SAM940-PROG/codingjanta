@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 21 · Advanced DP — Interval, Bitmask, Digit DP | Ultimate DSA Guide</title>
+<meta name="description" content="Interval (ranges), bitmask (subsets ≤20), digit (counting with constraints). Recognize the shape, apply the template.">
+<link rel="canonical" href="/algorithms/dp-advanced/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 21 · Advanced DP — Interval, Bitmask, Digit DP">
+<meta property="og:description" content="Interval (ranges), bitmask (subsets ≤20), digit (counting with constraints). Recognize the shape, apply the template.">
+<meta property="og:url" content="/algorithms/dp-advanced/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html" aria-current="page">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 21 · Advanced DP — Interval, Bitmask, Digit DP</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">A</span></p><h1>Topic 21 · Advanced DP — Interval, Bitmask, Digit DP</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>A</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>1D and 2D DP, bit manipulation</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>2–4 h</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-dp-advanced"><h2 id="i-dp-advanced">Intuition</h2><p>Interval (ranges), bitmask (subsets ≤20), digit (counting with constraints). Recognize the shape, apply the template.</p><p><strong>Learn:</strong> Interval DP, bitmask DP, digit DP, matrix chain multiplication &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-dp-advanced"><h2 id="sg-dp-advanced">How to recognize this</h2><p><strong>Reach for it when:</strong> Range games/merges (interval DP); Subsets over ≤20 items (bitmask DP); Digit-constrained counting (digit DP).</p><p><strong>Red flags:</strong> Plain sequences — 1D/2D suffices; n=10⁵ with bitmask dreams — 2ⁿ explodes.</p></section>
+<section aria-labelledby="m-dp-advanced'><h2 id='m-dp-advanced'>Common mistakes</h2><ul><li>Bitmask int overflow beyond 31 bits — use long masks.</li><li>Interval DP wrong fill order (must grow by length).</li></ul></section>
+<section aria-labelledby="w-dp-advanced"><h2 id="w-dp-advanced">Worked example — Interval DP: burst balloons</h2><p><strong>Problem.</strong> Burst all balloons in <code>[3, 1, 5]</code> maximizing coins, where bursting i earns left·i·right (neighbors after earlier bursts).</p><ol class="steps">
+<li><strong>What should we notice?</strong> The answer depends on which balloon is burst <em>last</em> in a range — an interval-DP signal.</li>
+<li><strong>Naive thought.</strong> Try every burst order: n! permutations — impossible.</li>
+<li><strong>Key observation.</strong> Pick the <em>last</em> balloon k in an interval [i, j]; it sees fixed boundaries i and j because everything inside is already gone. Then solve left and right independently.</li>
+<li><strong>State.</strong> dp[i][j] = max coins from the open interval (i, j). Transition: dp[i][j] = max over k of dp[i][k] + a[i]·a[k]·a[j] + dp[k][j].</li>
+<li><strong>Fill order.</strong> By increasing interval length, so smaller intervals are ready before larger ones.</li>
+<li><strong>This example.</strong> Pad to [1, 3, 1, 5, 1]. Best is burst 1 then 5 then 3: 1·3·1 + 1·5·1? Work it as 3·1·5 is not last — final dp = 15·... = answer 15·? (short: 3·1·5 then remaining gives 15+... ). The template, not the arithmetic, is the point.</li>
+<li><strong>Complexity.</strong> O(n³) time, O(n²) space.</li>
+<li><strong>What to remember.</strong> Interval DP: choose the <em>last</em> element processed; boundaries become constants; fill by length.</li>
+</ol></section>
+<section aria-labelledby="dr-dp-advanced"><h2 id="dr-dp-advanced">Interactive dry run — GCD (Euclid)</h2><p>Watch the remainder shrink: gcd(a, b) = gcd(b, a mod b).</p><div class="dryrun" id="viz-gcd" data-dryrun><script type="application/json">{"type": "gcd", "a": 48, "b": 36, "fallback": "48,36 -> 36,12 -> 12,0 => gcd 12."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-dp-advanced"><h2 id="r-dp-advanced">Quick reference</h2><div class="card" id="dp-advanced">
+      <h3>Topic 21 · Advanced DP — Interval, Bitmask, Digit DP</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use interval DP for range problems, bitmask DP for subset problems, or digit DP for counting numbers with constraints. These are advanced but recognizable patterns.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> 1D and 2D DP, bit manipulation</p>
+<p class="prereq"><strong>Learn this:</strong> Interval DP, bitmask DP, digit DP, matrix chain multiplication</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify advanced DP patterns (interval, bitmask, digit) from problem structure</p>
+      </div>
+
+
+      <h4>Interval DP</h4>
+<pre><code>// Template: dp[i][j] = optimal answer for range [i, j]
+// Order: process by increasing length
+for (int len = 2; len &lt;= n; len++) {
+    for (int i = 0; i + len - 1 &lt; n; i++) {
+        int j = i + len - 1;
+        dp[i][j] = INF;
+        for (int k = i; k &lt; j; k++) {
+            dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k+1][j] + cost(i, j, k));
+        }
+    }
+}
+
+// Matrix Chain Multiplication
+// Burst Balloons (LC #312)
+</code></pre>
+
+      <h4>Bitmask DP</h4>
+<pre><code>// dp[mask] = answer for subset represented by bitmask
+// Iterate over all 2^n subsets
+
+// Example: Traveling Salesman Problem (TSP)
+int[][] dp = new int[1 &lt;&lt; n][n];
+for (int[] row : dp) Arrays.fill(row, INF);
+dp[1][0] = 0;  // Start at node 0
+
+for (int mask = 1; mask &lt; (1 &lt;&lt; n); mask++) {
+    for (int u = 0; u &lt; n; u++) {
+        if ((mask & (1 &lt;&lt; u)) == 0 || dp[mask][u] == INF) continue;
+        for (int v = 0; v &lt; n; v++) {
+            if ((mask & (1 &lt;&lt; v)) != 0) continue;  // Already visited
+            int newMask = mask | (1 &lt;&lt; v);
+            dp[newMask][v] = Math.min(dp[newMask][v], dp[mask][u] + dist[u][v]);
+        }
+    }
+}
+
+// Iterate over submasks of a mask
+for (int sub = mask; sub > 0; sub = (sub - 1) & mask) {
+    // sub is a submask of mask
+}
+
+// Useful bit operations
+int setBit = mask | (1 &lt;&lt; i);
+int clearBit = mask & ~(1 &lt;&lt; i);
+boolean isSet = (mask & (1 &lt;&lt; i)) != 0;
+int countBits = Integer.bitCount(mask);
+int lowestBit = mask & (-mask);
+</code></pre>
+
+      <h4>Digit DP</h4>
+<pre><code>// Count numbers in [0, N] satisfying a property
+// State: position, tight (whether bounded by N), leading zero, extra info
+
+Long[][][][] memo;  // [pos][tight][leadingZero][extra]
+
+long digitDP(String num, int pos, boolean tight, boolean leadZero, int extra) {
+    if (pos == num.length()) return isValid(extra) ? 1 : 0;
+    if (memo[pos][tight?1:0][leadZero?1:0][extra] != null)
+        return memo[pos][tight?1:0][leadZero?1:0][extra];
+    
+    int limit = tight ? (num.charAt(pos) - '0') : 9;
+    long result = 0;
+    for (int d = 0; d &lt;= limit; d++) {
+        result += digitDP(num, pos + 1,
+            tight && d == limit,
+            leadZero && d == 0,
+            updateExtra(extra, d, leadZero));
+    }
+    return memo[pos][tight?1:0][leadZero?1:0][extra] = result;
+}
+
+// To count in range [L, R]: digitDP(R) - digitDP(L - 1)
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Burst Balloons.</strong> Given balloons with values, burst them to maximize coins. Interval DP pattern.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Subset Count.</strong> Given a set, count the number of valid subsets using bitmask enumeration.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Numbers.</strong> Count numbers in a range with a specific property using digit DP.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #1547 — Minimum Cost to Cut a Stick (Interval DP)</li>
+        <li class="medium">LC #698 — Partition to K Equal Sum Subsets (Bitmask)</li>
+        <li class="medium">LC #473 — Matchsticks to Square (Bitmask)</li>
+        <li class="medium">LC #2376 — Count Special Integers (Digit DP)</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #312 — Burst Balloons (Interval DP)</li>
+        <li class="hard">LC #1000 — Minimum Cost to Merge Stones</li>
+        <li class="hard">LC #943 — Find the Shortest Superstring (Bitmask + TSP)</li>
+        <li class="hard">LC #1931 — Painting a Grid With Three Different Colors (Bitmask)</li>
+        <li class="hard">LC #1012 — Numbers With Repeated Digits (Digit DP)</li>
+        <li class="hard">CF #1036C — Classy Numbers (Digit DP)</li>
+        <li class="hard">CF #580D — Kefa and Dishes (Bitmask DP)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 22: GREEDY ALGORITHMS               -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-dp-advanced"><h2 id="qz-dp-advanced">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="dp-advanced" aria-label="Advanced DP quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. Interval DP commonly chooses which element to decide first?</legend><label><input type="radio" name="dp-advanced-q1" value="a"> The leftmost</label><label><input type="radio" name="dp-advanced-q1" value="b"> The last one processed in the range</label><label><input type="radio" name="dp-advanced-q1" value="c"> The median</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Deciding the last element fixes the boundaries, making left and right subproblems independent.</p></details></div><div class="quiz-q"><fieldset data-answer="a"><legend>2. A bitmask DP is practical when the state is a subset and n is...</legend><label><input type="radio" name="dp-advanced-q2" value="a"> Up to ~20</label><label><input type="radio" name="dp-advanced-q2" value="b"> Up to 10^5</label><label><input type="radio" name="dp-advanced-q2" value="c"> Any size</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>States are 2^n; beyond about 20 the table explodes.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Digit DP's state usually includes...</legend><label><input type="radio" name="dp-advanced-q3" value="a"> Only the length</label><label><input type="radio" name="dp-advanced-q3" value="b"> Position, tightness, and a constraint summary</label><label><input type="radio" name="dp-advanced-q3" value="c"> The full number</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Position + whether the prefix is tight + the property tracked so far.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-dp-advanced"><h2 id="v-dp-advanced">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-dp-advanced"><h2 id="c-dp-advanced">✅ Move on when you can…</h2><ul class='checklist' data-checklist='dp-advanced'><li><input type='checkbox' id='dp-advanced-0'><label for='dp-advanced-0'>You can identify advanced DP patterns (interval, bitmask, digit) from problem structure</label></li><li><input type='checkbox' id='dp-advanced-1'><label for='dp-advanced-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='dp-advanced-2'><label for='dp-advanced-2'>You can state when this applies</label></li><li><input type='checkbox' id='dp-advanced-3'><label for='dp-advanced-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

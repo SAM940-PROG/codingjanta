@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Recognition Cheat Sheet | Ultimate DSA Guide</title>
+<meta name="description" content="If the problem has … think about … — fast pattern lookup with red flags and constraint guide.">
+<link rel="canonical" href="/reference/pattern-recognition/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pattern Recognition Cheat Sheet">
+<meta property="og:description" content="If the problem has … think about … — fast pattern lookup with red flags and constraint guide.">
+<meta property="og:url" content="/reference/pattern-recognition/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html" aria-current="page">Pattern Recognition</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap &rsaquo; Pattern Recognition Cheat Sheet</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+<header><p><span class="tag">V3</span> <span class="tag">Lookup-first</span></p>
+<h1>Pattern recognition cheat sheet</h1>
+<p class="lede">Lookup, not a tutorial. Match the problem shape on the left to the preset family, then confirm with signals and red flags before coding.</p></header>
+<section><h2 id="shapes">If the problem has … → think about …</h2>
+<div style="overflow-x:auto"><table><thead><tr><th>Problem shape</th><th>Investigate first</th><th>Confirm / red flag</th></tr></thead><tbody>
+<tr><td>Sorted array + exact target</td><td>Binary Search</td><td>Confirm sortedness; red flag: unsorted with no order</td></tr>
+<tr><td>First / last position, lower / upper bound</td><td>Binary Search (bounds)</td><td>Confirm boundary predicate; red flag: need all occurrences listed (scan outward after)</td></tr>
+<tr><td>Minimum feasible X, check(X) monotone</td><td>Binary Search on Answer</td><td>Prove monotonicity first; red flag: holes in feasibility</td></tr>
+<tr><td>Pair / triplet in sorted data</td><td>Opposite-end Two Pointers</td><td>Confirm sortable; red flag: index identity must survive unsorted</td></tr>
+<tr><td>In-place rewrite / dedup / partition</td><td>Fast/Slow Pointers</td><td>Confirm O(1) space wanted; red flag: need history</td></tr>
+<tr><td>Contiguous block, fixed size k</td><td>Fixed Sliding Window</td><td>Confirm k fixed; red flag: k varies</td></tr>
+<tr><td>Longest / shortest subarray with property</td><td>Variable Window + freq map</td><td>Confirm shrink-validity (nonneg sums / counts); red flag: negatives in sum windows → prefix+map</td></tr>
+<tr><td>Subarray sum K with negatives</td><td>Prefix Sum + HashMap</td><td>Confirm complement identity; red flag: nonneg longest-length (window may fit)</td></tr>
+<tr><td>Many static range-sum queries</td><td>Prefix Sum</td><td>Confirm static; red flag: updates → Fenwick/segment tree</td></tr>
+<tr><td>Many range-adds, final read</td><td>Difference Array</td><td>Confirm batch; red flag: interleaved queries → lazy seg</td></tr>
+<tr><td>Frequency / membership / complement</td><td>HashMap / HashSet</td><td>Confirm hashable; red flag: need order → sort/TreeMap</td></tr>
+<tr><td>Next greater / smaller, histogram</td><td>Monotonic Stack</td><td>Confirm order matters; red flag: need all-greater (different output)</td></tr>
+<tr><td>Max of every window size k</td><td>Monotonic Deque</td><td>Confirm fixed k; red flag: variable validity</td></tr>
+<tr><td>Top k / kth / streaming median</td><td>Heap (size-k / two-heap)</td><td>Confirm k ≪ n or stream; red flag: k ≈ n → sort</td></tr>
+<tr><td>Unweighted shortest / levels</td><td>BFS</td><td>Confirm uniform cost; red flag: varying weights → Dijkstra</td></tr>
+<tr><td>Non-negative weighted shortest</td><td>Dijkstra</td><td>Confirm w ≥ 0; red flag: negatives → Bellman-Ford</td></tr>
+<tr><td>Weights only 0/1</td><td>0-1 BFS</td><td>Confirm domain; else Dijkstra</td></tr>
+<tr><td>Connectivity under unions (no deletions)</td><td>DSU</td><td>Confirm merge-only; red flag: deletions (reverse-time trick or other)</td></tr>
+<tr><td>Cheapest connection of everything</td><td>Kruskal / Prim (MST)</td><td>Confirm undirected; red flag: directed → arborescence</td></tr>
+<tr><td>Ordering with dependencies</td><td>Topological Sort</td><td>Confirm DAG (count == n); red flag: cycle → impossible</td></tr>
+<tr><td>Sequential take/skip, capacity choice</td><td>DP (1D / knapsack)</td><td>Confirm overlapping subproblems; red flag: provable greedy → do greedy</td></tr>
+<tr><td>String matching, linear required</td><td>KMP / Z / rolling hash</td><td>Confirm scale; red flag: few queries → built-ins suffice</td></tr>
+<tr><td>Prefix queries over words</td><td>Trie</td><td>Confirm many prefix queries; red flag: few strings → sort+BS</td></tr>
+<tr><td>Subsets, n ≤ 20–22</td><td>Bitmask DP / mask enum</td><td>Confirm n bound; red flag: n ≈ 35 → meet-in-the-middle</td></tr>
+<tr><td>Primes / factors / mod combinatorics</td><td>Sieve / factorization / factorials</td><td>Confirm bounds; red flag: single huge primality → Miller-Rabin</td></tr>
+<tr><td>Point update + range query</td><td>Fenwick (sums) / Segment Tree (general)</td><td>Confirm merge type; red flag: static RMQ → sparse table</td></tr>
+</tbody></table></div></section>
+<section><h2 id="constraints">Constraints → complexity → candidates</h2>
+<div style="overflow-x:auto"><table><thead><tr><th>If n is about…</th><th>Affordable</th><th>Think</th></tr></thead><tbody>
+<tr><td>≤ 20–22</td><td>O(2^n · poly)</td><td>Bitmask DP, subset enum, backtracking</td></tr>
+<tr><td>≤ 100–500</td><td>O(n³)</td><td>Interval DP, Floyd-Warshall</td></tr>
+<tr><td>≤ 5,000</td><td>O(n²)</td><td>2D DP (LCS/edit), O(n²) pairs</td></tr>
+<tr><td>≤ 2e5–1e6</td><td>O(n log n)</td><td>Sort + scan / two pointers / heap / BS / DSU / BIT</td></tr>
+<tr><td>≥ 1e6 queries</td><td>O(log n) / O(1) each</td><td>Precompute: prefix, sparse table, binary lifting</td></tr>
+</tbody></table></div>
+<p>Thresholds are guidance, not guarantees — constant factors and limits decide.</p></section>
+<section><h2 id="compare">Confusing pairs</h2><div data-comparisons></div></section>
+<section><h2 id="hybrids">Hybrid combos — primary pattern + supporting technique</h2><p>Real problems combine techniques. Learn to name both parts:</p><div data-combos></div></section>
+<section><h2 id="assistant">What should I think about?</h2><p>Answer honestly — the output suggests candidate families to confirm with signals and red flags, not keyword matches.</p><div data-decision-assistant><noscript><p>Enable JavaScript for the interactive assistant. The tables above cover the same reasoning statically.</p></noscript></div></section>
+<section><h2 id="redflags">Red flags per family</h2>
+<ul>
+<li><strong>Binary Search:</strong> no sortedness or monotonicity.</li>
+<li><strong>Sliding Window:</strong> validity cannot be maintained incrementally (e.g. negatives in sum windows).</li>
+<li><strong>Greedy:</strong> no exchange-argument justification — test against brute force on small cases.</li>
+<li><strong>BFS:</strong> weighted edges with varying positive costs — use Dijkstra.</li>
+<li><strong>Prefix sums:</strong> interleaved point updates — use Fenwick/segment tree.</li>
+<li><strong>HashMap:</strong> order or neighbors matter — sort first.</li>
+<li><strong>DSU:</strong> deletions/splits in forward time — needs offline reversal or another structure.</li>
+</ul></section>
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

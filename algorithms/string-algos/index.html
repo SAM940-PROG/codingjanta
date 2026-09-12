@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 25 · String Algorithms | Ultimate DSA Guide</title>
+<meta name="description" content="KMP/Z/Rabin-Karp make matching linear via prefix structure; Manacher for palindromes. Know when built-ins suffice.">
+<link rel="canonical" href="/algorithms/string-algos/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 25 · String Algorithms">
+<meta property="og:description" content="KMP/Z/Rabin-Karp make matching linear via prefix structure; Manacher for palindromes. Know when built-ins suffice.">
+<meta property="og:url" content="/algorithms/string-algos/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html" aria-current="page">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 25 · String Algorithms</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">A</span></p><h1>Topic 25 · String Algorithms</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>A</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Strings, basic data structures</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>90+ min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-string-algos"><h2 id="i-string-algos">Intuition</h2><p>KMP/Z/Rabin-Karp make matching linear via prefix structure; Manacher for palindromes. Know when built-ins suffice.</p><p><strong>Learn:</strong> KMP, Z-algorithm, Rabin-Karp, Manacher&#x27;s, suffix arrays &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-string-algos"><h2 id="sg-string-algos">How to recognize this</h2><p><strong>Reach for it when:</strong> Pattern matching on 10⁵+ text (KMP/Z/rolling hash); Palindrome enumeration (Manacher); Repeated-substring / border structure (prefix function).</p><p><strong>Red flags:</strong> Short texts — built-in indexOf is fine; Single queries — don't build an automaton.</p></section>
+<section aria-labelledby="m-string-algos'><h2 id='m-string-algos'>Common mistakes</h2><ul><li>KMP prefix table off-by-one on fallback (use pi[len-1], not len-1 blindly).</li><li>Rolling-hash collisions without double mod — verify critical matches.</li></ul></section>
+<section aria-labelledby="w-string-algos"><h2 id="w-string-algos">Worked example — KMP on a short pattern</h2><p><strong>Problem.</strong> Find the first occurrence of pattern <code>"abab"</code> in text <code>"aababab"</code>.</p><ol class="steps">
+<li><strong>What should we notice.</strong> Repeated prefixes/suffixes inside the pattern are exactly what KMP reuses instead of re-scanning text.</li>
+<li><strong>Naive thought.</strong> Check every start position: O(n·m).</li>
+<li><strong>Key observation.</strong> Build the prefix table pi: pi[i] = longest proper prefix that is also a suffix of pattern[0..i].</li>
+<li><strong>Prefix table of "abab".</strong> pi = [0, 0, 1, 2]. ("ab" is both a prefix and a suffix at the end.)</li>
+<li><strong>Matching.</strong> On a text/pattern mismatch, fall back to pi[k-1] rather than restarting at the next text pointer.</li>
+<li><strong>Result.</strong> The match starts at text index 1 ("abab" from position 1). Total work O(n + m).</li>
+<li><strong>What to remember.</strong> The prefix table is the whole algorithm. Manacher (palindromes) and Z-function (prefix matches) use the same "reuse prior structure" idea.</li>
+</ol></section>
+<section aria-labelledby="dr-string-algos"><h2 id="dr-string-algos">Interactive dry run — KMP prefix table</h2><p>Build the table that lets matching skip characters it has already proven.</p><div class="dryrun" id="viz-kmp" data-dryrun><script type="application/json">{"type": "kmp", "pattern": "abab", "fallback": "pi = [0,0,1,2]; on mismatch fall back to pi[k-1] instead of restarting."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-string-algos"><h2 id="r-string-algos">Quick reference</h2><div class="card" id="string-algos">
+      <h3>Topic 25 · String Algorithms</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use KMP, Z-algorithm, or Rabin-Karp for efficient string matching. Use Manacher's for palindromes. Essential for text processing and pattern matching problems.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Strings, basic data structures</p>
+<p class="prereq"><strong>Learn this:</strong> KMP, Z-algorithm, Rabin-Karp, Manacher's, suffix arrays</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can identify when string matching needs an efficient algorithm</p>
+      </div>
+
+
+      <h4>Algorithm — KMP (Knuth-Morris-Pratt)</h4>
+<pre><code>// Pattern matching in O(n + m)
+// lps[i] = length of longest proper prefix of pattern[0..i] which is also a suffix
+int[] computeLPS(String pattern) {
+    int m = pattern.length();
+    int[] lps = new int[m];
+    int len = 0, i = 1;
+    while (i &lt; m) {
+        if (pattern.charAt(i) == pattern.charAt(len)) {
+            lps[i++] = ++len;
+        } else if (len > 0) {
+            len = lps[len - 1];
+        } else {
+            lps[i++] = 0;
+        }
+    }
+    return lps;
+}
+
+List&lt;Integer&gt; kmpSearch(String text, String pattern) {
+    int[] lps = computeLPS(pattern);
+    List&lt;Integer&gt; matches = new ArrayList&lt;&gt;();
+    int i = 0, j = 0;
+    while (i &lt; text.length()) {
+        if (text.charAt(i) == pattern.charAt(j)) { i++; j++; }
+        if (j == pattern.length()) {
+            matches.add(i - j);
+            j = lps[j - 1];
+        } else if (i &lt; text.length() && text.charAt(i) != pattern.charAt(j)) {
+            if (j > 0) j = lps[j - 1];
+            else i++;
+        }
+    }
+    return matches;
+}
+</code></pre>
+
+      <h4>Algorithm — Rabin-Karp (Rolling Hash)</h4>
+<pre><code>// O(n + m) average, O(nm) worst — good for multiple pattern search
+long BASE = 31, MOD = 1_000_000_007;
+
+long hash(String s, int len) {
+    long h = 0, power = 1;
+    for (int i = 0; i &lt; len; i++) {
+        h = (h + (s.charAt(i) - 'a' + 1) * power) % MOD;
+        power = power * BASE % MOD;
+    }
+    return h;
+}
+
+// Rolling: remove leftmost char, add new rightmost char
+// newHash = (oldHash - (oldChar - 'a' + 1)) / BASE + (newChar - 'a' + 1) * BASE^(len-1)
+</code></pre>
+
+      <h4>Algorithm — Z-Algorithm</h4>
+<pre><code>// z[i] = length of longest substring starting at i that is also a prefix
+// O(n) — alternative to KMP for pattern matching
+int[] zFunction(String s) {
+    int n = s.length();
+    int[] z = new int[n];
+    int l = 0, r = 0;
+    for (int i = 1; i &lt; n; i++) {
+        if (i &lt; r) z[i] = Math.min(r - i, z[i - l]);
+        while (i + z[i] &lt; n && s.charAt(z[i]) == s.charAt(i + z[i])) z[i]++;
+        if (i + z[i] > r) { l = i; r = i + z[i]; }
+    }
+    return z;
+}
+
+// Pattern matching: compute Z for "pattern$text" ($ is separator not in either string)
+// Match found at position i where z[i] == pattern.length()
+</code></pre>
+
+      <h4>Algorithm — Manacher's (Longest Palindrome)</h4>
+<pre><code>// Find all palindromic substrings / longest palindromic substring in O(n)
+String manacher(String s) {
+    // Transform: "abc" -> "^#a#b#c#$"
+    StringBuilder t = new StringBuilder("^#");
+    for (char c : s.toCharArray()) { t.append(c); t.append('#'); }
+    t.append('$');
+    String T = t.toString();
+    int n = T.length();
+    int[] p = new int[n]; // p[i] = radius of palindrome centered at i
+    int center = 0, right = 0;
+    
+    for (int i = 1; i &lt; n - 1; i++) {
+        int mirror = 2 * center - i;
+        if (i &lt; right) p[i] = Math.min(right - i, p[mirror]);
+        while (T.charAt(i + p[i] + 1) == T.charAt(i - p[i] - 1)) p[i]++;
+        if (i + p[i] > right) { center = i; right = i + p[i]; }
+    }
+    
+    // Find longest
+    int maxLen = 0, maxCenter = 0;
+    for (int i = 1; i &lt; n - 1; i++) {
+        if (p[i] > maxLen) { maxLen = p[i]; maxCenter = i; }
+    }
+    int start = (maxCenter - maxLen) / 2;
+    return s.substring(start, start + maxLen);
+}
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Find Occurrence.</strong> Given a text and pattern, find if the pattern exists in the text using simple matching.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Longest Palindrome.</strong> Given a string, find the longest palindromic substring.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Repeated Substring.</strong> Given a string, check if it can be constructed by repeating a substring.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/" target="_blank" rel="noopener">Find the Index of the First Occurrence in a String — LC #28</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #459 — Repeated Substring Pattern</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium"><a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener">Longest Palindromic Substring — LC #5</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #647 — Palindromic Substrings</li>
+        <li class="medium">LC #686 — Repeated String Match (Rabin-Karp)</li>
+        <li class="medium">LC #1062 — Longest Repeating Substring</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #214 — Shortest Palindrome (KMP)</li>
+        <li class="hard">LC #336 — Palindrome Pairs</li>
+        <li class="hard">LC #1392 — Longest Happy Prefix (KMP / Z-algo)</li>
+        <li class="hard">LC #1163 — Last Substring in Lexicographical Order</li>
+        <li class="hard">CF #126B — Password (Z-Algorithm)</li>
+        <li class="hard">CF #432D — Prefixes and Suffixes (KMP)</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  TOPIC 26: SEGMENT TREES & FENWICK (BIT)               -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-string-algos"><h2 id="qz-string-algos">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="string-algos" aria-label="String algorithms quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. KMP's prefix table stores, for each position...</legend><label><input type="radio" name="string-algos-q1" value="a"> The character frequency</label><label><input type="radio" name="string-algos-q1" value="b"> The longest proper prefix that is also a suffix</label><label><input type="radio" name="string-algos-q1" value="c"> The next occurrence</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>That border length tells the matcher where to resume without re-reading text.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. KMP matching runs in...</legend><label><input type="radio" name="string-algos-q2" value="a"> O(n*m)</label><label><input type="radio" name="string-algos-q2" value="b"> O(n + m)</label><label><input type="radio" name="string-algos-q2" value="c"> O(n log m)</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>The text pointer never moves backward; the pattern pointer follows prefix-table fallbacks.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Manacher's algorithm is used for...</legend><label><input type="radio" name="string-algos-q3" value="a"> Sorting suffixes</label><label><input type="radio" name="string-algos-q3" value="b"> Longest palindromic substring in linear time</label><label><input type="radio" name="string-algos-q3" value="c"> Counting anagrams</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Manacher reuses previously computed palindrome radii around mirror centres.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-string-algos"><h2 id="v-string-algos">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-string-algos"><h2 id="c-string-algos">✅ Move on when you can…</h2><ul class='checklist' data-checklist='string-algos'><li><input type='checkbox' id='string-algos-0'><label for='string-algos-0'>You can identify when string matching needs an efficient algorithm</label></li><li><input type='checkbox' id='string-algos-1'><label for='string-algos-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='string-algos-2'><label for='string-algos-2'>You can state when this applies</label></li><li><input type='checkbox' id='string-algos-3'><label for='string-algos-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

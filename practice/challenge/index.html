@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenge Top-30 | Ultimate DSA Guide</title>
+<meta name="description" content="Curated mixed problems from the original Part III.">
+<link rel="canonical" href="/practice/challenge/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Challenge Top-30">
+<meta property="og:description" content="Curated mixed problems from the original Part III.">
+<meta property="og:url" content="/practice/challenge/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html" aria-current="page">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Challenge Top-30</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+<header><h1>Challenge Top-30</h1><p class='lede'>Curated mixed problems from the original Part III.</p></header><section aria-label="Challenge timer"><h2 id="timer">Challenge timer</h2>
+<div class="dryrun" data-challenge-timer>
+<p class="status" style="font-size:22px" data-ct-display aria-live="polite">30:00</p>
+<div class="viz-controls"><label class="field">Minutes <input type="number" data-ct-mins value="30" min="1" max="240" aria-label="Challenge minutes"></label>
+<button class="btn primary" data-ct-start type="button">Start</button>
+<button class="btn" data-ct-stop type="button">Pause</button>
+<button class="btn" data-ct-reset type="button">Reset</button></div>
+<p class="status">Contest rule: when stuck, restate constraints → estimate complexity → name 2 candidate patterns → switch problem. Upsolve misses in <a href="../mixed-patterns/index.html">Mixed-Pattern Practice</a> and the <a href="../../reference/pattern-recognition/index.html">Pattern Recognition sheet</a>.</p>
+</div></section>
+<section aria-label="Upsolve lab"><h2 id="upsolve">Upsolve lab - three worked classifications</h2>
+<p>Contest skill is upsolving: take a problem you missed and run it through Understand, Think, Hint, Key observation, Approach. Open each step only when stuck.</p>
+<details class="preset-card"><summary><strong>Lab 1 - Pair with a target sum</strong> <span class="tag easy">Easy</span> <span class="plat"><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener noreferrer">Two Sum (LeetCode #1)</a></span></summary>
+<div class="preset-body">
+<p><strong>Understand.</strong> Unsorted array, return indices of two entries adding to a target. One pass wanted.</p>
+<p><strong>Think.</strong> For each value, the partner it needs is fully determined. What structure remembers what you already saw?</p>
+<details><summary>Hint 1 - what to inspect</summary><p>The complement of each element, and whether it appeared before.</p></details>
+<details><summary>Hint 2 - what property matters</summary><p>Order of arrival matters (indices), values are arbitrary: no sortedness to exploit.</p></details>
+<details><summary>Hint 3 - what pattern becomes possible</summary><p>Complement lookup in a hash map: check before inserting.</p></details>
+<p><strong>Key observation.</strong> need = target minus x is known at the moment x is seen, so one lookup decides the fate of x.</p>
+<p><strong>Approach.</strong> Complement Lookup preset: for x, if the map has target-x return both indices, else store x. O(n) average, O(n) space.</p>
+</div></details>
+<details class="preset-card"><summary><strong>Lab 2 - Minimum feasible speed</strong> <span class="tag hard">Hard</span> <span class="plat"><a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener noreferrer">Koko Eating Bananas (LeetCode #875)</a></span></summary>
+<div class="preset-body">
+<p><strong>Understand.</strong> Piles of bananas, hourly speed X, deadline H hours. Smallest X that finishes everything.</p>
+<p><strong>Think.</strong> Trying every X is too slow. What happens to feasibility as X grows?</p>
+<details><summary>Hint 1 - what to inspect</summary><p>Whether "X works" can ever flip back to failing for a larger X.</p></details>
+<details><summary>Hint 2 - what property matters</summary><p>Monotonicity: if speed X finishes in time, any faster speed does too.</p></details>
+<details><summary>Hint 3 - what pattern becomes possible</summary><p>Binary search over the answer space, not over array data.</p></details>
+<p><strong>Key observation.</strong> Feasibility is monotone in X, and checking one X costs O(n): exactly the search-on-answer shape.</p>
+<p><strong>Approach.</strong> Binary Search on Answer preset: lo=1, hi=max pile, keep the smallest feasible. O(n log M).</p>
+</div></details>
+<details class="preset-card"><summary><strong>Lab 3 - Longest increasing subsequence</strong> <span class="tag medium">Medium</span> <span class="plat"><a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener noreferrer">Longest Increasing Subsequence (LeetCode #300)</a></span></summary>
+<div class="preset-body">
+<p><strong>Understand.</strong> Length (not the sequence itself) of the longest strictly increasing subsequence.</p>
+<p><strong>Think.</strong> O(n squared) DP compares every pair. What information about best tails so far is actually needed?</p>
+<details><summary>Hint 1 - what to inspect</summary><p>For each possible subsequence length, only the smallest achievable tail matters.</p></details>
+<details><summary>Hint 2 - what property matters</summary><p>Those tails stay sorted, so each new value has a binary-searchable home.</p></details>
+<details><summary>Hint 3 - what pattern becomes possible</summary><p>Tails array plus lower bound: replace, never append blindly.</p></details>
+<p><strong>Key observation.</strong> tails[k] = minimum tail of an increasing subsequence of length k+1 stays sorted, so each x lower-bounds its pile in O(log n).</p>
+<p><strong>Approach.</strong> LIS preset: iterate, lower-bound x in tails, replace or append. Answer = tails length. O(n log n).</p>
+</div></details>
+</section>
+<section><h2>Key notes</h2><div class="card">
+      <h3>🎲 30 Curated Problems — Numbers Only</h3>
+      <p>These are hand-picked to cover blind spots and reinforce pattern recognition. Do NOT look at the title before attempting.</p>
+
+      <table>
+        <tr><th>#</th><th>Platform</th><th>Problem ID</th></tr>
+        <tr><td>1</td><td>LeetCode</td><td>LC #239</td></tr>
+        <tr><td>2</td><td>LeetCode</td><td>LC #124</td></tr>
+        <tr><td>3</td><td>LeetCode</td><td>LC #41</td></tr>
+        <tr><td>4</td><td>LeetCode</td><td>LC #297</td></tr>
+        <tr><td>5</td><td>LeetCode</td><td>LC #76</td></tr>
+        <tr><td>6</td><td>Codeforces</td><td>CF #1551D2</td></tr>
+        <tr><td>7</td><td>LeetCode</td><td>LC #460</td></tr>
+        <tr><td>8</td><td>LeetCode</td><td>LC #862</td></tr>
+        <tr><td>9</td><td>Codeforces</td><td>CF #1374E2</td></tr>
+        <tr><td>10</td><td>LeetCode</td><td>LC #312</td></tr>
+        <tr><td>11</td><td>LeetCode</td><td>LC #995</td></tr>
+        <tr><td>12</td><td>Codeforces</td><td>CF #1009F</td></tr>
+        <tr><td>13</td><td>LeetCode</td><td>LC #329</td></tr>
+        <tr><td>14</td><td>LeetCode</td><td>LC #1192</td></tr>
+        <tr><td>15</td><td>CodeChef</td><td>CC #SNCKYC</td></tr>
+        <tr><td>16</td><td>LeetCode</td><td>LC #632</td></tr>
+        <tr><td>17</td><td>Codeforces</td><td>CF #1312D</td></tr>
+        <tr><td>18</td><td>LeetCode</td><td>LC #715</td></tr>
+        <tr><td>19</td><td>LeetCode</td><td>LC #480</td></tr>
+        <tr><td>20</td><td>Codeforces</td><td>CF #1118F2</td></tr>
+        <tr><td>21</td><td>LeetCode</td><td>LC #1235</td></tr>
+        <tr><td>22</td><td>LeetCode</td><td>LC #2050</td></tr>
+        <tr><td>23</td><td>Codeforces</td><td>CF #1400F</td></tr>
+        <tr><td>24</td><td>LeetCode</td><td>LC #2454</td></tr>
+        <tr><td>25</td><td>LeetCode</td><td>LC #968</td></tr>
+        <tr><td>26</td><td>CodeChef</td><td>CC #MAXDIFF</td></tr>
+        <tr><td>27</td><td>LeetCode</td><td>LC #85</td></tr>
+        <tr><td>28</td><td>Codeforces</td><td>CF #1354D</td></tr>
+        <tr><td>29</td><td>LeetCode</td><td>LC #2371</td></tr>
+        <tr><td>30</td><td>LeetCode</td><td>LC #1649</td></tr>
+      </table></div></section>
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>

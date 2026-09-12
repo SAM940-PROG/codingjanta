@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 23 · Bit Manipulation | Ultimate DSA Guide</title>
+<meta name="description" content="XOR tricks, masks, lowbit, subset enumeration (2ⁿ). Compact state and parity reasoning for contests.">
+<link rel="canonical" href="/algorithms/bits/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 23 · Bit Manipulation">
+<meta property="og:description" content="XOR tricks, masks, lowbit, subset enumeration (2ⁿ). Compact state and parity reasoning for contests.">
+<meta property="og:url" content="/algorithms/bits/">
+<meta property="og:image" content="/assets/og-binary-search.svg">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem("dsa-cp-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to lesson content</a>
+<aside class="sidebar" id="sidebar" aria-label="Site">
+<div class="sidebar-top"><a class="brand" href="../../index.html">Ultimate DSA Guide<small>CP track</small></a><button class="icon-btn" id="sidebarClose" aria-label="Close navigation">✕</button></div>
+<div class="sidebar-search"><input type="search" id="navSearch" placeholder="Filter navigation..." aria-label="Filter navigation"></div>
+<div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+<nav aria-label="Study guide navigation">
+<div class="nav-no-results" id="noResults">No matching sections found.</div>
+<div class="nav-group-label">Learn</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../index.html">Roadmap &amp; how to use</a>
+<a class="nav-item" href="../../getting-started/index.html">Getting started</a>
+<a class="nav-item" href="../../foundations/index.html">Foundations</a>
+</div></div>
+<div class="nav-group-label">Foundations</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/complexity/index.html">Time &amp; Space Complexity</a>
+<a class="nav-item" href="../../algorithms/recursion/index.html">Recursion &amp; Backtracking</a>
+<a class="nav-item" href="../../algorithms/sorting/index.html">Sorting Algorithms</a>
+</div></div>
+<div class="nav-group-label">Java reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../java/arrays/index.html">Arrays &amp; Strings</a>
+<a class="nav-item" href="../../java/arraylist/index.html">ArrayList</a>
+<a class="nav-item" href="../../java/linkedlist/index.html">LinkedList</a>
+<a class="nav-item" href="../../java/hashmap/index.html">HashMap</a>
+<a class="nav-item" href="../../java/hashset/index.html">HashSet &amp; TreeSet</a>
+<a class="nav-item" href="../../java/treemap/index.html">TreeMap</a>
+<a class="nav-item" href="../../java/stack/index.html">Stack</a>
+<a class="nav-item" href="../../java/queue/index.html">Queue, Deque &amp; PQ</a>
+<a class="nav-item" href="../../java/utilities/index.html">Collections &amp; Arrays utils</a>
+<a class="nav-item" href="../../java/comparator/index.html">Comparator</a>
+<a class="nav-item" href="../../java/stringbuilder/index.html">StringBuilder</a>
+<a class="nav-item" href="../../java/bitset/index.html">BitSet</a>
+</div></div>
+<div class="nav-group-label">Patterns</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/binary-search/index.html">Binary Search</a>
+<a class="nav-item" href="../../algorithms/twopointers/index.html">Two Pointers &amp; Sliding Window</a>
+<a class="nav-item" href="../../algorithms/prefixsum/index.html">Prefix Sum &amp; Diff Array</a>
+<a class="nav-item" href="../../algorithms/hashing/index.html">Hashing Patterns</a>
+<a class="nav-item" href="../../algorithms/stacks/index.html">Stacks &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/queues/index.html">Queues &amp; Monotonic</a>
+<a class="nav-item" href="../../algorithms/greedy/index.html">Greedy</a>
+<a class="nav-item" href="../../algorithms/bits/index.html" aria-current="page">Bit Manipulation</a>
+<a class="nav-item" href="../../algorithms/string-algos/index.html">String Algorithms</a>
+</div></div>
+<div class="nav-group-label">Data structures</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/linkedlists/index.html">Linked Lists</a>
+<a class="nav-item" href="../../algorithms/trees/index.html">Trees</a>
+<a class="nav-item" href="../../algorithms/heaps/index.html">Heaps / Priority Queues</a>
+<a class="nav-item" href="../../algorithms/tries/index.html">Tries</a>
+<a class="nav-item" href="../../algorithms/segment-tree/index.html">Segment Tree &amp; Fenwick</a>
+<a class="nav-item" href="../../algorithms/advanced-ds/index.html">Advanced DS (ST/LCA/HLD)</a>
+</div></div>
+<div class="nav-group-label">Graphs</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/graphs-bfs-dfs/index.html">BFS / DFS / Topo Sort</a>
+<a class="nav-item" href="../../algorithms/shortest-path/index.html">Shortest Path</a>
+<a class="nav-item" href="../../algorithms/mst/index.html">MST</a>
+<a class="nav-item" href="../../algorithms/union-find/index.html">Union-Find</a>
+</div></div>
+<div class="nav-group-label">Dynamic programming</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/dp-1d/index.html">DP — 1D</a>
+<a class="nav-item" href="../../algorithms/dp-2d/index.html">DP — 2D / Grid</a>
+<a class="nav-item" href="../../algorithms/dp-knapsack/index.html">DP — Knapsack</a>
+<a class="nav-item" href="../../algorithms/dp-advanced/index.html">Advanced DP</a>
+</div></div>
+<div class="nav-group-label">Math &amp; advanced</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../algorithms/math/index.html">Math &amp; Number Theory</a>
+<a class="nav-item" href="../../algorithms/advanced-topics/index.html">Network Flow / Geometry / Games</a>
+</div></div>
+<div class="nav-group-label">Practice</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../practice/challenge/index.html">Challenge Top-30</a>
+<a class="nav-item" href="../../practice/study-schedule/index.html">Study Schedule</a>
+<a class="nav-item" href="../../practice/checklist/index.html">Problem-Solving Checklist</a>
+<a class="nav-item" href="../../practice/contest-mode/index.html">Contest Mode</a>
+<a class="nav-item" href="../../practice/presets/index.html">Preset Catalog</a>
+<a class="nav-item" href="../../practice/mixed-patterns/index.html">Mixed-Pattern Practice</a>
+</div></div>
+<div class="nav-group-label">Reference</div>
+<div class="nav-cat"><div class="nav-links" role="region">
+<a class="nav-item" href="../../reference/cheatsheet/index.html">Cheat Sheet</a>
+<a class="nav-item" href="../../about/index.html">About</a>
+<a class="nav-item" href="../../privacy/index.html">Privacy</a>
+<a class="nav-item" href="../../terms/index.html">Terms</a>
+<a class="nav-item" href="../../reference/pattern-recognition/index.html">Pattern Recognition</a>
+<a class="nav-item" href="../../reference/java-cp/index.html">Java Contest Setup</a>
+</div></div>
+</nav>
+</aside>
+<button class="backdrop" id="backdrop" aria-hidden="true" tabindex="-1"></button>
+<div class="content">
+<div class="topbar"><button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">☰ Menu</button><span class="breadcrumb">Roadmap › Topic 23 · Bit Manipulation</span><span style="margin-left:auto"></span><button class="icon-btn no-print" data-theme-toggle aria-pressed="true" aria-label="Toggle light and dark theme">◐ <span data-theme-label>Dark</span></button></div>
+<main class="prose" id="main">
+
+<header><p><span class="tag">C</span></p><h1>Topic 23 · Bit Manipulation</h1>
+<div class="meta-grid" role="list" aria-label="Lesson metadata">
+<div class="meta-card" role="listitem"><b>Level</b>C</div>
+<div class="meta-card" role="listitem"><b>Prerequisites</b>Basic math, arrays</div>
+<div class="meta-card" role="listitem"><b>Estimated time</b>45–60 min</div>
+<div class="meta-card" role="listitem"><b>Progression</b>Warm-up → Easy → Medium → Hard</div></div></header>
+<div class="path" aria-label="Where you are"><b>Learn</b> <span class="sep">→</span> <b>Understand</b> <span class="sep">→</span> <b>Dry run</b> <span class="sep">→</span> Warm-up <span class="sep">→</span> Easy <span class="sep">→</span> Medium <span class="sep">→</span> Hard <span class="sep">→</span> Review</div>
+<section aria-labelledby="i-bits"><h2 id="i-bits">Intuition</h2><p>XOR tricks, masks, lowbit, subset enumeration (2ⁿ). Compact state and parity reasoning for contests.</p><p><strong>Learn:</strong> AND, OR, XOR, shift, isolate lowest bit, subset enumeration, XOR tricks &nbsp;·&nbsp; <strong>Practice:</strong> Warm-ups -&gt; Easy -&gt; Medium -&gt; Hard</p></section>
+<section aria-labelledby="sg-bits"><h2 id="sg-bits">How to recognize this</h2><p><strong>Reach for it when:</strong> Subsets over n≤20 (bitmask enumeration); XOR / single-number / parity tricks; Lowbit / power-of-two / popcount micro-ops; State compression in DP.</p><p><strong>Red flags:</strong> Shifts ≥31 on int without long; Confusing AND/OR masks — draw the bits.</p></section>
+<section aria-labelledby="m-bits'><h2 id='m-bits'>Common mistakes</h2><ul><li>1<<31 overflow — use 1L for shifts ≥31.</li><li>(n & (n-1)) clears lowbit; confusing with (n>>1).</li></ul></section>
+<section aria-labelledby="w-bits"><h2 id="w-bits">Worked example — Single number via XOR</h2><p><strong>Problem.</strong> Every value in <code>[4, 1, 2, 1, 2]</code> appears twice except one. Find the unique value in O(n) time and O(1) space.</p><ol class="steps">
+<li><strong>What should we notice?</strong> "Appears twice" plus "find the odd one" is the classic XOR-partition signal.</li>
+<li><strong>Naive thought.</strong> Count frequencies in a HashMap: O(n) time but O(n) extra space.</li>
+<li><strong>Key observation.</strong> x XOR x = 0 and x XOR 0 = x, and XOR is associative/commutative. Pairing is automatic.</li>
+<li><strong>Compute.</strong> 4 XOR 1 = 5; 5 XOR 2 = 7; 7 XOR 1 = 6; 6 XOR 2 = 4.</li>
+<li><strong>Final answer.</strong> 4.</li>
+<li><strong>Complexity.</strong> O(n) time, O(1) space.</li>
+<li><strong>What to remember.</strong> XOR cancels duplicates. The same trick underlies "find the missing number" and "two numbers appearing once."</li>
+</ol></section>
+<section aria-labelledby="dr-bits"><h2 id="dr-bits">Interactive dry run — Subset enumeration</h2><p>Every mask from 0 to 2³−1 is one subset; set bits name the chosen elements.</p><div class="dryrun" id="viz-bits" data-dryrun><script type="application/json">{"type": "bits", "bits": 3, "fallback": "000 {}, 001 {0}, 010 {1}, 011 {0,1}, ... 111 {0,1,2}."}</script><noscript><p>Enable JavaScript to step through this dry run.</p></noscript></div></section>
+<section aria-labelledby="r-bits"><h2 id="r-bits">Quick reference</h2><div class="card" id="bits">
+      <h3>Topic 23 · Bit Manipulation</h3>
+      <div class="when-use-box">
+        <strong>When would you actually use this?</strong> Use bit manipulation for subset enumeration, finding unique elements, XOR tricks, or space-efficient boolean arrays. Essential for competitive programming.
+      </div>
+      <div class="learning-box">
+        <h4>How To Use This Topic</h4>
+<p class="prereq"><strong>Before learning this:</strong> Basic math, arrays</p>
+<p class="prereq"><strong>Learn this:</strong> AND, OR, XOR, shift, isolate lowest bit, subset enumeration, XOR tricks</p>
+<p class="prereq"><strong>Practice this:</strong> Warm-ups -> Easy -> Medium -> Hard</p>
+<p class="prereq"><strong>Move on when:</strong> You can use bit manipulation for subset problems and optimization tricks</p>
+      </div>
+
+
+      <h4>Essential Bitwise Operations</h4>
+<pre><code>// ── Basics ──
+a & b         // AND — both bits 1
+a | b         // OR — at least one bit 1
+a ^ b         // XOR — different bits → 1, same → 0
+~a            // NOT — flip all bits
+a &lt;&lt; k        // Left shift — multiply by 2^k
+a >> k        // Right shift (arithmetic) — divide by 2^k
+a >>> k       // Unsigned right shift
+
+// ── Common Tricks ──
+x & 1                    // Check if odd (last bit)
+x & (x - 1)             // Clear lowest set bit
+x & (-x)                // Isolate lowest set bit
+Integer.bitCount(x)      // Count set bits (popcount)
+Integer.highestOneBit(x) // Highest power of 2 ≤ x
+Integer.numberOfLeadingZeros(x)
+Integer.numberOfTrailingZeros(x)
+
+// Check if power of 2
+boolean isPow2 = x > 0 && (x & (x - 1)) == 0;
+
+// Get/Set/Clear/Toggle bit at position i
+boolean isSet = (x & (1 &lt;&lt; i)) != 0;
+int setBit   = x | (1 &lt;&lt; i);
+int clearBit = x & ~(1 &lt;&lt; i);
+int toggleBit = x ^ (1 &lt;&lt; i);
+
+// XOR Properties
+// a ^ 0 = a
+// a ^ a = 0
+// a ^ b ^ a = b  (find missing/single element)
+
+// Generate all subsets of a set (bitmask)
+for (int mask = 0; mask &lt; (1 &lt;&lt; n); mask++) {
+    for (int i = 0; i &lt; n; i++) {
+        if ((mask & (1 &lt;&lt; i)) != 0) {
+            // element i is in this subset
+        }
+    }
+}
+
+// Swap without temp
+a ^= b; b ^= a; a ^= b;
+</code></pre>
+
+      
+      <div class="warm-up-box">
+        <h4>Warm-Up Problems</h4>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Single Number.</strong> Given an array where every element appears twice except one, find the unique element using XOR.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Count Bits.</strong> Given n, return an array where each index i contains the number of 1-bits in i.</div>
+        <div class="warm-up-problem"><span class="tag tag-warmup">Warm-up</span> <strong>Power of Two.</strong> Given an integer, determine if it is a power of two using bit manipulation.</div>
+      </div>
+<h4>Practice Problems</h4>
+      <p><span class="tag tag-easy">Easy</span></p>
+      <ul class="problem-list">
+        <li class="easy"><a href="https://leetcode.com/problems/single-number/" target="_blank" rel="noopener">Single Number — LC #136</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener">Number of 1 Bits — LC #191</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener">Reverse Bits — LC #190</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/power-of-two/" target="_blank" rel="noopener">Power of Two — LC #231</a> <span class="plat">LeetCode</span></li>
+        <li class="easy"><a href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener">Counting Bits — LC #338</a> <span class="plat">LeetCode</span></li>
+        <li class="easy">LC #268 — Missing Number</li>
+      </ul>
+      <p><span class="tag tag-medium">Medium</span></p>
+      <ul class="problem-list">
+        <li class="medium">LC #137 — Single Number II</li>
+        <li class="medium">LC #260 — Single Number III</li>
+        <li class="medium">LC #371 — Sum of Two Integers (No + operator)</li>
+        <li class="medium">LC #201 — Bitwise AND of Numbers Range</li>
+        <li class="medium"><a href="https://leetcode.com/problems/subsets/" target="_blank" rel="noopener">Subsets (bitmask approach) — LC #78</a> <span class="plat">LeetCode</span></li>
+        <li class="medium">LC #318 — Maximum Product of Word Lengths</li>
+      </ul>
+      <p><span class="tag tag-hard">Hard</span></p>
+      <ul class="problem-list">
+        <li class="hard">LC #421 — Maximum XOR of Two Numbers in an Array</li>
+        <li class="hard">LC #1707 — Maximum XOR With an Element From Array</li>
+        <li class="hard">CF #1554C — Mikasa</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--              TOPIC 24: MATH & NUMBER THEORY            -->
+    <!-- ═══════════════════════════════════════════════════════ --></section>
+<section aria-labelledby="qz-bits"><h2 id="qz-bits">Check yourself</h2><p>Three questions. Predict before you peek, then verify against the lesson.</p><div class="quizwrap"><form data-quiz="bits" aria-label="Bit manipulation quiz"><div class="quiz-q"><fieldset data-answer="b"><legend>1. x & (x - 1) does what?</legend><label><input type="radio" name="bits-q1" value="a"> Sets the lowest zero bit</label><label><input type="radio" name="bits-q1" value="b"> Clears the lowest set bit</label><label><input type="radio" name="bits-q1" value="c"> Reverses the bits</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Subtracting 1 flips the lowest set bit and below; AND clears it. Used to count set bits.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>2. XOR of a list where every value appears twice except one leaves...</legend><label><input type="radio" name="bits-q2" value="a"> Zero</label><label><input type="radio" name="bits-q2" value="b"> The unique value</label><label><input type="radio" name="bits-q2" value="c"> The largest value</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>x ^ x = 0, so all pairs cancel; the unpaired value survives.</p></details></div><div class="quiz-q"><fieldset data-answer="b"><legend>3. Why write 1L &lt;&lt; 40 instead of 1 &lt;&lt; 40?</legend><label><input type="radio" name="bits-q3" value="a"> Style only</label><label><input type="radio" name="bits-q3" value="b"> 1 &lt;&lt; 40 overflows 32-bit int</label><label><input type="radio" name="bits-q3" value="c"> L is faster</label></fieldset><p class="quiz-feedback" aria-live="polite"></p><details><summary>Explanation</summary><p>Java int shifts are mod 32; use a long literal for shifts of 31 or more.</p></details></div><p class="viz-controls no-print"><button class="btn primary" type="submit">Check answers</button> <button class="btn" type="reset">Reset</button></p><p class="status" data-quiz-result tabindex="-1" aria-live="polite"></p></form></div></section>
+<section aria-labelledby="v-bits"><h2 id="v-bits">Review checkpoint</h2><div class="callout good"><strong>Before moving on:</strong> redo one problem without looking, then explain why it works, its complexity, and what would break it. Revisit in 3 days.</div></section>
+<section aria-labelledby="c-bits"><h2 id="c-bits">✅ Move on when you can…</h2><ul class='checklist' data-checklist='bits'><li><input type='checkbox' id='bits-0'><label for='bits-0'>You can use bit manipulation for subset problems and optimization tricks</label></li><li><input type='checkbox' id='bits-1'><label for='bits-1'>You can implement the core template without looking</label></li><li><input type='checkbox' id='bits-2'><label for='bits-2'>You can state when this applies</label></li><li><input type='checkbox' id='bits-3'><label for='bits-3'>You solved several Easy problems independently</label></li></ul></section>
+
+<footer class="footer"><p>One curriculum, two speeds: learn the idea step by step, then use the reference at full speed. Your progress stays on this device.</p><nav aria-label="Site trust pages" data-trust-links style="margin-top:8px"><a href="../../about/index.html">About</a> - <a href="../../contact/index.html">Contact</a> - <a href="../../privacy/index.html">Privacy</a> - <a href="../../terms/index.html">Terms</a> - <a href="../../disclaimer/index.html">Disclaimer</a></nav>
+<!-- ANALYTICS INTEGRATION POINT (not implemented): privacy-conscious, cookieless analytics could be added here later with defer. --></footer>
+</main>
+</div>
+<script src="../../assets/site.js" defer></script>
+  <script src="../../assets/problems.js" defer></script>
+  <script src="../../assets/learn.js" defer></script>
+  <script src="../../assets/presets.js" defer></script>
+  <script src="../../assets/mcq-bank.js" defer></script>
+  <script src="../../assets/problem-tags.js" defer></script>
+  <script src="../../assets/v3.js" defer></script>
+</body>
+</html>
